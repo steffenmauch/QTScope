@@ -21,13 +21,15 @@
 #include "scopeplotplugin.h"
 
 #include "qtscope.h"
+//Added by qt3to4:
+#include <QCloseEvent>
 
 #include <iostream>
 
 using std::cout;
 
 scopePlotPlugin::scopePlotPlugin(QTScope* caller, QWidget* parent, const char* name, int id, int wflags,int)
-	: QMainWindow(parent, name, wflags)
+    : Q3MainWindow()
 {
 	idThis = id;
 	// prevent division by zero

@@ -22,20 +22,27 @@
 #define SAMPLINGSETTINGS_H
 
 #include <qvariant.h>
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
 #include <qcheckbox.h>
+//Added by qt3to4:
+#include <Q3VBoxLayout>
+#include <Q3Frame>
+#include <Q3GridLayout>
+#include <QCloseEvent>
+#include <Q3HBoxLayout>
+#include <QLabel>
 
-class QVBoxLayout;
-class QHBoxLayout;
-class QGridLayout;
+class Q3VBoxLayout;
+class Q3HBoxLayout;
+class Q3GridLayout;
 class QTabWidget;
 class QWidget;
-class QGroupBox;
+class Q3GroupBox;
 class QLabel;
 class QSpinBox;
 class QPushButton;
 
-class samplingSettings : public QMainWindow
+class samplingSettings : public Q3MainWindow
   {
     Q_OBJECT
 
@@ -47,7 +54,7 @@ class samplingSettings : public QMainWindow
 
   private:
 
-    QGroupBox* groupBox1;
+    Q3GroupBox* groupBox1;
     QLabel* textLabel1;
     QLabel* textLabel2;
     QLabel* textLabel3;
@@ -57,10 +64,10 @@ class samplingSettings : public QMainWindow
     QSpinBox* numberOfSamplesBox;
     QCheckBox* continousCheckBox;
     QPushButton* applyButton;
-    QFrame* frame5;
-    QVBoxLayout* testMainWindowLayout;
-    QVBoxLayout* frame5Layout;
-    QGridLayout* groupBox1Layout;
+    Q3Frame* frame5;
+    Q3VBoxLayout* testMainWindowLayout;
+    Q3VBoxLayout* frame5Layout;
+    Q3GridLayout* groupBox1Layout;
 
   private slots:
     virtual void slotApply();

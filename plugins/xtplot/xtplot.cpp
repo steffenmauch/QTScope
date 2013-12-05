@@ -24,10 +24,10 @@
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qstring.h>
-#include <qgroupbox.h>
-#include <qbuttongroup.h>
+#include <q3groupbox.h>
+#include <q3buttongroup.h>
 #include <qpushbutton.h>
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #include <qmessagebox.h>
 
 
@@ -72,7 +72,7 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, int w
   setDockEnabled ( Qt::DockLeft, TRUE );
 
   // conmstruct a toolbar
-  QToolBar * plotTools = new QToolBar( this, "plot operations" );
+  Q3ToolBar * plotTools = new Q3ToolBar( this, "plot operations" );
   plotTools->setLabel( tr("Plot Operations") );
 
   autoscaleCheck = new QCheckBox("Autoscale", plotTools);
@@ -83,7 +83,7 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, int w
 
   //plotTools->addSeparator();
   new QLabel(tr("Ymax:"), plotTools);
-  ymaxCounter = new QwtCounter( plotTools, "Ymax");
+  ymaxCounter = new QwtCounter( plotTools);
   ymaxCounter->setRange(-1, 20.0, 0.01);
   ymaxCounter->setNumButtons(3);
   ymaxCounter->setIncSteps(QwtCounter::Button1, 1);
@@ -95,7 +95,7 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, int w
 
   plotTools->addSeparator();
   new QLabel(tr("Ymin:"), plotTools);
-  yminCounter = new QwtCounter( plotTools, "Ymin");
+  yminCounter = new QwtCounter( plotTools);
   yminCounter->setRange(-20.0, 1, 0.01);
   yminCounter->setNumButtons(3);
   yminCounter->setIncSteps(QwtCounter::Button1, 1);
@@ -108,8 +108,8 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, int w
   QFont tbFont("Courier",14);
   tbFont.setBold(TRUE);
 
-  QButtonGroup* tbGrp=new QButtonGroup( 3,
-					QGroupBox::Horizontal,
+  Q3ButtonGroup* tbGrp=new Q3ButtonGroup( 3,
+					Qt::Horizontal,
 					plotTools );
 
   QLabel* lx = new QLabel(tr("X:"), tbGrp);
@@ -157,21 +157,21 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, int w
   plotTools->connect(filePushButton, SIGNAL( clicked() ),
 		     this, SLOT( enterFileName() ) );
   
-  moveDockWindow( plotTools, Left );
+  moveDockWindow( plotTools, Qt::DockLeft );
 
   // contruct a QwtPlot Widget
   plotWidget = new QwtPlot(this);
 
   // QwtPlot specific defaults:
   // colour
-  plotWidget->setCanvasBackground(white);
+  plotWidget->setCanvasBackground(Qt::white);
   // outline
-  plotWidget->enableOutline(FALSE);
+  //plotWidget->enableOutline(FALSE);
   // no legend
-  plotWidget->enableLegend(FALSE);
+  //plotWidget->enableLegend(FALSE);
   // no grid
-  plotWidget->enableGridX(FALSE);
-  plotWidget->enableGridY(FALSE);
+  //plotWidget->enableGridX(FALSE);
+  //plotWidget->enableGridY(FALSE);
   // set some defaults for the axes
   plotWidget->setAxisTitle(QwtPlot::xBottom, "Time/ms");
   plotWidget->setAxisTitle(QwtPlot::yLeft, "Amplitude/V");
@@ -181,9 +181,9 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, int w
   plotWidget->setAxisAutoScale(QwtPlot::yLeft);
 
   // insert a curve
-  curve = plotWidget->insertCurve("");
+  //curve = plotWidget->insertCurve("");
   // assign data
-  plotWidget->setCurveRawData(curve, x, y, plotLength);
+  //plotWidget->setCurveRawData(curve, x, y, plotLength);
 
   setCentralWidget(plotWidget);
 }
@@ -199,13 +199,14 @@ xtPlot::~xtPlot()
     \fn xtPlot::insertValue(double v)
  */
 void xtPlot::insertValues(int num,int append) {
-	if (freezePushButton->state()==QButton::On) {
+    //if (freezePushButton->state()==QButton::On) {
+    if (1) {
 		filePushButton->setEnabled( TRUE );
 	} else {
 		filePushButton->setEnabled( FALSE );
 		if (append) {
 			// scroll
-			qwtShiftArray(y, nSamples, num);
+            //qwtShiftArray(y, nSamples, num);
 			for(int i=0; i<num; i++) {
 				y[i] = ds[num-i-1];
 			}
@@ -284,8 +285,8 @@ void xtPlot::samplingRateChanged() {
  */
 void xtPlot::slotYminChanged(double v)
 {
-  const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::yLeft);
-  plotWidget->setAxisScale( QwtPlot::yLeft, v, a->hBound());
+  //const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::yLeft);
+  //plotWidget->setAxisScale( QwtPlot::yLeft, v, a->hBound());
   ymaxCounter->setRange(v, 20.0, 0.01);
 }
 
@@ -295,8 +296,8 @@ void xtPlot::slotYminChanged(double v)
  */
 void xtPlot::slotYmaxChanged(double v)
 {
-  const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::yLeft);
-  plotWidget->setAxisScale( QwtPlot::yLeft, a->lBound(), v);
+  //const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::yLeft);
+  //plotWidget->setAxisScale( QwtPlot::yLeft, a->lBound(), v);
   yminCounter->setRange(-20.0, v, 0.01);
 }
 
@@ -318,21 +319,21 @@ void xtPlot::slotAutoscaleToggled()
     // yrange autoscale off
     yminCounter->setDisabled(FALSE);
     ymaxCounter->setDisabled(FALSE);
-    const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::yLeft);
-    yminCounter->setValue(a->lBound());
-    ymaxCounter->setValue(a->hBound());
-    plotWidget->setAxisScale( QwtPlot::yLeft, a->lBound(), a->hBound());
+    //const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::yLeft);
+    //yminCounter->setValue(a->lBound());
+    //ymaxCounter->setValue(a->hBound());
+    //plotWidget->setAxisScale( QwtPlot::yLeft, a->lBound(), a->hBound());
   }
 }
 
 
 
 void  xtPlot::enterFileName() {
-	QFileDialog* fd=new QFileDialog( this );
+	Q3FileDialog* fd=new Q3FileDialog( this );
 	int result;
 	do {
 		result=0;
-		fd->setMode( QFileDialog::AnyFile );
+		fd->setMode( Q3FileDialog::AnyFile );
 		fd->setFilter("comma separated values (*.csv)");
 		fd->addFilter("space separated values (*.txt)");
 		fd->addFilter("space separated values (*.dat)");

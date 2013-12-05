@@ -21,6 +21,11 @@
  ***************************************************************************/
 
 #include "qtscope.h"
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <QLabel>
+#include <Q3Frame>
+#include <QCloseEvent>
 #include "newviewdialog.h"
 #include "propertiesdialog.h"
 #include "displaysettings.h"
@@ -36,30 +41,30 @@
 
 #include <qimage.h>
 #include <qpixmap.h>
-#include <qtoolbar.h>
+#include <q3toolbar.h>
 #include <qtoolbutton.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qmenubar.h>
-#include <qtextedit.h>
+#include <q3textedit.h>
 #include <qfile.h>
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #include <qstatusbar.h>
 #include <qmessagebox.h>
 #include <qprinter.h>
 #include <qapplication.h>
-#include <qaccel.h>
-#include <qtextstream.h>
+#include <q3accel.h>
+#include <q3textstream.h>
 #include <qtimer.h>
 #include <qpainter.h>
-#include <qpaintdevicemetrics.h>
-#include <qwhatsthis.h>
-#include <qvbox.h>
+#include <q3paintdevicemetrics.h>
+#include <q3whatsthis.h>
+#include <q3vbox.h>
 #include <qworkspace.h>
 #include <qcheckbox.h>
 #include <qlayout.h>
 #include <qstring.h>
-#include <qvbuttongroup.h>
-#include <qdockwindow.h>
+#include <q3buttongroup.h>
+#include <q3dockwindow.h>
 #include <qpushbutton.h>
 
 // icons
@@ -75,7 +80,7 @@ using std::cerr;
 // and the next one.
 #define MIN_BURST 200
 
-QTScope::QTScope() : QMainWindow( 0, "QTScope", WDestructiveClose )
+QTScope::QTScope() : Q3MainWindow( 0, "QTScope", Qt::WDestructiveClose )
 {
 	continous=0;
 	comediError=0;
@@ -129,7 +134,7 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", WDestructiveClose )
 		}
 
 	// the main toolbar, for file operations etc.
-	QToolBar * fileTools = new QToolBar( this, "file operations" );
+	Q3ToolBar * fileTools = new Q3ToolBar( this, "file operations" );
 	fileTools->setLabel( tr("File Operations") );
 
 	// add an open icon
@@ -137,9 +142,9 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", WDestructiveClose )
 	QToolButton * channelOpen = new QToolButton( openIcon, tr("New Plot Window"),
 						     QString::null, this, SLOT(newView()), fileTools, "open channel" );
 	QString channelOpenText = tr("<p>This button opens a new plot window.</p>");
-	QWhatsThis::add
+	Q3WhatsThis::add
 		( channelOpen, channelOpenText );
-	QMimeSourceFactory::defaultFactory()->setPixmap( "fileopen", openIcon );
+	Q3MimeSourceFactory::defaultFactory()->setPixmap( "fileopen", openIcon );
 
 	fileTools->addSeparator();
 	// slower timebase
@@ -147,53 +152,53 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", WDestructiveClose )
 	new QToolButton( slowerIcon, tr("lower sampling rate"),
 			 QString::null, this, SLOT(slotSlower()), 
 			 fileTools, "lower sampling rate" );
-	QMimeSourceFactory::defaultFactory()->setPixmap( "lower sampling rate", slowerIcon );
+	Q3MimeSourceFactory::defaultFactory()->setPixmap( "lower sampling rate", slowerIcon );
 
 	// faster timebase
 	QPixmap fasterIcon = QPixmap( faster_xpm );
 	new QToolButton( fasterIcon, tr("higher sampling rate"),
 			 QString::null, this, SLOT(slotFaster()), 
 			 fileTools, "higher sampling rate" );
-	QMimeSourceFactory::defaultFactory()->setPixmap( "higher sampling rate", fasterIcon );
+	Q3MimeSourceFactory::defaultFactory()->setPixmap( "higher sampling rate", fasterIcon );
 
 	// timebase
 	labelTimebase=new QLabel(fileTools,"timebase");
 
 	// the file menu
-	QPopupMenu * file = new QPopupMenu( this );
+	Q3PopupMenu * file = new Q3PopupMenu( this );
 	menuBar()->insertItem( tr("&File"), file );
-	file->insertItem( tr("&New Plot Window"), this, SLOT(newView()), CTRL+Key_N );
+	file->insertItem( tr("&New Plot Window"), this, SLOT(newView()), Qt::CTRL+Qt::Key_N );
 	file->insertSeparator();
-	file->insertItem( tr("&Quit"), qApp, SLOT( closeAllWindows() ), CTRL+Key_Q );
+	file->insertItem( tr("&Quit"), qApp, SLOT( closeAllWindows() ), Qt::CTRL+Qt::Key_Q );
 
 	// the settings menu
-	QPopupMenu * set
-		= new QPopupMenu( this );
+	Q3PopupMenu * set
+		= new Q3PopupMenu( this );
 	menuBar()->insertItem( tr("&Settings"), set
 			       );
-	set->insertItem( tr("&Refresh rates"), this, SLOT(slotDisplaySettings()), CTRL+Key_R );
-	set->insertItem( tr("&Sampling Settings"), this, SLOT(slotSamplingSettings()), CTRL+Key_S );
-	set->insertItem( tr("&Plugin Paths"), this, SLOT(slotConfigure()), CTRL+Key_P );
+	set->insertItem( tr("&Refresh rates"), this, SLOT(slotDisplaySettings()), Qt::CTRL+Qt::Key_R );
+	set->insertItem( tr("&Sampling Settings"), this, SLOT(slotSamplingSettings()), Qt::CTRL+Qt::Key_S );
+	set->insertItem( tr("&Plugin Paths"), this, SLOT(slotConfigure()), Qt::CTRL+Qt::Key_P );
 
 	// the windows menu to provide some functions to arrange windows
-	windowsMenu = new QPopupMenu( this );
+	windowsMenu = new Q3PopupMenu( this );
 	windowsMenu->setCheckable( TRUE );
 	connect( windowsMenu, SIGNAL( aboutToShow() ),  this, SLOT( windowsMenuAboutToShow() ) );
 	menuBar()->insertItem( "&Windows", windowsMenu );
 	menuBar()->insertSeparator();
 
 	// Help menu
-	QPopupMenu * help = new QPopupMenu( this );
+	Q3PopupMenu * help = new Q3PopupMenu( this );
 	menuBar()->insertItem( tr("&Help"), help );
 
-	help->insertItem( tr("&About"), this, SLOT(about()), Key_F1 );
+	help->insertItem( tr("&About"), this, SLOT(about()), Qt::Key_F1 );
 	help->insertItem( tr("About &Qt"), this, SLOT(aboutQt()) );
 	help->insertSeparator();
-	help->insertItem( tr("What's &This"), this, SLOT(whatsThis()), SHIFT+Key_F1 );
+	help->insertItem( tr("What's &This"), this, SLOT(whatsThis()), Qt::SHIFT+Qt::Key_F1 );
 
 	// create the workspace
-	QVBox* vb = new QVBox( this );
-	vb->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
+	Q3VBox* vb = new Q3VBox( this );
+	vb->setFrameStyle( Q3Frame::StyledPanel | Q3Frame::Sunken );
 	ws = new QWorkspace( vb );
 	ws->setScrollBarsEnabled( TRUE );
 	setCentralWidget( vb );
@@ -502,11 +507,11 @@ void QTScope::tileVertical()
 	int y = 0;
 	for ( int i = 0; i < int(windows.count()); ++i ) {
 		QWidget *window = windows.at(i);
-		if ( window->testWState( WState_Maximized ) ) {
-			// prevent flicker
-			window->hide();
-			window->showNormal();
-		}
+//		if ( window->testWState( WState_Maximized ) ) {
+//			// prevent flicker
+//			window->hide();
+//			window->showNormal();
+//		}
 		int preferredHeight = window->minimumHeight()+window->parentWidget()->baseSize().height();
 		int actHeight = QMAX(heightForEach, preferredHeight);
 
@@ -517,7 +522,7 @@ void QTScope::tileVertical()
 
 void QTScope::about()
 {
-	QMessageBox::about( this, tr("QTScope"), tr("Version 0.3.0\nby Mattias Hennig\nhennig@cn.stir.ac.uk\nand\nBernd Porr\nBerndPorr@f2s.com\n...a simple DAQ program for comedi devices...\n"));
+    QMessageBox::about( this, tr("QTScope"), tr("Version 0.3.0\nby Mattias Hennig\nhennig@cn.stir.ac.uk\nand\nBernd Porr\nBerndPorr@f2s.com\n...a simple DAQ program for comedi devices...\n"));
 }
 
 
@@ -584,7 +589,7 @@ void QTScope::testComedi() {
 		chanlist[i]=CR_PACK(i,range,aref);
 
 	cerr << "Requesting sampling rate: " << freq << "\n";
-	int ret = comedi_get_cmd_generic_timed(comediDevice, comediSubdevice, cmd,(unsigned int)(1e9/freq));
+    int ret = comedi_get_cmd_generic_timed(comediDevice, comediSubdevice, cmd, 5, (unsigned int)(1e9/freq));
 	if(ret<0) {
 		cout << "comedi_get_cmd_generic_timed failed\n";
 		return;
@@ -725,7 +730,7 @@ int QTScope::runPlugin(QString name, int *channels)
 	double **dataSources;
 	sampl_t **rawSources;
 
-	QValueList<pluginData>::iterator it;
+	Q3ValueList<pluginData>::iterator it;
 	for ( it = availablePlugins.begin(); it != availablePlugins.end(); ++it )
 		if( (*it).name == name)
 			{
@@ -735,7 +740,7 @@ int QTScope::runPlugin(QString name, int *channels)
 							  ws, 
 							  QString("%1").arg(channels[0]), 
 							  pCount, 
-							  WDestructiveClose,
+							  Qt::WDestructiveClose,
 							  numberOfSamples);
 				dT->id = pCount;
 				activePlugins.append(dT);

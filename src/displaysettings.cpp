@@ -23,46 +23,52 @@
 #include <qvariant.h>
 #include <qtabwidget.h>
 #include <qwidget.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qlabel.h>
 #include <qspinbox.h>
 #include <qpushbutton.h>
 #include <qlayout.h>
 #include <qtooltip.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
 #include <qimage.h>
 #include <qpixmap.h>
 #include <qsizepolicy.h>
+//Added by qt3to4:
+#include <Q3GridLayout>
+#include <Q3HBoxLayout>
+#include <Q3VBoxLayout>
+#include <Q3Frame>
+#include <QCloseEvent>
 
 
 displaySettings::displaySettings( QWidget* parent, const char* name, int contRate, int burstRate )
-    : QMainWindow( parent, name, WDestructiveClose )
+    : Q3MainWindow( parent, name, Qt::WDestructiveClose )
 {
   setCaption( "Display Settings" );
 
   setMinimumSize( QSize( 169, 148 ) );
   setCentralWidget( new QWidget( this, "qt_central_widget" ) );
-  testMainWindowLayout = new QVBoxLayout( centralWidget(), 0, 0, "testMainWindowLayout");
+  testMainWindowLayout = new Q3VBoxLayout( centralWidget(), 0, 0, "testMainWindowLayout");
 
-  frame5 = new QFrame( centralWidget(), "frame5" );
-  frame5->setFrameShape( QFrame::StyledPanel );
-  frame5->setFrameShadow( QFrame::Raised );
-  frame5Layout = new QVBoxLayout( frame5, 0, 0, "frame5Layout");
+  frame5 = new Q3Frame( centralWidget(), "frame5" );
+  frame5->setFrameShape( Q3Frame::StyledPanel );
+  frame5->setFrameShadow( Q3Frame::Raised );
+  frame5Layout = new Q3VBoxLayout( frame5, 0, 0, "frame5Layout");
 
   tabs = new QTabWidget( frame5, "tabs" );
 
   tab = new QWidget( tabs, "tab" );
-  tabLayout = new QHBoxLayout( tab, 0, 0, "tabLayout");
+  tabLayout = new Q3HBoxLayout( tab, 0, 0, "tabLayout");
 
-  groupBox1 = new QGroupBox( tab, "groupBox1" );
+  groupBox1 = new Q3GroupBox( tab, "groupBox1" );
   groupBox1->setColumnLayout(0, Qt::Vertical );
   groupBox1->layout()->setSpacing( 4 );
   groupBox1->layout()->setMargin( 4 );
-  groupBox1Layout = new QGridLayout( groupBox1->layout() );
+  groupBox1Layout = new Q3GridLayout( groupBox1->layout() );
   groupBox1Layout->setAlignment( Qt::AlignTop );
 
   textLabel1 = new QLabel( groupBox1, "textLabel1" );
-  textLabel1->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
+  textLabel1->setAlignment( int( Qt::AlignVCenter | Qt::AlignRight ) );
 
   groupBox1Layout->addWidget( textLabel1, 0, 0 );
 
@@ -86,7 +92,7 @@ displaySettings::displaySettings( QWidget* parent, const char* name, int contRat
   groupBox1Layout->addWidget( burstSpeedBox, 1, 1 );
 
   textLabel2 = new QLabel( groupBox1, "textLabel2" );
-  textLabel2->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
+  textLabel2->setAlignment( int( Qt::AlignVCenter | Qt::AlignRight ) );
 
   groupBox1Layout->addWidget( textLabel2, 1, 0 );
   tabLayout->addWidget( groupBox1 );
@@ -109,7 +115,7 @@ displaySettings::displaySettings( QWidget* parent, const char* name, int contRat
 
   resize( QSize(169, 150).expandedTo(minimumSizeHint()) );
   setMaximumSize(size());
-  clearWState( WState_Polished );
+  //clearWState( WState_Polished );
 
   connect( applyButton, SIGNAL( clicked() ), this, SLOT( slotApply() ) );
 }

@@ -4,10 +4,16 @@
 #include "scopeplotplugin.h"
 
 // Qt related includes
-#include <qmainwindow.h>
-#include <qptrlist.h>
+#include <q3mainwindow.h>
+#include <q3ptrlist.h>
 #include <qsettings.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <Q3VBoxLayout>
+#include <Q3ValueList>
+#include <Q3Frame>
+#include <Q3PopupMenu>
+#include <QCloseEvent>
 
 
 // data aquisition via comedi
@@ -39,12 +45,12 @@
 #define PLOT_WINDOW_XTPLOT 1
 
 class QWorkspace;
-class QFrame;
-class QVBoxLayout;
+class Q3Frame;
+class Q3VBoxLayout;
 class QCheckBox;
 class QTScope;
-class QVButtonGroup;
-class QDockWindow;
+class Q3VButtonGroup;
+class Q3DockWindow;
 class QPushButton;
 class ChooserWindow;
 
@@ -61,13 +67,13 @@ typedef struct pluginData
 
 typedef struct dataTarget
   {
-    QValueList <int> channels;
+    Q3ValueList <int> channels;
     int id;
     scopePlotPlugin *target;
   };
 
 
-class QTScope: public QMainWindow
+class QTScope: public Q3MainWindow
   {
     Q_OBJECT
 
@@ -121,7 +127,7 @@ class QTScope: public QMainWindow
     QString filename;
     // main Workspace that contains all plot windows
     QWorkspace* ws;
-    QPopupMenu* windowsMenu;
+    Q3PopupMenu* windowsMenu;
 
     QLabel* labelTimebase;
 
@@ -140,10 +146,10 @@ class QTScope: public QMainWindow
     //-------------------
 
     // collect available plugin data
-    QValueList <pluginData> availablePlugins;
+    Q3ValueList <pluginData> availablePlugins;
 
     // store information about running plugins
-    QPtrList <dataTarget> activePlugins;
+    Q3PtrList <dataTarget> activePlugins;
 
     // increment
     int pCount;

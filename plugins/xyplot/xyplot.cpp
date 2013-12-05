@@ -59,11 +59,11 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, int w
   setDockEnabled ( Qt::DockLeft, TRUE );
 
   // conmstruct a toolbar
-  QToolBar * plotTools = new QToolBar( this, "plot operations" );
+  Q3ToolBar * plotTools = new Q3ToolBar( this, "plot operations" );
   plotTools->setLabel( tr("Plot Operations") );
 
   new QLabel(tr("Y max:"), plotTools);
-  ymaxCounter = new QwtCounter( plotTools, "Ymax");
+  ymaxCounter = new QwtCounter( plotTools );
   ymaxCounter->setRange(-1, 20.0, 0.01);
   ymaxCounter->setNumButtons(2);
   ymaxCounter->setIncSteps(QwtCounter::Button1, 10);
@@ -73,7 +73,7 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, int w
   ymaxCounter->setDisabled(TRUE);
 
   new QLabel(tr("Y min:"), plotTools);
-  yminCounter = new QwtCounter( plotTools, "Ymin");
+  yminCounter = new QwtCounter( plotTools );
   yminCounter->setRange(-20.0, 1, 0.01);
   yminCounter->setNumButtons(2);
   yminCounter->setIncSteps(QwtCounter::Button1, 10);
@@ -85,7 +85,7 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, int w
   plotTools->addSeparator();
 
   new QLabel(tr("X min:"), plotTools);
-  xminCounter = new QwtCounter( plotTools, "Xmin");
+  xminCounter = new QwtCounter( plotTools );
   xminCounter->setRange(-20.0, 1, 0.01);
   xminCounter->setNumButtons(2);
   xminCounter->setIncSteps(QwtCounter::Button1, 10);
@@ -95,7 +95,7 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, int w
   xminCounter->setDisabled(TRUE);
 
   new QLabel(tr("X max:"), plotTools);
-  xmaxCounter = new QwtCounter( plotTools, "Xmax");
+  xmaxCounter = new QwtCounter( plotTools );
   xmaxCounter->setRange(-1, 20.0, 0.01);
   xmaxCounter->setNumButtons(2);
   xmaxCounter->setIncSteps(QwtCounter::Button1, 10);
@@ -107,7 +107,7 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, int w
 
   plotTools->addSeparator();
   new QLabel(tr("Data Points:"), plotTools);
-  rangeCounter = new QwtCounter(plotTools,"X");
+  rangeCounter = new QwtCounter(plotTools );
   rangeCounter->setRange(0, plotLength, 1.0);
   rangeCounter->setNumButtons(2);
   rangeCounter->setIncSteps(QwtCounter::Button1, 100);
@@ -121,21 +121,21 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, int w
   autoscaleCheck->setChecked(TRUE);
   connect(autoscaleCheck, SIGNAL(clicked()), this, SLOT(slotAutoscaleToggled()));
 
-  moveDockWindow( plotTools, Left );
+  moveDockWindow( plotTools, Qt::DockLeft );
 
   // contruct a QwtPlot Widget
   plotWidget = new QwtPlot(this);
 
   // QwtPlot specific defaults:
   // colour
-  plotWidget->setCanvasBackground(white);
+  plotWidget->setCanvasBackground(Qt::white);
   // outline
-  plotWidget->enableOutline(FALSE);
+  //plotWidget->enableOutline(FALSE);
   // no legend
-  plotWidget->enableLegend(FALSE);
+  //plotWidget->enableLegend(FALSE);
   // no grid
-  plotWidget->enableGridX(TRUE);
-  plotWidget->enableGridY(TRUE);
+  //plotWidget->enableGridX(TRUE);
+  //plotWidget->enableGridY(TRUE);
   // set some defaults for the axes
   plotWidget->setAxisTitle(QwtPlot::xBottom, "Amplitude/V");
   plotWidget->setAxisTitle(QwtPlot::yLeft, "Amplitude/V");
@@ -146,9 +146,33 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, int w
   plotWidget->setAxisAutoScale(QwtPlot::xBottom);
 
   // insert a curve
-  curve = plotWidget->insertCurve("");
+  //curve = plotWidget->insertCurve("");
+  
+    //QwtPlot *myPlot = new QwtPlot("Two Graphs");
+    curve = new QwtPlotCurve("Graph 1");
+     
+    //set curve color
+    curve->setPen(QPen(Qt::green, 2));
+     
+    // add curves
+    curve->attach(plotWidget);
+ 
+
+    const int MAX_VALUES = 100;
+    double x[MAX_VALUES], y[MAX_VALUES];// x and y values
+    for( int k=0; k<MAX_VALUES; k++){
+		x[k] = 0*k*2;
+		y[k] = 0*k*3;
+	}
+     
+    // copy the data into the curves
+    //curve->setRawSamples(x, y, MAX_VALUES);
+     
+    // finally, refresh the plot
+    plotWidget->replot(); 
+  
   // assign data
-  plotWidget->setCurveRawData(curve, x, y, plotLength);
+  //plotWidget->setCurveRawData(curve, x, y, plotLength);
 
   setCentralWidget(plotWidget);
 }
@@ -165,8 +189,8 @@ xyPlot::~xyPlot() {
 void xyPlot::insertValues(int num,int append)
 {
 	if (append) {
-		qwtShiftArray(x, plotLength, num);
-		qwtShiftArray(y, plotLength, num);
+        //qwtShiftArray(x, plotLength, num);
+        //qwtShiftArray(y, plotLength, num);
 	}
 	for(int i=0; i<num; i++) {
 		x[i] = dsx[num-i-1];
@@ -204,7 +228,8 @@ void xyPlot::replot()
 void xyPlot::slotRangeChanged(double v)
 {
   // assign data
-  plotWidget->setCurveRawData(curve, x, y, (int)v);
+  //plotWidget->setCurveRawData(curve, x, y, (int)v);
+  curve->setRawSamples(x, y, (int)v);
   replot();
 }
 
@@ -214,8 +239,8 @@ void xyPlot::slotRangeChanged(double v)
  */
 void xyPlot::slotYminChanged(double v)
 {
-  const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::yLeft);
-  plotWidget->setAxisScale( QwtPlot::yLeft, v, a->hBound());
+  //const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::yLeft);
+  //plotWidget->setAxisScale( QwtPlot::yLeft, v, a->hBound());
   ymaxCounter->setRange(v, 20.0, 0.01);
 }
 
@@ -225,8 +250,8 @@ void xyPlot::slotYminChanged(double v)
  */
 void xyPlot::slotYmaxChanged(double v)
 {
-  const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::yLeft);
-  plotWidget->setAxisScale( QwtPlot::yLeft, a->lBound(), v);
+  //const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::yLeft);
+  //plotWidget->setAxisScale( QwtPlot::yLeft, a->lBound(), v);
   yminCounter->setRange(-20.0, v, 0.01);
 }
 
@@ -235,8 +260,8 @@ void xyPlot::slotYmaxChanged(double v)
  */
 void xyPlot::slotXminChanged(double v)
 {
-  const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::xBottom);
-  plotWidget->setAxisScale( QwtPlot::xBottom, v, a->hBound());
+  //const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::xBottom);
+  //plotWidget->setAxisScale( QwtPlot::xBottom, v, a->hBound());
   xmaxCounter->setRange(v, 20.0, 0.01);
 }
 
@@ -246,8 +271,8 @@ void xyPlot::slotXminChanged(double v)
  */
 void xyPlot::slotXmaxChanged(double v)
 {
-  const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::xBottom);
-  plotWidget->setAxisScale( QwtPlot::xBottom, a->lBound(), v);
+  const QwtScaleDiv* a = plotWidget->axisScaleDiv(QwtPlot::xBottom);
+  plotWidget->setAxisScale( QwtPlot::xBottom, a->lowerBound(), v);
   xminCounter->setRange(-20.0, v, 0.01);
 }
 
@@ -274,14 +299,14 @@ void xyPlot::slotAutoscaleToggled()
       ymaxCounter->setDisabled(FALSE);
       xminCounter->setDisabled(FALSE);
       xmaxCounter->setDisabled(FALSE);
-      const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::yLeft);
-      yminCounter->setValue(a->lBound());
-      ymaxCounter->setValue(a->hBound());
-      plotWidget->setAxisScale( QwtPlot::yLeft, a->lBound(), a->hBound());
-      a = plotWidget->axisScale(QwtPlot::xBottom);
-      xminCounter->setValue(a->lBound());
-      xmaxCounter->setValue(a->hBound());
-      plotWidget->setAxisScale( QwtPlot::xBottom, a->lBound(), a->hBound());
+      //const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::yLeft);
+      //yminCounter->setValue(a->lBound());
+      //ymaxCounter->setValue(a->hBound());
+      //plotWidget->setAxisScale( QwtPlot::yLeft, a->lBound(), a->hBound());
+      //a = plotWidget->axisScale(QwtPlot::xBottom);
+      //xminCounter->setValue(a->lBound());
+      //xmaxCounter->setValue(a->hBound());
+      //plotWidget->setAxisScale( QwtPlot::xBottom, a->lBound(), a->hBound());
     }
 }
 

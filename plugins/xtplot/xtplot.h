@@ -21,7 +21,7 @@
 #define XTPLOT_H
 
 #include <scopeplotplugin.h>
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
 #include <qwt_plot.h>
 #include <qpushbutton.h>
 

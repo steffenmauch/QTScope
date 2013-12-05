@@ -30,3 +30,5 @@ HEADERS += qtscope.h \
            samplingsettings.h
 target.path = /usr/local/bin 
 INSTALLS += target 
+#The following line was inserted by qt3to4
+QT +=  qt3support 

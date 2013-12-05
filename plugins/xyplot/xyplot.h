@@ -21,8 +21,9 @@
 #define XYPLOT_H
 
 #include <scopeplotplugin.h>
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
 #include <qwt_plot.h>
+#include <qwt_plot_curve.h>
 
 class QwtCounter;
 class QCheckBox;
@@ -48,7 +49,8 @@ private:
     QwtPlot *plotWidget;
 
     // store curve
-    long curve;
+    //long curve;
+    QwtPlotCurve *curve;
 
     // pointer to data
     double *dsx, *dsy;

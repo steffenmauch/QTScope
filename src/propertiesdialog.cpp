@@ -20,27 +20,27 @@
 #include "propertiesdialog.h"
 #include "qtscope.h"
 
-#include <qvbox.h>
-#include <qlistbox.h>
+#include <q3vbox.h>
+#include <q3listbox.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qlayout.h>
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 
 propertiesDialog::propertiesDialog(QTScope *c, const char *name)
-    : QTabDialog(c, name)
+    : Q3TabDialog(c, name)
 {
   caller = c;
 
   // so fra, only the plugin paths can be set!
 
-  QVBox *pluginsTab = new QVBox( this );
+  Q3VBox *pluginsTab = new Q3VBox( this );
   pluginsTab->setMargin( 5 );
   pluginsTab->setSpacing( 5 );
 
   (void)new QLabel( QString( "Plugin Search Path (restart to activate)" ), pluginsTab );
 
-  ppaths = new QListBox( pluginsTab );
+  ppaths = new Q3ListBox( pluginsTab );
   for ( QStringList::Iterator it = caller->pluginPath.begin(); it != caller->pluginPath.end(); ++it )
     {
       ppaths->insertItem( *it );
@@ -70,8 +70,8 @@ propertiesDialog::~propertiesDialog()
  */
 void propertiesDialog::addClicked()
 {
-  QFileDialog* fd = new QFileDialog( this, "file dialog", TRUE );
-  fd->setMode( QFileDialog::Directory );
+  Q3FileDialog* fd = new Q3FileDialog( this, "file dialog", TRUE );
+  fd->setMode( Q3FileDialog::Directory );
   QString fileName;
   if ( fd->exec() == QDialog::Accepted )
     {

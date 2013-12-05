@@ -20,22 +20,22 @@
 #ifndef PROPERTIESDIALOG_H
 #define PROPERTIESDIALOG_H
 
-#include <qtabdialog.h>
+#include <q3tabdialog.h>
 
 class QTScope;
-class QListBox;
+class Q3ListBox;
 /**
 A dialog to allow the user to change the default behaviour of the program.
 
 @author Matthias H. Hennig
 */
-class propertiesDialog : public QTabDialog
+class propertiesDialog : public Q3TabDialog
   {
     Q_OBJECT
 
   private:
     QTScope *caller;
-    QListBox *ppaths;
+    Q3ListBox *ppaths;
 
   public:
     propertiesDialog(QTScope *c, const char *name = 0);

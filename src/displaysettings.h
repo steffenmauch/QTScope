@@ -22,19 +22,26 @@
 #define DISPLAYSETTINGS_H
 
 #include <qvariant.h>
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
+//Added by qt3to4:
+#include <Q3VBoxLayout>
+#include <Q3Frame>
+#include <Q3GridLayout>
+#include <QCloseEvent>
+#include <Q3HBoxLayout>
+#include <QLabel>
 
-class QVBoxLayout;
-class QHBoxLayout;
-class QGridLayout;
+class Q3VBoxLayout;
+class Q3HBoxLayout;
+class Q3GridLayout;
 class QTabWidget;
 class QWidget;
-class QGroupBox;
+class Q3GroupBox;
 class QLabel;
 class QSpinBox;
 class QPushButton;
 
-class displaySettings : public QMainWindow
+class displaySettings : public Q3MainWindow
   {
     Q_OBJECT
 
@@ -48,17 +55,17 @@ class displaySettings : public QMainWindow
 
     QTabWidget* tabs;
     QWidget* tab;
-    QGroupBox* groupBox1;
+    Q3GroupBox* groupBox1;
     QLabel* textLabel1;
     QLabel* textLabel2;
     QSpinBox* continousSpeedBox;
     QSpinBox* burstSpeedBox;
     QPushButton* applyButton;
-    QFrame* frame5;
-    QVBoxLayout* testMainWindowLayout;
-    QVBoxLayout* frame5Layout;
-    QHBoxLayout* tabLayout;
-    QGridLayout* groupBox1Layout;
+    Q3Frame* frame5;
+    Q3VBoxLayout* testMainWindowLayout;
+    Q3VBoxLayout* frame5Layout;
+    Q3HBoxLayout* tabLayout;
+    Q3GridLayout* groupBox1Layout;
 
   private slots:
     virtual void slotApply();

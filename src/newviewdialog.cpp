@@ -21,13 +21,18 @@
 #include "newviewdialog.h"
 
 #include <qpushbutton.h>
-#include <qlistbox.h>
+#include <q3listbox.h>
 #include <qlayout.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qspinbox.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <Q3VBoxLayout>
+#include <Q3ValueList>
+#include <Q3Frame>
 
 
-newViewDialog::newViewDialog(int numChannels, QValueList <pluginData> availablePlugins, QTScope *c, QWidget *parent, const char *name, bool modal, WFlags f )
+newViewDialog::newViewDialog(int numChannels, Q3ValueList <pluginData> availablePlugins, QTScope *c, QWidget *parent, const char *name, bool modal, Qt::WFlags f )
     : QDialog(parent, name, modal, f)
 {
   caller = c;
@@ -40,21 +45,21 @@ newViewDialog::newViewDialog(int numChannels, QValueList <pluginData> availableP
   setCaption( "QTScope -- Open new Plot" );
   resize( 320, 240 );
 
-  mainLayout = new QVBoxLayout( this, 2, 2, "main");
+  mainLayout = new Q3VBoxLayout( this, 2, 2, "main");
 
-  f1 = new QFrame( this );
-  f1->setFrameShape( QFrame::StyledPanel );
-  f1->setFrameShadow( QFrame::Sunken );
+  f1 = new Q3Frame( this );
+  f1->setFrameShape( Q3Frame::StyledPanel );
+  f1->setFrameShadow( Q3Frame::Sunken );
   mainLayout->addWidget(f1);
 
-  chooserBox = new QHBoxLayout( f1, 2, 2, "choose" );
+  chooserBox = new Q3HBoxLayout( f1, 2, 2, "choose" );
 
   // the list of plugins
-  pluginsList = new QListBox( f1 );
-  pluginsList->setFocusPolicy( QWidget::StrongFocus );
-  pluginsList->setFrameStyle( QFrame::Panel | QFrame::Raised );
+  pluginsList = new Q3ListBox( f1 );
+  pluginsList->setFocusPolicy( Qt::StrongFocus );
+  pluginsList->setFrameStyle( Q3Frame::Panel | Q3Frame::Raised );
 
-  QValueList<pluginData>::iterator it;
+  Q3ValueList<pluginData>::iterator it;
   for ( it = pl.begin(); it != pl.end(); ++it )
     pluginsList->insertItem( (*it).name );
 
@@ -63,17 +68,17 @@ newViewDialog::newViewDialog(int numChannels, QValueList <pluginData> availableP
   chooserBox->addWidget(pluginsList);
 
   // the channels
-  channelsList = new QButtonGroup( "Select Input Channel(s)", f1 );
+  channelsList = new Q3ButtonGroup( "Select Input Channel(s)", f1 );
   channelsList->setColumnLayout(0, Qt::Vertical );
   channelsList->layout()->setSpacing( 6 );
   channelsList->layout()->setMargin( 11 );
-  channelsListL = new QVBoxLayout( channelsList->layout() );
+  channelsListL = new Q3VBoxLayout( channelsList->layout() );
   channelsListL->setAlignment( Qt::AlignTop );
 
   chooserBox->addWidget(channelsList);
 
   // OK+Cancel
-  buttonBox = new QHBoxLayout( mainLayout );
+  buttonBox = new Q3HBoxLayout( mainLayout );
 
   okPushButton = new QPushButton( this, "ok" );
   okPushButton->setText( "OK" );
@@ -84,7 +89,7 @@ newViewDialog::newViewDialog(int numChannels, QValueList <pluginData> availableP
 
   cancelPushButton = new QPushButton( this, "cancel" );
   cancelPushButton->setText( "Cancel" );
-  cancelPushButton->setAccel( Key_Escape );
+  //cancelPushButton->setAccel( Key_Escape );
   cancelPushButton->setMaximumSize(cancelPushButton->sizeHint());
   //cancelPushButton->setSizePolicy(QSizePolicy::Fixed);
   buttonBox->addWidget( cancelPushButton );
@@ -121,11 +126,11 @@ void newViewDialog::accept()
 }
 
 /*!
-    \fn newViewDialog::slotPluginSelected(const QString & name)
+    \fn newViewDialog::slotPluginSelected(const QString & name)
  */
 void newViewDialog::slotPluginSelected(const QString &name)
 {
-  QValueList<pluginData>::iterator it;
+  Q3ValueList<pluginData>::iterator it;
   for ( it = pl.begin(); it != pl.end(); ++it )
     {
       if ( (*it).name == name )

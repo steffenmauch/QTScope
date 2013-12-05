@@ -20,8 +20,10 @@
 #ifndef SCOPEPLOTPLUGIN_H
 #define SCOPEPLOTPLUGIN_H
 
-#include <qmainwindow.h>
+#include <q3mainwindow.h>
 #include <qstring.h>
+//Added by qt3to4:
+#include <QCloseEvent>
 
 // for the data formats
 #include <comedilib.h>
@@ -40,7 +42,7 @@ This is the base class for all plot widgets, implemented as plugins.
 
 @author Matthias H. Hennig, Bernd Porr
 */
-class scopePlotPlugin : public QMainWindow
+class scopePlotPlugin : public Q3MainWindow
 {
 Q_OBJECT
 

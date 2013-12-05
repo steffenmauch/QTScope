@@ -22,44 +22,49 @@
 
 #include <qvariant.h>
 #include <qwidget.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qlabel.h>
 #include <qspinbox.h>
 #include <qpushbutton.h>
 #include <qlayout.h>
 #include <qtooltip.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
 #include <qimage.h>
 #include <qpixmap.h>
 #include <qsizepolicy.h>
+//Added by qt3to4:
+#include <Q3GridLayout>
+#include <Q3VBoxLayout>
+#include <Q3Frame>
+#include <QCloseEvent>
 
 
 samplingSettings::samplingSettings( QWidget* parent, const char* name, double freq, int numCh,int nSamples,int continous)
-    : QMainWindow( parent, name, WDestructiveClose )
+    : Q3MainWindow( parent, name, Qt::WDestructiveClose )
 {
   setCaption( tr( "Sampling Settings" ) );
   //setMinimumSize( QSize( 169, 148 ) );
 
   setCentralWidget( new QWidget( this, "qt_central_widget" ) );
 
-  frame5 = new QFrame( centralWidget(), "frame5" );
-  frame5->setFrameShape( QFrame::StyledPanel );
-  frame5->setFrameShadow( QFrame::Raised );
-  frame5Layout = new QVBoxLayout( frame5, 0, 0, "frame5Layout");
+  frame5 = new Q3Frame( centralWidget(), "frame5" );
+  frame5->setFrameShape( Q3Frame::StyledPanel );
+  frame5->setFrameShadow( Q3Frame::Raised );
+  frame5Layout = new Q3VBoxLayout( frame5, 0, 0, "frame5Layout");
 
-  testMainWindowLayout = new QVBoxLayout( centralWidget(), 0, 0, "testMainWindowLayout");
+  testMainWindowLayout = new Q3VBoxLayout( centralWidget(), 0, 0, "testMainWindowLayout");
   testMainWindowLayout->addWidget( frame5 );
 
-  groupBox1 = new QGroupBox( frame5, "groupBox1" );
+  groupBox1 = new Q3GroupBox( frame5, "groupBox1" );
   groupBox1->setColumnLayout(0, Qt::Vertical );
   groupBox1->layout()->setSpacing( 4 );
   groupBox1->layout()->setMargin( 4 );
-  groupBox1Layout = new QGridLayout( groupBox1->layout() );
+  groupBox1Layout = new Q3GridLayout( groupBox1->layout() );
   groupBox1Layout->setAlignment( Qt::AlignTop );
   frame5Layout->addWidget( groupBox1 );
 
   textLabel1 = new QLabel( groupBox1, "textLabel1" );
-  textLabel1->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
+  textLabel1->setAlignment( int( Qt::AlignVCenter | Qt::AlignRight ) );
   textLabel1->setText( tr( "Number of Channels" ) );
   groupBox1Layout->addWidget( textLabel1, 0, 0 );
 
@@ -81,7 +86,7 @@ samplingSettings::samplingSettings( QWidget* parent, const char* name, double fr
 
   textLabel2 = new QLabel( groupBox1, "textLabel2" );
   textLabel2->setText( tr( "Sampling rate" ) );
-  textLabel2->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
+  textLabel2->setAlignment( int( Qt::AlignVCenter | Qt::AlignRight ) );
   groupBox1Layout->addWidget( textLabel2, 1, 0 );
 
   numberOfSamplesBox = new QSpinBox( groupBox1, "samplingRateBox" );
@@ -93,7 +98,7 @@ samplingSettings::samplingSettings( QWidget* parent, const char* name, double fr
 
   textLabel3 = new QLabel( groupBox1, "textLabel2" );
   textLabel3->setText( tr( "Sample buffer" ) );
-  textLabel3->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
+  textLabel3->setAlignment( int( Qt::AlignVCenter | Qt::AlignRight ) );
   groupBox1Layout->addWidget( textLabel3, 2, 0 );
 
   continousCheckBox = new QCheckBox( groupBox1, "samplingRateBox" );
@@ -102,7 +107,7 @@ samplingSettings::samplingSettings( QWidget* parent, const char* name, double fr
 
   textLabel4 = new QLabel( groupBox1, "textLabel2" );
   textLabel4->setText( tr( "Continous sampling" ) );
-  textLabel4->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
+  textLabel4->setAlignment( int( Qt::AlignVCenter | Qt::AlignRight ) );
   groupBox1Layout->addWidget( textLabel4, 3, 0 );
 
   applyButton = new QPushButton( frame5, "applyButton" );
@@ -115,7 +120,7 @@ samplingSettings::samplingSettings( QWidget* parent, const char* name, double fr
 
   resize( QSize(169, 150).expandedTo(minimumSizeHint()) );
   setMaximumSize(size());
-  clearWState( WState_Polished );
+  //clearWState( WState_Polished );
 
   connect( applyButton, SIGNAL( clicked() ), this, SLOT( slotApply() ) );
 }

@@ -24,12 +24,18 @@
 #include "qtscope.h"
 
 #include <qdialog.h>
+//Added by qt3to4:
+#include <Q3VBoxLayout>
+#include <Q3Frame>
+#include <Q3ValueList>
+#include <Q3PtrList>
+#include <Q3HBoxLayout>
 
-class QHBoxLayout;
-class QListBox;
-class QButtonGroup;
+class Q3HBoxLayout;
+class Q3ListBox;
+class Q3ButtonGroup;
 class QSpinBox;
-class QFrame;
+class Q3Frame;
 
 /**
 This widget provides the user interaction to open a new plot plugin.
@@ -42,18 +48,18 @@ Q_OBJECT
 
 private:
   // store a copy of the plugin data here
-  QValueList <pluginData> pl;
+  Q3ValueList <pluginData> pl;
 
   // Layout elements
-  QVBoxLayout *mainLayout;
-  QHBoxLayout *chooserBox;
-  QHBoxLayout *buttonBox;
-  QButtonGroup *channelsList;
-  QVBoxLayout *channelsListL;
-  QListBox *pluginsList;
-  QFrame *f1;
+  Q3VBoxLayout *mainLayout;
+  Q3HBoxLayout *chooserBox;
+  Q3HBoxLayout *buttonBox;
+  Q3ButtonGroup *channelsList;
+  Q3VBoxLayout *channelsListL;
+  Q3ListBox *pluginsList;
+  Q3Frame *f1;
   // the spinboxes to choose the channels
-  QPtrList <QSpinBox> channelSelectors;
+  Q3PtrList <QSpinBox> channelSelectors;
 
   QPushButton *okPushButton;
   QPushButton *cancelPushButton;
@@ -66,7 +72,7 @@ private:
   unsigned int maxChannels;
 
 public:
-    newViewDialog(int numChannels, QValueList <pluginData> availablePlugins, QTScope *c, QWidget *parent = 0, const char *name = 0, bool modal = TRUE, WFlags f = 0);
+    newViewDialog(int numChannels, Q3ValueList <pluginData> availablePlugins, QTScope *c, QWidget *parent = 0, const char *name = 0, bool modal = TRUE, Qt::WFlags f = 0);
     ~newViewDialog();
 
 private slots:
