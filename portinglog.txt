@@ -1,0 +1,218 @@
+Log for qt3to4 on Thu Dec 5 16:10:45 2013. Number of log entries: 201
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 44 column 18: qtoolbar.h -> q3toolbar.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 46 column 20: qpopupmenu.h -> q3popupmenu.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 48 column 19: qtextedit.h -> q3textedit.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 50 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 55 column 16: qaccel.h -> q3accel.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 56 column 21: qtextstream.h -> q3textstream.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 59 column 29: qpaintdevicemetrics.h -> q3paintdevicemetrics.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 60 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 61 column 15: qvbox.h -> q3vbox.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 66 column 23: qvbuttongroup.h -> q3buttongroup.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 67 column 21: qdockwindow.h -> q3dockwindow.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 83 column 32: QMainWindow -> Q3MainWindow
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 83 column 65: WDestructiveClose -> Qt::WDestructiveClose
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 137 column 9: QToolBar -> Q3ToolBar
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 137 column 36: QToolBar -> Q3ToolBar
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 145 column 11: QWhatsThis -> Q3WhatsThis
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 147 column 19: QMimeSourceFactory -> Q3MimeSourceFactory
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 155 column 19: QMimeSourceFactory -> Q3MimeSourceFactory
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 162 column 19: QMimeSourceFactory -> Q3MimeSourceFactory
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 168 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 168 column 35: QPopupMenu -> Q3PopupMenu
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 170 column 70: CTRL -> Qt::CTRL
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 170 column 76: Key_N -> Qt::Key_N
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 172 column 69: CTRL -> Qt::CTRL
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 172 column 75: Key_Q -> Qt::Key_Q
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 175 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 176 column 18: QPopupMenu -> Q3PopupMenu
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 179 column 79: CTRL -> Qt::CTRL
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 179 column 85: Key_R -> Qt::Key_R
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 180 column 84: CTRL -> Qt::CTRL
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 180 column 90: Key_S -> Qt::Key_S
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 181 column 72: CTRL -> Qt::CTRL
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 181 column 78: Key_P -> Qt::Key_P
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 184 column 29: QPopupMenu -> Q3PopupMenu
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 191 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 191 column 35: QPopupMenu -> Q3PopupMenu
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 194 column 60: Key_F1 -> Qt::Key_F1
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 197 column 69: SHIFT -> Qt::SHIFT
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 197 column 76: Key_F1 -> Qt::Key_F1
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 200 column 6: QVBox -> Q3VBox
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 200 column 22: QVBox -> Q3VBox
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 201 column 26: QFrame -> Q3Frame
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 201 column 48: QFrame -> Q3Frame
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 720 column 11: QValueList -> Q3ValueList
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp at line 730 column 26: WDestructiveClose -> Qt::WDestructiveClose
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.cpp: Added the following include directives:
+	#include <Q3ValueList> 	#include <QLabel> 	#include <Q3Frame> 	#include <QCloseEvent> 
+No changes made to file /home/steffen/Downloads/qtscope-0.66-2/src/main.cpp
+In file /home/steffen/Downloads/qtscope-0.66-2/src/scopeplotplugin.cpp at line 32 column 14: QMainWindow -> Q3MainWindow
+In file /home/steffen/Downloads/qtscope-0.66-2/src/scopeplotplugin.cpp: Added the following include directives:
+	#include <QCloseEvent> 
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp at line 29 column 18: qlistbox.h -> q3listbox.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp at line 31 column 22: qbuttongroup.h -> q3buttongroup.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp at line 35 column 56: QValueList -> Q3ValueList
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp at line 35 column 153: WFlags -> Qt::WFlags
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp at line 48 column 30: QVBoxLayout -> Q3VBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp at line 50 column 17: QFrame -> Q3Frame
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp at line 51 column 27: QFrame -> Q3Frame
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp at line 52 column 28: QFrame -> Q3Frame
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp at line 55 column 30: QHBoxLayout -> Q3HBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp at line 58 column 28: QListBox -> Q3ListBox
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp at line 59 column 38: QWidget -> Qt
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp at line 60 column 36: QFrame -> Q3Frame
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp at line 60 column 52: QFrame -> Q3Frame
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp at line 62 column 12: QValueList -> Q3ValueList
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp at line 71 column 33: QButtonGroup -> Q3ButtonGroup
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp at line 75 column 33: QVBoxLayout -> Q3VBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp at line 81 column 29: QHBoxLayout -> Q3HBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp at line 129 column 12: QValueList -> Q3ValueList
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.cpp: Added the following include directives:
+	#include <Q3HBoxLayout> 	#include <Q3VBoxLayout> 	#include <Q3ValueList> 	#include <Q3Frame> 
+In file /home/steffen/Downloads/qtscope-0.66-2/src/propertiesdialog.cpp at line 23 column 15: qvbox.h -> q3vbox.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/propertiesdialog.cpp at line 24 column 18: qlistbox.h -> q3listbox.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/propertiesdialog.cpp at line 28 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/propertiesdialog.cpp at line 31 column 16: QTabDialog -> Q3TabDialog
+In file /home/steffen/Downloads/qtscope-0.66-2/src/propertiesdialog.cpp at line 37 column 7: QVBox -> Q3VBox
+In file /home/steffen/Downloads/qtscope-0.66-2/src/propertiesdialog.cpp at line 37 column 31: QVBox -> Q3VBox
+In file /home/steffen/Downloads/qtscope-0.66-2/src/propertiesdialog.cpp at line 43 column 23: QListBox -> Q3ListBox
+In file /home/steffen/Downloads/qtscope-0.66-2/src/propertiesdialog.cpp at line 71 column 13: QFileDialog -> Q3FileDialog
+In file /home/steffen/Downloads/qtscope-0.66-2/src/propertiesdialog.cpp at line 71 column 35: QFileDialog -> Q3FileDialog
+In file /home/steffen/Downloads/qtscope-0.66-2/src/propertiesdialog.cpp at line 72 column 26: QFileDialog -> Q3FileDialog
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.cpp at line 32 column 19: qgroupbox.h -> q3groupbox.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.cpp at line 38 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.cpp at line 45 column 17: QMainWindow -> Q3MainWindow
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.cpp at line 45 column 50: WDestructiveClose -> Qt::WDestructiveClose
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.cpp at line 51 column 40: QVBoxLayout -> Q3VBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.cpp at line 53 column 21: QFrame -> Q3Frame
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.cpp at line 54 column 31: QFrame -> Q3Frame
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.cpp at line 55 column 32: QFrame -> Q3Frame
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.cpp at line 56 column 32: QVBoxLayout -> Q3VBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.cpp at line 61 column 29: QHBoxLayout -> Q3HBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.cpp at line 63 column 27: QGroupBox -> Q3GroupBox
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.cpp at line 67 column 35: QGridLayout -> Q3GridLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.cpp at line 71 column 39: QLabel -> Qt
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.cpp at line 71 column 62: QLabel -> Qt
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.cpp at line 95 column 39: QLabel -> Qt
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.cpp at line 95 column 62: QLabel -> Qt
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.cpp: Added the following include directives:
+	#include <Q3GridLayout> 	#include <Q3HBoxLayout> 	#include <Q3VBoxLayout> 	#include <Q3Frame> 	#include <QCloseEvent> 
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 30 column 19: qgroupbox.h -> q3groupbox.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 36 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 43 column 17: QMainWindow -> Q3MainWindow
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 43 column 50: WDestructiveClose -> Qt::WDestructiveClose
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 50 column 21: QFrame -> Q3Frame
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 51 column 31: QFrame -> Q3Frame
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 52 column 32: QFrame -> Q3Frame
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 53 column 32: QVBoxLayout -> Q3VBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 55 column 40: QVBoxLayout -> Q3VBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 58 column 27: QGroupBox -> Q3GroupBox
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 62 column 35: QGridLayout -> Q3GridLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 67 column 39: QLabel -> Qt
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 67 column 62: QLabel -> Qt
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 89 column 39: QLabel -> Qt
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 89 column 62: QLabel -> Qt
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 101 column 39: QLabel -> Qt
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 101 column 62: QLabel -> Qt
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 110 column 39: QLabel -> Qt
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp at line 110 column 62: QLabel -> Qt
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.cpp: Added the following include directives:
+	#include <Q3GridLayout> 	#include <Q3VBoxLayout> 	#include <Q3Frame> 	#include <QCloseEvent> 
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.h at line 13 column 21: qmainwindow.h -> q3mainwindow.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.h at line 14 column 18: qptrlist.h -> q3ptrlist.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.h at line 48 column 12: QFrame -> Q3Frame
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.h at line 49 column 17: QVBoxLayout -> Q3VBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.h at line 52 column 19: QVButtonGroup -> Q3VButtonGroup
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.h at line 53 column 17: QDockWindow -> Q3DockWindow
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.h at line 70 column 14: QValueList -> Q3ValueList
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.h at line 76 column 33: QMainWindow -> Q3MainWindow
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.h at line 130 column 14: QPopupMenu -> Q3PopupMenu
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.h at line 149 column 14: QValueList -> Q3ValueList
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.h at line 152 column 12: QPtrList -> Q3PtrList
+In file /home/steffen/Downloads/qtscope-0.66-2/src/qtscope.h: Added the following include directives:
+	#include <Q3VBoxLayout> 	#include <Q3ValueList> 	#include <Q3Frame> 	#include <Q3PopupMenu> 	#include <QCloseEvent> 
+In file /home/steffen/Downloads/qtscope-0.66-2/src/scopeplotplugin.h at line 25 column 21: qmainwindow.h -> q3mainwindow.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/scopeplotplugin.h at line 40 column 42: QMainWindow -> Q3MainWindow
+In file /home/steffen/Downloads/qtscope-0.66-2/src/scopeplotplugin.h: Added the following include directives:
+	#include <QCloseEvent> 
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.h at line 34 column 17: QHBoxLayout -> Q3HBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.h at line 35 column 14: QListBox -> Q3ListBox
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.h at line 36 column 18: QButtonGroup -> Q3ButtonGroup
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.h at line 38 column 12: QFrame -> Q3Frame
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.h at line 47 column 12: QValueList -> Q3ValueList
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.h at line 50 column 13: QVBoxLayout -> Q3VBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.h at line 51 column 13: QHBoxLayout -> Q3HBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.h at line 52 column 13: QHBoxLayout -> Q3HBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.h at line 53 column 14: QButtonGroup -> Q3ButtonGroup
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.h at line 54 column 13: QVBoxLayout -> Q3VBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.h at line 55 column 10: QListBox -> Q3ListBox
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.h at line 56 column 8: QFrame -> Q3Frame
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.h at line 58 column 10: QPtrList -> Q3PtrList
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.h at line 71 column 45: QValueList -> Q3ValueList
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.h at line 71 column 157: WFlags -> Qt::WFlags
+In file /home/steffen/Downloads/qtscope-0.66-2/src/newviewdialog.h: Added the following include directives:
+	#include <Q3VBoxLayout> 	#include <Q3Frame> 	#include <Q3ValueList> 	#include <Q3PtrList> 	#include <Q3HBoxLayout> 
+In file /home/steffen/Downloads/qtscope-0.66-2/src/propertiesdialog.h at line 23 column 20: qtabdialog.h -> q3tabdialog.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/propertiesdialog.h at line 26 column 14: QListBox -> Q3ListBox
+In file /home/steffen/Downloads/qtscope-0.66-2/src/propertiesdialog.h at line 28 column 42: QTabDialog -> Q3TabDialog
+In file /home/steffen/Downloads/qtscope-0.66-2/src/propertiesdialog.h at line 34 column 12: QListBox -> Q3ListBox
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.h at line 32 column 21: qmainwindow.h -> q3mainwindow.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.h at line 34 column 17: QVBoxLayout -> Q3VBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.h at line 35 column 17: QHBoxLayout -> Q3HBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.h at line 36 column 17: QGridLayout -> Q3GridLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.h at line 39 column 15: QGroupBox -> Q3GroupBox
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.h at line 44 column 42: QMainWindow -> Q3MainWindow
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.h at line 58 column 13: QGroupBox -> Q3GroupBox
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.h at line 64 column 10: QFrame -> Q3Frame
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.h at line 65 column 15: QVBoxLayout -> Q3VBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.h at line 66 column 15: QVBoxLayout -> Q3VBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.h at line 67 column 15: QHBoxLayout -> Q3HBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.h at line 68 column 15: QGridLayout -> Q3GridLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/displaysettings.h: Added the following include directives:
+	#include <Q3VBoxLayout> 	#include <Q3Frame> 	#include <Q3GridLayout> 	#include <QCloseEvent> 	#include <Q3HBoxLayout> 	#include <QLabel> 
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.h at line 32 column 21: qmainwindow.h -> q3mainwindow.h
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.h at line 35 column 17: QVBoxLayout -> Q3VBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.h at line 36 column 17: QHBoxLayout -> Q3HBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.h at line 37 column 17: QGridLayout -> Q3GridLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.h at line 40 column 15: QGroupBox -> Q3GroupBox
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.h at line 45 column 43: QMainWindow -> Q3MainWindow
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.h at line 57 column 13: QGroupBox -> Q3GroupBox
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.h at line 67 column 10: QFrame -> Q3Frame
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.h at line 68 column 15: QVBoxLayout -> Q3VBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.h at line 69 column 15: QVBoxLayout -> Q3VBoxLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.h at line 70 column 15: QGridLayout -> Q3GridLayout
+In file /home/steffen/Downloads/qtscope-0.66-2/src/samplingsettings.h: Added the following include directives:
+	#include <Q3VBoxLayout> 	#include <Q3Frame> 	#include <Q3GridLayout> 	#include <QCloseEvent> 	#include <Q3HBoxLayout> 	#include <QLabel> 
+In file src.pro: Added entry QT +=  qt3support 
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xtplot/xtplot.cpp at line 27 column 19: qgroupbox.h -> q3groupbox.h
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xtplot/xtplot.cpp at line 28 column 22: qbuttongroup.h -> q3buttongroup.h
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xtplot/xtplot.cpp at line 30 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xtplot/xtplot.cpp at line 75 column 10: QToolBar -> Q3ToolBar
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xtplot/xtplot.cpp at line 75 column 37: QToolBar -> Q3ToolBar
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xtplot/xtplot.cpp at line 111 column 14: QButtonGroup -> Q3ButtonGroup
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xtplot/xtplot.cpp at line 111 column 38: QButtonGroup -> Q3ButtonGroup
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xtplot/xtplot.cpp at line 112 column 14: QGroupBox -> Qt
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xtplot/xtplot.cpp at line 112 column 14: QGroupBox -> Qt
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xtplot/xtplot.cpp at line 160 column 33: Left -> Qt::DockLeft
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xtplot/xtplot.cpp at line 167 column 39: white -> Qt::white
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xtplot/xtplot.cpp at line 315 column 12: QFileDialog -> Q3FileDialog
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xtplot/xtplot.cpp at line 315 column 32: QFileDialog -> Q3FileDialog
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xtplot/xtplot.cpp at line 319 column 26: QFileDialog -> Q3FileDialog
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xtplot/xtplot.h at line 24 column 21: qmainwindow.h -> q3mainwindow.h
+In file xtplot.pro: Added entry QT +=  qt3support 
+No changes made to file /home/steffen/Downloads/qtscope-0.66-2/plugins/dummy/dummy.cpp
+No changes made to file /home/steffen/Downloads/qtscope-0.66-2/plugins/dummy/dummy.h
+In file dummy.pro: Added entry QT +=  qt3support 
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xyplot/xyplot.cpp at line 62 column 10: QToolBar -> Q3ToolBar
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xyplot/xyplot.cpp at line 62 column 37: QToolBar -> Q3ToolBar
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xyplot/xyplot.cpp at line 124 column 33: Left -> Qt::DockLeft
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xyplot/xyplot.cpp at line 131 column 39: white -> Qt::white
+In file /home/steffen/Downloads/qtscope-0.66-2/plugins/xyplot/xyplot.h at line 24 column 21: qmainwindow.h -> q3mainwindow.h
+In file xyplot.pro: Added entry QT +=  qt3support 
+
+Log for qt3to4 on Thu Dec 5 16:26:47 2013. Number of log entries: 3
+No changes made to file /home/steffen/Downloads/qtscope-0.66-2/plugins/xyplot/xyplot.cpp
+No changes made to file /home/steffen/Downloads/qtscope-0.66-2/plugins/xyplot/xyplot.h
+In file xyplot.pro: Added entry QT +=  
+
