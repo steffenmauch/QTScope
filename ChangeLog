@@ -1,0 +1,29 @@
+Tuesday 1 February 2005
+
+	Release 0.32 (Bernd Porr)
+	The sampling rate can now be changed while the program
+	is running. Cleaned up a lot.
+
+Monday 15 November 2004
+
+	Release 0.3 (Bernd Porr)
+	The sampling rate is now adjustable. For rates >10kHz, 5000 samples
+	are read and thye screen is updated every second.
+
+Wednesday 28 April 2004
+
+	Release 0.2
+	Compiles now with gcc >3 (thanks to David Schleef)
+	a small change to the plugin interface
+	added a x-y plot plugin
+
+Saturday 18 April 2004
+
+	Release 0.1.1
+	Fixes and small improvements.
+	Qwt library included in the distribution.
+
+Wednesday 7 April 2004
+
+	Initial release 0.1
+	ChangeLog Created.

@@ -1,0 +1,13 @@
+Source: qtscope
+Section: math
+Priority: optional
+Maintainer: Bernd Porr <berndporr@f2s.com>
+Build-Depends: debhelper (>= 5), comedilib-dev, libqt3-headers, libqwt-dev
+Standards-Version: 3.7.2
+
+Package: qtscope
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libcomedi0, libqt3-mt, libqwt4c2
+Description: A plugin based data-plot program for comedi
+ Plots data in differnet windows. It is plugin based and
+ can be extended.

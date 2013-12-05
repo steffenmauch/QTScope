@@ -1,0 +1,2 @@
+?package(qtscope):needs="X11" section="Apps/Technical"\
+  title="qtscope" command="qtscope"

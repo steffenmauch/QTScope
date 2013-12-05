@@ -1,0 +1,126 @@
+
+QTScope - a simple, plugin based oscilloscope program
+
+Copyright (C) 2004 Matthias Hennig <hennig@cn.stir.ac.uk>
+Copyright (C) 2005 Bernd Porr <berndporr@f2s.com>
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+
+SUMMARY:
+--------
+
+QTScope is a program to display the signals acquired from daq devices
+via the comedi library. It is based on the QT Widget Library
+(Trolltech) and provides a plugin architecture which makes it easy to
+write own visualisation plugins.
+
+It was written specifically for the USB DUX board
+(http://www.linux-usb-daq.co.uk/), but in theory should work with any
+board with a comedi driver. The data aquisition is done in regular
+intervals. Under 10000Hz data data is scrolled into the data window.
+Above 10000Hz the program does snapshots of 5000 samples and
+displays them every second on the screen.
+
+
+WHAT YOU WILL NEED:
+-------------------
+
+This program was developed/tested using the Debian Woody distribution
+with and updated QT library. It should however compile on any modern
+linux setup, provided the following software is installed:
+
+Comedi: a free driver/library framework for a number of data
+acquisition devices http://www.comedi.org
+
+QT (Version > 3):
+http://www.trolltech.com/products/qt/
+
+Qwt Widget Library:
+For details about this nice and useful project, see:
+http://qwt.sourceforge.net/
+It has been tested with qwt which is shipped with debian sarge.
+
+
+INSTALLATION:
+-------------
+
+1) provide the paths to QT:
+
+   export QTDIR=/path/to/qt
+
+2) qmake qtscope.pro
+
+   (sometimes qmake may not be directly accessible, 
+    then you can usually find it under
+   /usr/lib/qt3/bin/qmake or /usr/share/qt3/bin/qmake)
+
+3) make
+
+4) As root:
+
+   make install
+   
+   This will install the program to /usr/local/bin 
+   and the plugins to /usr/local/lib/qtscope/plugins.
+   
+
+TODO:
+-----
+
+A lot!
+
+Newer versions will probably contain these planned extensions:
+
+- more visualisation plugins
+- data storage facility
+- filter plugins for data processing
+
+
+WRITING PLUGINS:
+----------------
+
+It is extremely simple to write a plugin for QTScope! A plugin
+basically just frequently receives the new data and is free to do
+whatever it likes. A QTimer object is responsible for the readout. The
+base class for a plugin is called "scopePlotPlugin". Each plugin needs
+the following data structure to announce its existence:
+
+pluginInfo myPluginInfo = {...};
+
+whith the tye:
+
+typedef struct pluginInfo{
+  QString name;          // the name
+  QString type;          // the type, so far not unused (use "Plot")
+  int channelsRequest;   // number of channels the plugin requests
+};
+
+The following methods are declared as virtual in the base class:
+
+- virtual void setDataSource(double *) = 0;
+  QTScope creates arrays of the type double that contain the data. 
+  The plugin just gets the pointer.
+  If the plugin expects more than one source, 
+  this function is called repeatedly. 
+
+- virtual void insertValues(int) = 0;
+  Called when num new data values are available.
+
+- virtual void replot() = 0;
+  A screen refresh is due for the plugin.
+
+- samplingRateChanged() = 0;
+  The sampling rate "freq" has changed
