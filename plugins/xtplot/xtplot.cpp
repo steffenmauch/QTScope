@@ -3,6 +3,8 @@
  *   hennig@cn.stir.ac.uk                                                  *
  *   Copyright (C) 2005 by Bernd Porr                                      *
  *   Bernd Porr, BerndPorr@f2s.com                                         *
+ *   Copyright (C) 2013 by Steffen Mauch                                   *
+ *   Steffen Mauch, steffen.mauch@gmail.com                                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -81,7 +83,6 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, int w
 
   plotTools->addSeparator();
 
-  //plotTools->addSeparator();
   new QLabel(tr("Ymax:"), plotTools);
   ymaxCounter = new QwtCounter( plotTools);
   ymaxCounter->setRange(-1, 20.0, 0.01);
@@ -214,6 +215,9 @@ void xtPlot::insertValues(int num,int append) {
 		filePushButton->setEnabled( FALSE );
 		if (append) {
 			// scroll
+			for(int k=nSamples-1; k>=0; k--){
+				y[k] = y[k-num-1];
+			}
             //qwtShiftArray(y, nSamples, num);
 			for(int i=0; i<num; i++) {
 				y[i] = ds[num-i-1];
