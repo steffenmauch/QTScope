@@ -179,11 +179,20 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, int w
   plotWidget->setAxisScale( QwtPlot::xBottom, 0, 1000);
   // yrange autoscale
   plotWidget->setAxisAutoScale(QwtPlot::yLeft);
-
-  // insert a curve
-  //curve = plotWidget->insertCurve("");
-  // assign data
-  //plotWidget->setCurveRawData(curve, x, y, plotLength);
+  
+  curve = new QwtPlotCurve("Graph");
+     
+  //set curve color
+  curve->setPen(QPen(Qt::green, 2));
+     
+  // add curves
+  curve->attach(plotWidget);
+     
+  // copy the data into the curves
+  curve->setRawSamples(x, y, plotLength);
+       
+  // finally, refresh the plot
+  plotWidget->replot(); 
 
   setCentralWidget(plotWidget);
 }
@@ -199,8 +208,7 @@ xtPlot::~xtPlot()
     \fn xtPlot::insertValue(double v)
  */
 void xtPlot::insertValues(int num,int append) {
-    //if (freezePushButton->state()==QButton::On) {
-    if (1) {
+    if ( freezePushButton->isChecked() ) {
 		filePushButton->setEnabled( TRUE );
 	} else {
 		filePushButton->setEnabled( FALSE );
@@ -275,7 +283,8 @@ void xtPlot::xRangeChanged()
 void xtPlot::samplingRateChanged() {
 	plotWidget->setAxisScale( QwtPlot::xBottom, 0, 1000.0*(double)plotLength/freq );
 	clearData();
-	replot();
+	//replot();
+	plotWidget->replot(); 
 }
 
 
@@ -285,8 +294,8 @@ void xtPlot::samplingRateChanged() {
  */
 void xtPlot::slotYminChanged(double v)
 {
-  //const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::yLeft);
-  //plotWidget->setAxisScale( QwtPlot::yLeft, v, a->hBound());
+  const QwtScaleDiv* a = plotWidget->axisScaleDiv(QwtPlot::yLeft);
+  plotWidget->setAxisScale( QwtPlot::yLeft, v, a->upperBound());
   ymaxCounter->setRange(v, 20.0, 0.01);
 }
 
@@ -296,8 +305,8 @@ void xtPlot::slotYminChanged(double v)
  */
 void xtPlot::slotYmaxChanged(double v)
 {
-  //const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::yLeft);
-  //plotWidget->setAxisScale( QwtPlot::yLeft, a->lBound(), v);
+  const QwtScaleDiv* a = plotWidget->axisScaleDiv(QwtPlot::yLeft);
+  plotWidget->setAxisScale( QwtPlot::yLeft, a->lowerBound(), v);
   yminCounter->setRange(-20.0, v, 0.01);
 }
 
@@ -319,10 +328,10 @@ void xtPlot::slotAutoscaleToggled()
     // yrange autoscale off
     yminCounter->setDisabled(FALSE);
     ymaxCounter->setDisabled(FALSE);
-    //const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::yLeft);
-    //yminCounter->setValue(a->lBound());
-    //ymaxCounter->setValue(a->hBound());
-    //plotWidget->setAxisScale( QwtPlot::yLeft, a->lBound(), a->hBound());
+    const QwtScaleDiv* a = plotWidget->axisScaleDiv(QwtPlot::yLeft);
+    yminCounter->setValue(a->lowerBound());
+    ymaxCounter->setValue(a->upperBound());
+    plotWidget->setAxisScale( QwtPlot::yLeft, a->lowerBound(), a->upperBound());
   }
 }
 

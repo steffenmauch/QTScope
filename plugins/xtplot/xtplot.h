@@ -23,6 +23,7 @@
 #include <scopeplotplugin.h>
 #include <q3mainwindow.h>
 #include <qwt_plot.h>
+#include <qwt_plot_curve.h>
 #include <qpushbutton.h>
 
 class QwtCounter;
@@ -48,7 +49,8 @@ private:
     QwtPlot *plotWidget;
 
     // store curve
-    long curve;
+    //long curve;
+    QwtPlotCurve *curve;
 
     // pointer to data
     double *ds;
