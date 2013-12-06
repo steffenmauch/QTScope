@@ -1,6 +1,8 @@
 /***************************************************************************
  *   Copyright (C) 2004 by Matthias H. Hennig                              *
  *   hennig@cn.stir.ac.uk                                                  *
+ *   Copyright (C) 2013 by Steffen Mauch                                   *
+ *   Steffen Mauch, steffen.mauch@gmail.com                                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -24,6 +26,8 @@
 #include <q3mainwindow.h>
 #include <qwt_plot.h>
 #include <qwt_plot_curve.h>
+#include <qwt_plot_grid.h>
+#include <qwt_scale_engine.h>
 
 class QwtCounter;
 class QCheckBox;
@@ -51,6 +55,8 @@ private:
     // store curve
     //long curve;
     QwtPlotCurve *curve;
+    
+    QwtPlotGrid *grid;
 
     // pointer to data
     double *dsx, *dsy;

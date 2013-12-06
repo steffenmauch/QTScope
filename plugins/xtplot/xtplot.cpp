@@ -222,6 +222,7 @@ void xtPlot::insertValues(int num,int append) {
 			for(int i=0; i<num; i++) {
 				y[i] = ds[num-i-1];
 			}
+			qDebug() << 'add data' << num << endl;
 		} else {
 			// write from zero loc
 			for(int i=0; i< num; i++) {
@@ -229,6 +230,8 @@ void xtPlot::insertValues(int num,int append) {
 			}
 		}
 	}
+	plotWidget->replot();
+	qDebug() << 'insert Values' << num << endl; 
 }
 
 
@@ -299,7 +302,7 @@ void xtPlot::samplingRateChanged() {
 void xtPlot::slotYminChanged(double v)
 {
   const QwtScaleDiv* a = plotWidget->axisScaleDiv(QwtPlot::yLeft);
-  plotWidget->setAxisScale( QwtPlot::yLeft, v, a->upperBound());
+  //plotWidget->setAxisScale( QwtPlot::yLeft, v, a->upperBound());
   ymaxCounter->setRange(v, 20.0, 0.01);
 }
 
@@ -310,7 +313,7 @@ void xtPlot::slotYminChanged(double v)
 void xtPlot::slotYmaxChanged(double v)
 {
   const QwtScaleDiv* a = plotWidget->axisScaleDiv(QwtPlot::yLeft);
-  plotWidget->setAxisScale( QwtPlot::yLeft, a->lowerBound(), v);
+  //plotWidget->setAxisScale( QwtPlot::yLeft, a->lowerBound(), v);
   yminCounter->setRange(-20.0, v, 0.01);
 }
 
@@ -333,9 +336,9 @@ void xtPlot::slotAutoscaleToggled()
     yminCounter->setDisabled(FALSE);
     ymaxCounter->setDisabled(FALSE);
     const QwtScaleDiv* a = plotWidget->axisScaleDiv(QwtPlot::yLeft);
-    yminCounter->setValue(a->lowerBound());
-    ymaxCounter->setValue(a->upperBound());
-    plotWidget->setAxisScale( QwtPlot::yLeft, a->lowerBound(), a->upperBound());
+    //yminCounter->setValue(a->lowerBound());
+    //ymaxCounter->setValue(a->upperBound());
+    //plotWidget->setAxisScale( QwtPlot::yLeft, a->lowerBound(), a->upperBound());
   }
 }
 

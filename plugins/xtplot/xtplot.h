@@ -1,6 +1,8 @@
 /***************************************************************************
  *   Copyright (C) 2004 by Matthias H. Hennig                              *
  *   hennig@cn.stir.ac.uk                                                  *
+ *   Copyright (C) 2013 by Steffen Mauch                                   *
+ *   Steffen Mauch, steffen.mauch@gmail.com                                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *

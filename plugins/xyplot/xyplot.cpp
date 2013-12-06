@@ -1,6 +1,8 @@
 /***************************************************************************
  *   Copyright (C) 2004 by Matthias H. Hennig                              *
  *   hennig@cn.stir.ac.uk                                                  *
+ *   Copyright (C) 2013 by Steffen Mauch                                   *
+ *   Steffen Mauch, steffen.mauch@gmail.com                                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -133,46 +135,45 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, int w
   //plotWidget->enableOutline(FALSE);
   // no legend
   //plotWidget->enableLegend(FALSE);
+  
   // no grid
-  //plotWidget->enableGridX(TRUE);
-  //plotWidget->enableGridY(TRUE);
+  grid = new QwtPlotGrid();
+  grid->enableX(true);
+  grid->enableXMin(true);
+
+  // for major grid line
+  grid->setMajPen( QPen(Qt::black,1) );
+  // for minor grid line
+  grid->setMinPen( QPen(Qt::gray,1) );
+
+  QwtScaleDiv div;
+  QwtLinearScaleEngine *lineSE = new QwtLinearScaleEngine();
+  div = lineSE->divideScale(0, 150, 2, 5, 15);
+  
+  grid->attach( plotWidget );
+  
   // set some defaults for the axes
   plotWidget->setAxisTitle(QwtPlot::xBottom, "Amplitude/V");
   plotWidget->setAxisTitle(QwtPlot::yLeft, "Amplitude/V");
   // default xrange
-  //plotWidget->setAxisScale( QwtPlot::xBottom, 0, 1000);
+  plotWidget->setAxisScale( QwtPlot::xBottom, 0, 1000);
   // yrange autoscale
   plotWidget->setAxisAutoScale(QwtPlot::yLeft);
   plotWidget->setAxisAutoScale(QwtPlot::xBottom);
 
-  // insert a curve
-  //curve = plotWidget->insertCurve("");
-  
-    //QwtPlot *myPlot = new QwtPlot("Two Graphs");
-    curve = new QwtPlotCurve("Graph 1");
+  curve = new QwtPlotCurve("Graph");
      
-    //set curve color
-    curve->setPen(QPen(Qt::green, 2));
+  //set curve color
+  curve->setPen(QPen(Qt::green, 2));
      
-    // add curves
-    curve->attach(plotWidget);
- 
-
-    const int MAX_VALUES = 100;
-    double x[MAX_VALUES], y[MAX_VALUES];// x and y values
-    for( int k=0; k<MAX_VALUES; k++){
-		x[k] = 0*k*2;
-		y[k] = 0*k*3;
-	}
+  // add curves
+  curve->attach(plotWidget);
+      
+  // copy the data into the curves
+  curve->setRawSamples(x, y, plotLength);
      
-    // copy the data into the curves
-    //curve->setRawSamples(x, y, MAX_VALUES);
-     
-    // finally, refresh the plot
-    plotWidget->replot(); 
-  
-  // assign data
-  //plotWidget->setCurveRawData(curve, x, y, plotLength);
+  // finally, refresh the plot
+  plotWidget->replot(); 
 
   setCentralWidget(plotWidget);
 }
@@ -190,7 +191,13 @@ void xyPlot::insertValues(int num,int append)
 {
 	if (append) {
         //qwtShiftArray(x, plotLength, num);
+        for(int k=plotLength-1; k>=0; k--){
+			x[k] = x[k-num-1];
+		}
         //qwtShiftArray(y, plotLength, num);
+        for(int k=plotLength-1; k>=0; k--){
+			y[k] = y[k-num-1];
+		}
 	}
 	for(int i=0; i<num; i++) {
 		x[i] = dsx[num-i-1];
@@ -230,7 +237,7 @@ void xyPlot::slotRangeChanged(double v)
   // assign data
   //plotWidget->setCurveRawData(curve, x, y, (int)v);
   curve->setRawSamples(x, y, (int)v);
-  replot();
+  plotWidget->replot();
 }
 
 
@@ -239,8 +246,8 @@ void xyPlot::slotRangeChanged(double v)
  */
 void xyPlot::slotYminChanged(double v)
 {
-  //const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::yLeft);
-  //plotWidget->setAxisScale( QwtPlot::yLeft, v, a->hBound());
+  const QwtScaleDiv* a = plotWidget->axisScaleDiv(QwtPlot::yLeft);
+  plotWidget->setAxisScale( QwtPlot::yLeft, v, a->upperBound());
   ymaxCounter->setRange(v, 20.0, 0.01);
 }
 
@@ -250,8 +257,8 @@ void xyPlot::slotYminChanged(double v)
  */
 void xyPlot::slotYmaxChanged(double v)
 {
-  //const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::yLeft);
-  //plotWidget->setAxisScale( QwtPlot::yLeft, a->lBound(), v);
+  const QwtScaleDiv* a = plotWidget->axisScaleDiv(QwtPlot::yLeft);
+  plotWidget->setAxisScale( QwtPlot::yLeft, a->lowerBound(), v);
   yminCounter->setRange(-20.0, v, 0.01);
 }
 
@@ -260,8 +267,8 @@ void xyPlot::slotYmaxChanged(double v)
  */
 void xyPlot::slotXminChanged(double v)
 {
-  //const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::xBottom);
-  //plotWidget->setAxisScale( QwtPlot::xBottom, v, a->hBound());
+  const QwtScaleDiv* a = plotWidget->axisScaleDiv(QwtPlot::xBottom);
+  plotWidget->setAxisScale( QwtPlot::xBottom, v, a->upperBound());
   xmaxCounter->setRange(v, 20.0, 0.01);
 }
 
@@ -299,14 +306,14 @@ void xyPlot::slotAutoscaleToggled()
       ymaxCounter->setDisabled(FALSE);
       xminCounter->setDisabled(FALSE);
       xmaxCounter->setDisabled(FALSE);
-      //const QwtScaleDiv* a = plotWidget->axisScale(QwtPlot::yLeft);
-      //yminCounter->setValue(a->lBound());
-      //ymaxCounter->setValue(a->hBound());
-      //plotWidget->setAxisScale( QwtPlot::yLeft, a->lBound(), a->hBound());
-      //a = plotWidget->axisScale(QwtPlot::xBottom);
-      //xminCounter->setValue(a->lBound());
-      //xmaxCounter->setValue(a->hBound());
-      //plotWidget->setAxisScale( QwtPlot::xBottom, a->lBound(), a->hBound());
+      const QwtScaleDiv* a = plotWidget->axisScaleDiv(QwtPlot::yLeft);
+      yminCounter->setValue(a->lowerBound());
+      ymaxCounter->setValue(a->upperBound());
+      plotWidget->setAxisScale( QwtPlot::yLeft, a->lowerBound(), a->upperBound());
+      a = plotWidget->axisScaleDiv(QwtPlot::xBottom);
+      xminCounter->setValue(a->lowerBound());
+      xmaxCounter->setValue(a->upperBound());
+      plotWidget->setAxisScale( QwtPlot::xBottom, a->lowerBound(), a->upperBound());
     }
 }
 
