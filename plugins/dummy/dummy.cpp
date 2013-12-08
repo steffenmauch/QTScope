@@ -33,15 +33,14 @@ using std::cout;
 dummy::dummy(QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags, int numberOfSamples)
 	: scopePlotPlugin(caller, parent, name, id, wflags, numberOfSamples)
 {
-  cout << "dummy::dummy: Dummy Plugin generated\n";
-  callingWidget = caller;
-  idThis = id;
-  
-  setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-  
-  setWindowFlags(Qt::SubWindow);
-  resize(400,200);
-  QPalette Pal(palette());
+	cout << "dummy::dummy: Dummy Plugin generated\n";
+	callingWidget = caller;
+	idThis = id;
+    
+	setWindowFlags(Qt::SubWindow);
+	
+	resize(400,200);
+	QPalette Pal(palette());
 	// set black background
 	Pal.setColor(QPalette::Background, Qt::black);
 	setAutoFillBackground(true);
@@ -50,10 +49,10 @@ dummy::dummy(QTScope* caller, QWidget* parent, const char* name, int id, Qt::Win
 }
 
 QSize dummy::sizeHint() const
-    {
-    return QSize(100, 110);
-    cout << "getting called\n";
-    }
+{
+	return QSize(100, 110);
+	cout << "getting called\n";
+}
 
 dummy::~dummy()
 {

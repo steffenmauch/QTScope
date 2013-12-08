@@ -83,7 +83,7 @@ using std::cerr;
 // and the next one.
 #define MIN_BURST 200
 
-QTScope::QTScope() : Q3MainWindow( 0, "QTScope", Qt::WDestructiveClose )
+QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose )
 {
 	continous=0;
 	comediError=0;
@@ -135,15 +135,22 @@ QTScope::QTScope() : Q3MainWindow( 0, "QTScope", Qt::WDestructiveClose )
 			pluginPath.append("/usr/local/lib/qtscope/plugins");
 			pluginPath.append("/usr/lib/qtscope/plugins");
 		}
+		
+	ws = new QMdiArea();
+	setCentralWidget( ws );
+	
+	ws->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    ws->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
 	// the main toolbar, for file operations etc.
-	QToolBar * fileTools = new QToolBar( "file operations" );
+	QToolBar * fileTools = addToolBar( "file operations" );
 	//fileTools->setLabel( tr("File Operations") );
 
 	// add an open icon
 	QPixmap openIcon = QPixmap( fileopen );
 	QToolButton * channelOpen = new QToolButton( openIcon, tr("New Plot Window"),
 						     QString::null, this, SLOT(newView()), fileTools, "open channel" );
+	fileTools->addWidget( channelOpen );
 	QString channelOpenText = tr("<p>This button opens a new plot window.</p>");
 	Q3WhatsThis::add
 		( channelOpen, channelOpenText );
@@ -152,20 +159,25 @@ QTScope::QTScope() : Q3MainWindow( 0, "QTScope", Qt::WDestructiveClose )
 	fileTools->addSeparator();
 	// slower timebase
 	QPixmap slowerIcon = QPixmap( slower_xpm );
-	new QToolButton( slowerIcon, tr("lower sampling rate"),
+	QToolButton *lowRate = new QToolButton( slowerIcon, tr("lower sampling rate"),
 			 QString::null, this, SLOT(slotSlower()), 
 			 fileTools, "lower sampling rate" );
+	fileTools->addWidget( lowRate );
 	Q3MimeSourceFactory::defaultFactory()->setPixmap( "lower sampling rate", slowerIcon );
-
-	// faster timebase
-	QPixmap fasterIcon = QPixmap( faster_xpm );
-	new QToolButton( fasterIcon, tr("higher sampling rate"),
-			 QString::null, this, SLOT(slotFaster()), 
-			 fileTools, "higher sampling rate" );
-	Q3MimeSourceFactory::defaultFactory()->setPixmap( "higher sampling rate", fasterIcon );
 
 	// timebase
 	labelTimebase=new QLabel(fileTools,"timebase");
+	fileTools->addWidget( labelTimebase );
+	
+	// faster timebase
+	QPixmap fasterIcon = QPixmap( faster_xpm );
+	QToolButton *highRate = new QToolButton( fasterIcon, tr("higher sampling rate"),
+			 QString::null, this, SLOT(slotFaster()), 
+			 fileTools, "higher sampling rate" );
+	fileTools->addWidget( highRate );
+	Q3MimeSourceFactory::defaultFactory()->setPixmap( "higher sampling rate", fasterIcon );
+
+	fileTools->addSeparator();
 
 	// the file menu
 	QMenu *file = menuBar()->addMenu( tr("&File") );
@@ -194,32 +206,13 @@ QTScope::QTScope() : Q3MainWindow( 0, "QTScope", Qt::WDestructiveClose )
 	help->addAction( tr("What's &This"), this, SLOT(whatsThis()), Qt::SHIFT+Qt::Key_F1 );
 
 	// create the workspace
-	Q3VBox* vb = new Q3VBox( this );
-	//vb->addChild( fileTools );
-	vb->setFrameStyle( Q3Frame::StyledPanel | Q3Frame::Sunken );
-	ws = new QWorkspace( vb );
 
-	
-	#if 0
-	//ws->addDockWidget(Qt::LeftDockWidgetArea, dT->target );
-	QDockWidget *ae = new QDockWidget();
-	ae->resize(200,200);
-	
-	  QPalette Pal(palette());
-	// set black background
-	Pal.setColor(QPalette::Background, Qt::black);
-	ae->setAutoFillBackground(true);
-	ae->setPalette(Pal);
-	ae->show();
-	
-	ws->addDockWidget( Qt::LeftDockWidgetArea, ae );
-	#endif
-	ws->setScrollBarsEnabled( TRUE );
-	setCentralWidget( vb );
+	//vb->setFrameStyle( Q3Frame::StyledPanel | Q3Frame::Sunken );
+	fileTools->setStyleSheet( "border-style: sunken; " );
 
 	// allow Docking
-	setDockEnabled ( Qt::DockTop, TRUE );
-	setDockEnabled ( Qt::DockLeft, TRUE );
+	//setDockEnabled ( Qt::DockTop, TRUE );
+	//setDockEnabled ( Qt::DockLeft, TRUE );
 
 	// load all plugins
 	initPlugins();
@@ -783,8 +776,10 @@ int QTScope::runPlugin(QString name, int *channels)
 				// notify this->slotChannelClosed when the window has been closed
 				connect(dT->target, SIGNAL(signalClosed(int)), this, SLOT(slotChannelClosed(int)));
 
+				
+				ws->addSubWindow( dT->target );
 				dT->target->show();
-				//ws->addDockWidget(Qt::LeftDockWidgetArea, dT->target );
+				
 				pCount++;
 				continue;
 			}

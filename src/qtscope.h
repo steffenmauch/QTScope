@@ -4,7 +4,8 @@
 #include "scopeplotplugin.h"
 // Qt related includes
 #include <QMainWindow>
-//#include <q3mainwindow.h>
+#include <QMdiArea>
+
 #include <q3ptrlist.h>
 #include <qsettings.h>
 #include <qlabel.h>
@@ -65,7 +66,7 @@ typedef struct dataTarget
   };
 
 
-class QTScope: public Q3MainWindow
+class QTScope: public QMainWindow
   {
     Q_OBJECT
 
@@ -118,7 +119,7 @@ class QTScope: public Q3MainWindow
     QSettings settings;
     QString filename;
     // main Workspace that contains all plot windows
-    QWorkspace* ws;
+    QMdiArea* ws;
     QMenu* windowsMenu;
 
     QLabel* labelTimebase;

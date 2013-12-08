@@ -56,9 +56,6 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   cout << "xtPlot::xtPlot: xtPlot Plugin generated\n";
   callingWidget = caller;
   idThis = id;
-  
-  //resize(400,200);
-  setWindowFlags(Qt::Widget);
 
   setCaption( QString().sprintf("Channel %s",name) );
 
@@ -325,7 +322,7 @@ void xtPlot::samplingRateChanged() {
 void xtPlot::slotYminChanged(double v)
 {
   const QwtScaleDiv* a = plotWidget->axisScaleDiv(QwtPlot::yLeft);
-  //plotWidget->setAxisScale( QwtPlot::yLeft, v, a->upperBound());
+  plotWidget->setAxisScale( QwtPlot::yLeft, v, a->upperBound());
   ymaxCounter->setRange(v, 20.0, 0.01);
 }
 
@@ -336,7 +333,7 @@ void xtPlot::slotYminChanged(double v)
 void xtPlot::slotYmaxChanged(double v)
 {
   const QwtScaleDiv* a = plotWidget->axisScaleDiv(QwtPlot::yLeft);
-  //plotWidget->setAxisScale( QwtPlot::yLeft, a->lowerBound(), v);
+  plotWidget->setAxisScale( QwtPlot::yLeft, a->lowerBound(), v);
   yminCounter->setRange(-20.0, v, 0.01);
 }
 
@@ -359,9 +356,9 @@ void xtPlot::slotAutoscaleToggled()
     yminCounter->setDisabled(FALSE);
     ymaxCounter->setDisabled(FALSE);
     const QwtScaleDiv* a = plotWidget->axisScaleDiv(QwtPlot::yLeft);
-    //yminCounter->setValue(a->lowerBound());
-    //ymaxCounter->setValue(a->upperBound());
-    //plotWidget->setAxisScale( QwtPlot::yLeft, a->lowerBound(), a->upperBound());
+    yminCounter->setValue(a->lowerBound());
+    ymaxCounter->setValue(a->upperBound());
+    plotWidget->setAxisScale( QwtPlot::yLeft, a->lowerBound(), a->upperBound());
   }
 }
 
