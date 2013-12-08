@@ -3,6 +3,8 @@
  *   hennig@cn.stir.ac.uk                                                  *
  *   Copyright (C) 2005 by Bernd Porr                                      *
  *   Bernd Porr, BerndPorr@f2s.com                                         *
+ *   Copyright (C) 2013 by Steffen Mauch                                   *
+ *   Steffen Mauch, steffen.mauch@gmail.com                                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -25,7 +27,6 @@
 //Added by qt3to4:
 #include <Q3ValueList>
 #include <QLabel>
-#include <Q3Frame>
 #include <QCloseEvent>
 #include "newviewdialog.h"
 #include "propertiesdialog.h"
@@ -42,6 +43,7 @@
 
 #include <qimage.h>
 #include <qpixmap.h>
+#include <QToolBar>
 #include <q3toolbar.h>
 #include <qtoolbutton.h>
 #include <q3popupmenu.h>
@@ -135,8 +137,8 @@ QTScope::QTScope() : Q3MainWindow( 0, "QTScope", Qt::WDestructiveClose )
 		}
 
 	// the main toolbar, for file operations etc.
-	Q3ToolBar * fileTools = new Q3ToolBar( this, "file operations" );
-	fileTools->setLabel( tr("File Operations") );
+	QToolBar * fileTools = new QToolBar( "file operations" );
+	//fileTools->setLabel( tr("File Operations") );
 
 	// add an open icon
 	QPixmap openIcon = QPixmap( fileopen );
@@ -193,6 +195,7 @@ QTScope::QTScope() : Q3MainWindow( 0, "QTScope", Qt::WDestructiveClose )
 
 	// create the workspace
 	Q3VBox* vb = new Q3VBox( this );
+	//vb->addChild( fileTools );
 	vb->setFrameStyle( Q3Frame::StyledPanel | Q3Frame::Sunken );
 	ws = new QWorkspace( vb );
 

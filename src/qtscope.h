@@ -4,14 +4,12 @@
 #include "scopeplotplugin.h"
 // Qt related includes
 #include <QMainWindow>
-#include <q3mainwindow.h>
+//#include <q3mainwindow.h>
 #include <q3ptrlist.h>
 #include <qsettings.h>
 #include <qlabel.h>
 //Added by qt3to4:
-#include <Q3VBoxLayout>
 #include <Q3ValueList>
-#include <Q3Frame>
 #include <QCloseEvent>
 
 
@@ -44,14 +42,9 @@
 #define PLOT_WINDOW_XTPLOT 1
 
 class QWorkspace;
-class Q3Frame;
-class Q3VBoxLayout;
 class QCheckBox;
 class QTScope;
-class Q3VButtonGroup;
-class Q3DockWindow;
 class QPushButton;
-class ChooserWindow;
 
 // the function that will return a plugin object
 typedef scopePlotPlugin* ( *CreateP )(QTScope* , QWidget* , const char* , int , Qt::WindowFlags, int);
