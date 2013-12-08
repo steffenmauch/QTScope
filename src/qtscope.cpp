@@ -21,6 +21,7 @@
  ***************************************************************************/
 
 #include "qtscope.h"
+#include <QMainWindow>
 //Added by qt3to4:
 #include <Q3ValueList>
 #include <QLabel>
@@ -165,20 +166,16 @@ QTScope::QTScope() : Q3MainWindow( 0, "QTScope", Qt::WDestructiveClose )
 	labelTimebase=new QLabel(fileTools,"timebase");
 
 	// the file menu
-	Q3PopupMenu * file = new Q3PopupMenu( this );
-	menuBar()->insertItem( tr("&File"), file );
-	file->insertItem( tr("&New Plot Window"), this, SLOT(newView()), Qt::CTRL+Qt::Key_N );
+	QMenu *file = menuBar()->addMenu( tr("&File") );
+	file->addAction( tr("&New Plot Window"), this, SLOT(newView()), Qt::CTRL+Qt::Key_N );
 	file->insertSeparator();
-	file->insertItem( tr("&Quit"), qApp, SLOT( closeAllWindows() ), Qt::CTRL+Qt::Key_Q );
+	file->addAction(tr("&Quit"), qApp, SLOT( closeAllWindows() ), Qt::CTRL+Qt::Key_Q );
 
 	// the settings menu
-	Q3PopupMenu * set
-		= new Q3PopupMenu( this );
-	menuBar()->insertItem( tr("&Settings"), set
-			       );
-	set->insertItem( tr("&Refresh rates"), this, SLOT(slotDisplaySettings()), Qt::CTRL+Qt::Key_R );
-	set->insertItem( tr("&Sampling Settings"), this, SLOT(slotSamplingSettings()), Qt::CTRL+Qt::Key_S );
-	set->insertItem( tr("&Plugin Paths"), this, SLOT(slotConfigure()), Qt::CTRL+Qt::Key_P );
+	QMenu *set = menuBar()->addMenu( tr("&Settings") );
+	set->addAction( tr("&Refresh rates"), this, SLOT(slotDisplaySettings()), Qt::CTRL+Qt::Key_R );
+	set->addAction( tr("&Sampling Settings"), this, SLOT(slotSamplingSettings()), Qt::CTRL+Qt::Key_S );
+	set->addAction( tr("&Plugin Paths"), this, SLOT(slotConfigure()), Qt::CTRL+Qt::Key_P );
 
 	// the windows menu to provide some functions to arrange windows
 	windowsMenu = new Q3PopupMenu( this );
@@ -188,18 +185,32 @@ QTScope::QTScope() : Q3MainWindow( 0, "QTScope", Qt::WDestructiveClose )
 	menuBar()->insertSeparator();
 
 	// Help menu
-	Q3PopupMenu * help = new Q3PopupMenu( this );
-	menuBar()->insertItem( tr("&Help"), help );
-
-	help->insertItem( tr("&About"), this, SLOT(about()), Qt::Key_F1 );
-	help->insertItem( tr("About &Qt"), this, SLOT(aboutQt()) );
+	QMenu *help = menuBar()->addMenu(tr("&Help"));
+	help->addAction( tr("&About"), this, SLOT(about()), Qt::Key_F1 );
+	help->addAction( tr("About &Qt"), this, SLOT(aboutQt()) );
 	help->insertSeparator();
-	help->insertItem( tr("What's &This"), this, SLOT(whatsThis()), Qt::SHIFT+Qt::Key_F1 );
+	help->addAction( tr("What's &This"), this, SLOT(whatsThis()), Qt::SHIFT+Qt::Key_F1 );
 
 	// create the workspace
 	Q3VBox* vb = new Q3VBox( this );
 	vb->setFrameStyle( Q3Frame::StyledPanel | Q3Frame::Sunken );
 	ws = new QWorkspace( vb );
+
+	
+	#if 0
+	//ws->addDockWidget(Qt::LeftDockWidgetArea, dT->target );
+	QDockWidget *ae = new QDockWidget();
+	ae->resize(200,200);
+	
+	  QPalette Pal(palette());
+	// set black background
+	Pal.setColor(QPalette::Background, Qt::black);
+	ae->setAutoFillBackground(true);
+	ae->setPalette(Pal);
+	ae->show();
+	
+	ws->addDockWidget( Qt::LeftDockWidgetArea, ae );
+	#endif
 	ws->setScrollBarsEnabled( TRUE );
 	setCentralWidget( vb );
 
@@ -474,11 +485,13 @@ void QTScope::windowsMenuAboutToShow()
 	int cascadeId = windowsMenu->insertItem("&Cascade", ws, SLOT(cascade() ) );
 	int tileId = windowsMenu->insertItem("&Tile", ws, SLOT(tile() ) );
 	int verTileId = windowsMenu->insertItem("Tile &Vertical", this, SLOT(tileVertical() ) );
+	#if 0
 	if ( ws->windowList().isEmpty() ) {
 		windowsMenu->setItemEnabled( cascadeId, FALSE );
 		windowsMenu->setItemEnabled( tileId, FALSE );
 		windowsMenu->setItemEnabled( verTileId, FALSE );
 	}
+	
 	windowsMenu->insertSeparator();
 	QWidgetList windows = ws->windowList();
 	for ( int i = 0; i < int(windows.count()); ++i ) {
@@ -487,17 +500,21 @@ void QTScope::windowsMenuAboutToShow()
 		windowsMenu->setItemParameter( id, i );
 		windowsMenu->setItemChecked( id, ws->activeWindow() == windows.at(i) );
 	}
+	#endif
 }
 
 void QTScope::windowsMenuActivated( int id ) {
+	#if 0
 	QWidget* w = ws->windowList().at( id );
 	if ( w )
 		w->showNormal();
 	w->setFocus();
+	#endif
 }
 
 void QTScope::tileVertical()
 {
+	#if 0
 	// primitive horizontal tiling
 	QWidgetList windows = ws->windowList();
 	if ( !windows.count() )
@@ -518,6 +535,7 @@ void QTScope::tileVertical()
 		window->parentWidget()->setGeometry( 0, y, ws->width(), actHeight );
 		y += actHeight;
 	}
+	#endif
 }
 
 void QTScope::about()
@@ -763,6 +781,7 @@ int QTScope::runPlugin(QString name, int *channels)
 				connect(dT->target, SIGNAL(signalClosed(int)), this, SLOT(slotChannelClosed(int)));
 
 				dT->target->show();
+				//ws->addDockWidget(Qt::LeftDockWidgetArea, dT->target );
 				pCount++;
 				continue;
 			}

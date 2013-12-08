@@ -29,7 +29,8 @@
 using std::cout;
 
 scopePlotPlugin::scopePlotPlugin(QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags,int)
-    : Q3MainWindow()
+    //: QWidget(parent, name, wflags)
+    : QDockWidget(name, parent, wflags)
 {
 	idThis = id;
 	// prevent division by zero
@@ -46,7 +47,6 @@ void scopePlotPlugin::closeEvent( QCloseEvent* ce )
 	ce->accept();
 	return;
 }
-
 
 void scopePlotPlugin::slotSetSamplingRate(double f) 
 {

@@ -57,11 +57,11 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   clearData();
 
   // allow Docking
-  setDockEnabled ( Qt::DockTop, TRUE );
-  setDockEnabled ( Qt::DockLeft, TRUE );
+  //setDockEnabled ( Qt::DockTop, TRUE );
+  //setDockEnabled ( Qt::DockLeft, TRUE );
 
   // conmstruct a toolbar
-  Q3ToolBar * plotTools = new Q3ToolBar( this, "plot operations" );
+  Q3ToolBar * plotTools = new Q3ToolBar( NULL, "plot operations" );
   plotTools->setLabel( tr("Plot Operations") );
 
   new QLabel(tr("Y max:"), plotTools);
@@ -123,7 +123,7 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   autoscaleCheck->setChecked(TRUE);
   connect(autoscaleCheck, SIGNAL(clicked()), this, SLOT(slotAutoscaleToggled()));
 
-  moveDockWindow( plotTools, Qt::DockLeft );
+  //moveDockWindow( plotTools, Qt::DockLeft );
 
   // contruct a QwtPlot Widget
   plotWidget = new QwtPlot(this);
@@ -175,7 +175,7 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   // finally, refresh the plot
   plotWidget->replot(); 
 
-  setCentralWidget(plotWidget);
+  //setCentralWidget(plotWidget);
 }
 
 

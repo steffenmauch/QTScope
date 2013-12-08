@@ -31,7 +31,8 @@
 #include <qpushbutton.h>
 #include <q3filedialog.h>
 #include <qmessagebox.h>
-
+#include <QToolBar>
+#include <QHBoxLayout>
 
 #include <qwt_math.h>
 #include <qwt_counter.h>
@@ -55,6 +56,9 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   cout << "xtPlot::xtPlot: xtPlot Plugin generated\n";
   callingWidget = caller;
   idThis = id;
+  
+  //resize(400,200);
+  setWindowFlags(Qt::Widget);
 
   setCaption( QString().sprintf("Channel %s",name) );
 
@@ -70,21 +74,27 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   clearData();
 
   // allow Docking
-  setDockEnabled ( Qt::DockTop, TRUE );
-  setDockEnabled ( Qt::DockLeft, TRUE );
+  setAllowedAreas(Qt::LeftDockWidgetArea | Qt::TopDockWidgetArea);
+  //setDockEnabled ( Qt::DockTop, TRUE );
+  //setDockEnabled ( Qt::DockLeft, TRUE );
+  
+  // construct a toolbar
+  QVBoxLayout *plotTools = new QVBoxLayout();
+  QGroupBox *groupTools = new QGroupBox();
 
-  // conmstruct a toolbar
-  Q3ToolBar * plotTools = new Q3ToolBar( this, "plot operations" );
-  plotTools->setLabel( tr("Plot Operations") );
-
-  autoscaleCheck = new QCheckBox("Autoscale", plotTools);
+  //plotTools->addWidget( new QLabel(tr("Plot Operations")) );
+  //plotTools->setLabel( tr("Plot Operations") );
+  //#if 0
+  autoscaleCheck = new QCheckBox("Autoscale");
+  plotTools->addWidget(autoscaleCheck);
   autoscaleCheck->setChecked(TRUE);
   connect(autoscaleCheck, SIGNAL(clicked()), this, SLOT(slotAutoscaleToggled()));
 
-  plotTools->addSeparator();
+  //plotTools->addSeparator();
 
-  new QLabel(tr("Ymax:"), plotTools);
-  ymaxCounter = new QwtCounter( plotTools);
+   plotTools->addWidget( new QLabel(tr("Ymax:")) );
+  ymaxCounter = new QwtCounter( );
+  plotTools->addWidget( ymaxCounter );
   ymaxCounter->setRange(-1, 20.0, 0.01);
   ymaxCounter->setNumButtons(3);
   ymaxCounter->setIncSteps(QwtCounter::Button1, 1);
@@ -94,9 +104,10 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   connect(ymaxCounter, SIGNAL(valueChanged(double)), this, SLOT(slotYmaxChanged(double)));
   ymaxCounter->setDisabled(TRUE);
 
-  plotTools->addSeparator();
-  new QLabel(tr("Ymin:"), plotTools);
-  yminCounter = new QwtCounter( plotTools);
+  //plotTools->addSeparator();
+  plotTools->addWidget( new QLabel(tr("Ymin:") ));
+  yminCounter = new QwtCounter( );
+  plotTools->addWidget( yminCounter );
   yminCounter->setRange(-20.0, 1, 0.01);
   yminCounter->setNumButtons(3);
   yminCounter->setIncSteps(QwtCounter::Button1, 1);
@@ -110,8 +121,8 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   tbFont.setBold(TRUE);
 
   Q3ButtonGroup* tbGrp=new Q3ButtonGroup( 3,
-					Qt::Horizontal,
-					plotTools );
+					Qt::Horizontal);
+  plotTools->addWidget( tbGrp );
 
   QLabel* lx = new QLabel(tr("X:"), tbGrp);
   lx->setFont(tbFont);
@@ -142,26 +153,28 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
 		     this, SLOT( decTbEvent() ) );
 
 
-  freezePushButton = new QPushButton( "Freeze", plotTools );
+  freezePushButton = new QPushButton( "Freeze" );
+  plotTools->addWidget( freezePushButton );
   freezePushButton->setEnabled( TRUE );
   freezePushButton->setToggleButton( TRUE );
   freezePushButton->setOn( FALSE );
 
-  plotTools->addSeparator();
+  //plotTools->addSeparator();
 
   // filename the button
-  filePushButton = new QPushButton( "Save Data", plotTools );
+  filePushButton = new QPushButton( "Save Data" );
+  plotTools->addWidget( filePushButton );
   filePushButton->setToggleButton( FALSE );
   filePushButton->setEnabled( FALSE );
   filePushButton->setOn( FALSE );
 
   plotTools->connect(filePushButton, SIGNAL( clicked() ),
 		     this, SLOT( enterFileName() ) );
-  
-  moveDockWindow( plotTools, Qt::DockLeft );
+  //#endif
+ // moveDockWindow( plotTools, Qt::DockLeft );
 
   // contruct a QwtPlot Widget
-  plotWidget = new QwtPlot(this);
+  plotWidget = new QwtPlot();
 
   // QwtPlot specific defaults:
   // colour
@@ -191,11 +204,21 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
      
   // copy the data into the curves
   curve->setRawSamples(x, y, plotLength);
-       
+
+
+  groupTools->setLayout(plotTools);
+  groupTools->setFixedSize( groupTools->sizeHint() );
+  
+  QHBoxLayout *hbox = new QHBoxLayout();
+  hbox->addWidget(groupTools);
+  hbox->addWidget(plotWidget);
+  
+  QGroupBox *mainWidget = new QGroupBox();
+  mainWidget->setLayout(hbox);
+  setWidget(mainWidget);
+  
   // finally, refresh the plot
   plotWidget->replot(); 
-
-  setCentralWidget(plotWidget);
 }
 
 

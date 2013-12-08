@@ -2,8 +2,8 @@
 #define QTSCOPE_H
 
 #include "scopeplotplugin.h"
-
 // Qt related includes
+#include <QMainWindow>
 #include <q3mainwindow.h>
 #include <q3ptrlist.h>
 #include <qsettings.h>

@@ -21,6 +21,7 @@
 #define SCOPEPLOTPLUGIN_H
 
 #include <q3mainwindow.h>
+#include <QDockWidget>
 #include <qstring.h>
 //Added by qt3to4:
 #include <QCloseEvent>
@@ -42,7 +43,7 @@ This is the base class for all plot widgets, implemented as plugins.
 
 @author Matthias H. Hennig, Bernd Porr
 */
-class scopePlotPlugin : public Q3MainWindow
+class scopePlotPlugin : public QDockWidget
 {
 Q_OBJECT
 

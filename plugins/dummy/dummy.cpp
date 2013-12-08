@@ -36,8 +36,24 @@ dummy::dummy(QTScope* caller, QWidget* parent, const char* name, int id, Qt::Win
   cout << "dummy::dummy: Dummy Plugin generated\n";
   callingWidget = caller;
   idThis = id;
+  
+  setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+  
+  setWindowFlags(Qt::SubWindow);
+  resize(400,200);
+  QPalette Pal(palette());
+	// set black background
+	Pal.setColor(QPalette::Background, Qt::black);
+	setAutoFillBackground(true);
+	setPalette(Pal);
+	show();
 }
 
+QSize dummy::sizeHint() const
+    {
+    return QSize(100, 110);
+    cout << "getting called\n";
+    }
 
 dummy::~dummy()
 {

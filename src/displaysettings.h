@@ -29,6 +29,7 @@
 #include <Q3GridLayout>
 #include <QCloseEvent>
 #include <Q3HBoxLayout>
+#include <QDockWidget>
 #include <QLabel>
 
 class Q3VBoxLayout;

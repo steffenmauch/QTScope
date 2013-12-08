@@ -42,6 +42,9 @@ public:
     void insertValues(int, int) {}
     void replot() {}
     void samplingRateChanged() {};
+
+   	virtual QSize sizeHint() const;
+
 };
 
 extern "C" {
