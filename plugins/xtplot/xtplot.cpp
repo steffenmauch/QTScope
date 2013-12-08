@@ -42,14 +42,14 @@
 
 pluginInfo myPluginInfo = {"x-t Plot", "Plot", 1};
 
-scopePlotPlugin *createPlugin (QTScope* caller, QWidget* parent, const char* name, int id, int wflags,int numberOfSamples) {
+scopePlotPlugin *createPlugin (QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags,int numberOfSamples) {
 	return new xtPlot(caller, parent, name, id, wflags,numberOfSamples);
 }
 
 using std::cout;
 using std::cerr;
 
-xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, int wflags,int numberOfSamples)
+xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags,int numberOfSamples)
 	: scopePlotPlugin(caller, parent, name, id, wflags,numberOfSamples)
 {
   cout << "xtPlot::xtPlot: xtPlot Plugin generated\n";

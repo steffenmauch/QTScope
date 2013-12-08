@@ -39,7 +39,7 @@ class xtPlot : public scopePlotPlugin
 {
 Q_OBJECT
 public:
-	xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, int wflags,int numberOfSamples);
+	xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags,int numberOfSamples);
     ~xtPlot();
 
     void insertValues(int num,int append);
@@ -103,7 +103,7 @@ extern "C" {
 				       QWidget* parent, 
 				       const char* name, 
 				       int id, 
-				       int wflags,
+				       Qt::WindowFlags wflags,
 				       int numberOfSamples);
 }
 

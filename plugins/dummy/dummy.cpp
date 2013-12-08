@@ -24,13 +24,13 @@
 
 pluginInfo myPluginInfo = {"Dummy Plugin", "Plot", 2};
 
-scopePlotPlugin *createPlugin (QTScope* caller, QWidget* parent, const char* name, int id, int wflags,int numberOfSamples) {
+scopePlotPlugin *createPlugin (QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags,int numberOfSamples) {
 	return new dummy(caller, parent, name, id, wflags,numberOfSamples);
 }
 
 using std::cout;
 
-dummy::dummy(QTScope* caller, QWidget* parent, const char* name, int id, int wflags, int numberOfSamples)
+dummy::dummy(QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags, int numberOfSamples)
 	: scopePlotPlugin(caller, parent, name, id, wflags, numberOfSamples)
 {
   cout << "dummy::dummy: Dummy Plugin generated\n";

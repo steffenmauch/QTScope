@@ -34,14 +34,14 @@
 
 pluginInfo myPluginInfo = {"x-y Plot", "Plot", 2};
 
-scopePlotPlugin *createPlugin (QTScope* caller, QWidget* parent, const char* name, int id, int wflags,int numberOfSamples)
+scopePlotPlugin *createPlugin (QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags,int numberOfSamples)
 {
 	return new xyPlot(caller, parent, name, id, wflags,numberOfSamples);
 }
 
 using std::cout;
 
-xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, int wflags, int numberOfSamples)
+xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags, int numberOfSamples)
 	: scopePlotPlugin(caller, parent, name, id, wflags,numberOfSamples)
 {
   cout << "xyPlot::xyPlot: xyPlot Plugin generated\n";

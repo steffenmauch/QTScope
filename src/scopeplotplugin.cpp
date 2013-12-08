@@ -28,7 +28,7 @@
 
 using std::cout;
 
-scopePlotPlugin::scopePlotPlugin(QTScope* caller, QWidget* parent, const char* name, int id, int wflags,int)
+scopePlotPlugin::scopePlotPlugin(QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags,int)
     : Q3MainWindow()
 {
 	idThis = id;

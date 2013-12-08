@@ -55,7 +55,7 @@ class QPushButton;
 class ChooserWindow;
 
 // the function that will return a plugin object
-typedef scopePlotPlugin* ( *CreateP )(QTScope* , QWidget* , const char* , int , int, int);
+typedef scopePlotPlugin* ( *CreateP )(QTScope* , QWidget* , const char* , int , Qt::WindowFlags, int);
 
 typedef struct pluginData
   {

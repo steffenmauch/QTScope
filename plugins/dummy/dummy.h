@@ -34,7 +34,7 @@ public:
 	      QWidget* parent, 
 	      const char* name, 
 	      int id, 
-	      int wflags, 
+	      Qt::WindowFlags wflags, 
 	      int numberOfSamples);
     ~dummy();
 
@@ -49,7 +49,7 @@ extern "C" {
 				       QWidget* parent, 
 				       const char* name, 
 				       int id, 
-				       int wflags, 
+				       Qt::WindowFlags wflags, 
 				       int numberOfSamples);
 }
 

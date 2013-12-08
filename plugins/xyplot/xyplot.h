@@ -40,7 +40,7 @@ class xyPlot : public scopePlotPlugin
 {
 Q_OBJECT
 public:
-	xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, int wflags,int numberOfSamples);
+	xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags,int numberOfSamples);
     ~xyPlot();
 
     void insertValues(int num,int append=1);
@@ -93,7 +93,7 @@ scopePlotPlugin *createPlugin (QTScope* caller,
 			       QWidget* parent, 
 			       const char* name, 
 			       int id, 
-			       int wflags,
+			       Qt::WindowFlags wflags,
 			       int numberOfSamples);
 }
 

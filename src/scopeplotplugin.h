@@ -47,7 +47,7 @@ class scopePlotPlugin : public Q3MainWindow
 Q_OBJECT
 
 public:
-	scopePlotPlugin(QTScope* caller, QWidget* parent, const char* name, int id, int wflags,int numberOfSamples);
+	scopePlotPlugin(QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags,int numberOfSamples);
 	~scopePlotPlugin() {};
 
 	virtual void setDataSource(sampl_t**, double **) = 0;
