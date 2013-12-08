@@ -12,7 +12,6 @@
 #include <Q3VBoxLayout>
 #include <Q3ValueList>
 #include <Q3Frame>
-#include <Q3PopupMenu>
 #include <QCloseEvent>
 
 
@@ -127,7 +126,7 @@ class QTScope: public Q3MainWindow
     QString filename;
     // main Workspace that contains all plot windows
     QWorkspace* ws;
-    Q3PopupMenu* windowsMenu;
+    QMenu* windowsMenu;
 
     QLabel* labelTimebase;
 

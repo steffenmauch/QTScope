@@ -178,7 +178,7 @@ QTScope::QTScope() : Q3MainWindow( 0, "QTScope", Qt::WDestructiveClose )
 	set->addAction( tr("&Plugin Paths"), this, SLOT(slotConfigure()), Qt::CTRL+Qt::Key_P );
 
 	// the windows menu to provide some functions to arrange windows
-	windowsMenu = new Q3PopupMenu( this );
+	windowsMenu = new QMenu( );
 	windowsMenu->setCheckable( TRUE );
 	connect( windowsMenu, SIGNAL( aboutToShow() ),  this, SLOT( windowsMenuAboutToShow() ) );
 	menuBar()->insertItem( "&Windows", windowsMenu );
