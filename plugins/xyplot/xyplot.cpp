@@ -23,7 +23,11 @@
 
 #include <qcheckbox.h>
 #include <qlabel.h>
-#include <qstring.h>
+#include <QString>
+#include <QCheckBox>
+#include <QGroupBox>
+#include <QToolBar>
+#include <QHBoxLayout>
 
 #include <qwt_math.h>
 #include <qwt_counter.h>
@@ -61,21 +65,26 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   //setDockEnabled ( Qt::DockLeft, TRUE );
 
   // conmstruct a toolbar
-  Q3ToolBar * plotTools = new Q3ToolBar( NULL, "plot operations" );
-  plotTools->setLabel( tr("Plot Operations") );
+  QVBoxLayout *plotTools = new QVBoxLayout();
+  QGroupBox *groupTools = new QGroupBox();
 
-  new QLabel(tr("Y max:"), plotTools);
-  ymaxCounter = new QwtCounter( plotTools );
+  QLabel *y_max = new QLabel(tr("Y max:"));
+  plotTools->addWidget( y_max );
+  ymaxCounter = new QwtCounter( );
+  plotTools->addWidget( ymaxCounter );
   ymaxCounter->setRange(-1, 20.0, 0.01);
   ymaxCounter->setNumButtons(2);
   ymaxCounter->setIncSteps(QwtCounter::Button1, 10);
   ymaxCounter->setIncSteps(QwtCounter::Button2, 100);
   ymaxCounter->setValue(1);
+  ymaxCounter->resize(200,200);
   connect(ymaxCounter, SIGNAL(valueChanged(double)), this, SLOT(slotYmaxChanged(double)));
   ymaxCounter->setDisabled(TRUE);
 
-  new QLabel(tr("Y min:"), plotTools);
-  yminCounter = new QwtCounter( plotTools );
+  QLabel *y_min = new QLabel(tr("Y min:"));
+  plotTools->addWidget( y_min );
+  yminCounter = new QwtCounter( );
+  plotTools->addWidget( yminCounter );
   yminCounter->setRange(-20.0, 1, 0.01);
   yminCounter->setNumButtons(2);
   yminCounter->setIncSteps(QwtCounter::Button1, 10);
@@ -84,10 +93,12 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   connect(yminCounter, SIGNAL(valueChanged(double)), this, SLOT(slotYminChanged(double)));
   yminCounter->setDisabled(TRUE);
 
-  plotTools->addSeparator();
+  //plotTools->addSeparator();
 
-  new QLabel(tr("X min:"), plotTools);
-  xminCounter = new QwtCounter( plotTools );
+  QLabel *x_min = new QLabel(tr("X min:"));
+  plotTools->addWidget( x_min );
+  xminCounter = new QwtCounter( );
+  plotTools->addWidget( xminCounter );
   xminCounter->setRange(-20.0, 1, 0.01);
   xminCounter->setNumButtons(2);
   xminCounter->setIncSteps(QwtCounter::Button1, 10);
@@ -96,8 +107,10 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   connect(xminCounter, SIGNAL(valueChanged(double)), this, SLOT(slotXminChanged(double)));
   xminCounter->setDisabled(TRUE);
 
-  new QLabel(tr("X max:"), plotTools);
-  xmaxCounter = new QwtCounter( plotTools );
+  QLabel *x_max = new QLabel(tr("X max:"));
+  plotTools->addWidget( x_max );
+  xmaxCounter = new QwtCounter( );
+  plotTools->addWidget( xmaxCounter );
   xmaxCounter->setRange(-1, 20.0, 0.01);
   xmaxCounter->setNumButtons(2);
   xmaxCounter->setIncSteps(QwtCounter::Button1, 10);
@@ -107,9 +120,11 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   xmaxCounter->setDisabled(TRUE);
 
 
-  plotTools->addSeparator();
-  new QLabel(tr("Data Points:"), plotTools);
-  rangeCounter = new QwtCounter(plotTools );
+  //plotTools->addSeparator();
+  QLabel *dataPoints = new QLabel(tr("Data Points:"));
+  plotTools->addWidget( dataPoints );
+  rangeCounter = new QwtCounter( );
+  plotTools->addWidget( rangeCounter );
   rangeCounter->setRange(0, plotLength, 1.0);
   rangeCounter->setNumButtons(2);
   rangeCounter->setIncSteps(QwtCounter::Button1, 100);
@@ -118,8 +133,9 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   connect(rangeCounter, SIGNAL(valueChanged(double)), this, SLOT(slotRangeChanged(double)));
   rangeCounter->setDisabled(FALSE);
 
-  plotTools->addSeparator();
-  autoscaleCheck = new QCheckBox("Autoscale", plotTools);
+  //plotTools->addSeparator();
+  autoscaleCheck = new QCheckBox("Autoscale");
+  plotTools->addWidget( autoscaleCheck );
   autoscaleCheck->setChecked(TRUE);
   connect(autoscaleCheck, SIGNAL(clicked()), this, SLOT(slotAutoscaleToggled()));
 
@@ -174,8 +190,20 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
      
   // finally, refresh the plot
   plotWidget->replot(); 
+  
+  groupTools->setLayout(plotTools);
+  QSize size = groupTools->sizeHint();
+  size.setWidth( size.width()*1.3 );
+  groupTools->setFixedSize( size );
 
-  //setCentralWidget(plotWidget);
+  QHBoxLayout *hbox = new QHBoxLayout();
+  hbox->addWidget(groupTools);
+  hbox->addWidget(plotWidget);
+  
+  QGroupBox *mainWidget = new QGroupBox();
+  mainWidget->setLayout(hbox);
+  
+  setWidget(mainWidget);
 }
 
 

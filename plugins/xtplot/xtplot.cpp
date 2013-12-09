@@ -224,7 +224,7 @@ void xtPlot::insertValues(int num,int append) {
 			for(int i=0; i<num; i++) {
 				y[i] = ds[num-i-1];
 			}
-			qDebug() << 'add data' << num << endl;
+			//qDebug() << 'add data' << num << endl;
 		} else {
 			// write from zero loc
 			for(int i=0; i< num; i++) {
@@ -233,7 +233,7 @@ void xtPlot::insertValues(int num,int append) {
 		}
 	}
 	plotWidget->replot();
-	qDebug() << 'insert Values' << num << endl; 
+	//qDebug() << 'insert Values' << num << endl; 
 }
 
 
