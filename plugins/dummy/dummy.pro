@@ -3,7 +3,6 @@
 # Subdir relative project main directory: ./plugins/dummy
 # Target is a library:  
 
-target.path = /usr/local/lib/qtscope/plugins 
 SOURCES += dummy.cpp 
 HEADERS += dummy.h 
 TEMPLATE = lib 
@@ -12,12 +11,11 @@ CONFIG += release \
           qt \
           thread \
           plugin 
+TARGET = dummy
 INCLUDEPATH = ../../plugins/dummy \
               ../../src 
 LIBS += ../../src/scopeplotplugin.o \
         ../../src/moc_scopeplotplugin.o 
-TARGETDEPS += ../../src/../bin/qtscope 
-#The following line was inserted by qt3to4
-QT +=  qt3support 
-#The following line was inserted by qt3to4
-QT +=  
+POST_TARGETDEPS += ../../src/../bin/qtscope 
+target.path = /usr/local/lib/qtscope/plugins 
+INSTALLS += target 
