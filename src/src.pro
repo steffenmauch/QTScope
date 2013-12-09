@@ -3,6 +3,14 @@
 # Subdir relative project main directory: ./src
 # Target is an application:  ../bin/qtscope
 
+VERSION = $$system(cat ../version)
+VERSTR = '\\"$${VERSION}\\"'  # place quotes around the version string
+DEFINES += VER=\"$${VERSTR}\" # create a VER macro containing the version string
+
+DAT = $$system(date)
+DATESTR = '\\"$${DAT}\\"' 
+DEFINES += DATE=\"$${DATESTR}\" 
+
 TEMPLATE = app 
 CONFIG += release \
           warn_on \

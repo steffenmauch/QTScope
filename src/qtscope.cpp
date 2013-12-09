@@ -536,7 +536,14 @@ void QTScope::tileVertical()
 
 void QTScope::about()
 {
-    QMessageBox::about( this, tr("QTScope"), tr("Version 0.3.0\nby Mattias Hennig\nhennig@cn.stir.ac.uk\nand\nBernd Porr\nBerndPorr@f2s.com\n...a simple DAQ program for comedi devices...\n"));
+    QMessageBox::about( this, tr("QTScope"), 
+		tr("Version "+QString(VER)+"\n"+
+		"\n"+QString(DATE)+"\n\n"+
+		"by Mattias Hennig\nhennig@cn.stir.ac.uk,\n"+
+		"\nBernd Porr\nBerndPorr@f2s.com\n"+
+		"\nand\n\nSteffen Mauch\nsteffen.mauch@gmail.com\n"+
+		"\n...a simple DAQ program for comedi devices...\n")
+	);
 }
 
 
