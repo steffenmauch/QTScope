@@ -36,8 +36,6 @@ dummy::dummy(QTScope* caller, QWidget* parent, const char* name, int id, Qt::Win
 	cout << "dummy::dummy: Dummy Plugin generated\n";
 	callingWidget = caller;
 	idThis = id;
-    
-	setWindowFlags(Qt::SubWindow);
 	
 	resize(400,200);
 	QPalette Pal(palette());

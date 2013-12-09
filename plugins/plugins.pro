@@ -9,4 +9,5 @@ CONFIG += release \
 warn_on
 SUBDIRS += xtplot \
            dummy \
+           wfs \
            xyplot 

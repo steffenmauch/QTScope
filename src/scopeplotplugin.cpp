@@ -21,7 +21,6 @@
 #include "scopeplotplugin.h"
 
 #include "qtscope.h"
-//Added by qt3to4:
 #include <QCloseEvent>
 
 #include <iostream>
@@ -35,6 +34,7 @@ scopePlotPlugin::scopePlotPlugin(QTScope* caller, QWidget* parent, const char* n
 	idThis = id;
 	// prevent division by zero
 	freq=1;
+	
 	connect(caller, SIGNAL(signalSamplingRateChanged(double)), this, SLOT( slotSetSamplingRate(double)));
 }
 

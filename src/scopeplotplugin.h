@@ -20,10 +20,8 @@
 #ifndef SCOPEPLOTPLUGIN_H
 #define SCOPEPLOTPLUGIN_H
 
-#include <q3mainwindow.h>
 #include <QDockWidget>
 #include <qstring.h>
-//Added by qt3to4:
 #include <QCloseEvent>
 
 // for the data formats
