@@ -36,6 +36,7 @@
 
 #include <qwt_math.h>
 #include <qwt_counter.h>
+#include <qwt_plot_canvas.h>
 
 #include <stdlib.h>
 
@@ -79,17 +80,12 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   QVBoxLayout *plotTools = new QVBoxLayout();
   QGroupBox *groupTools = new QGroupBox();
 
-  //plotTools->addWidget( new QLabel(tr("Plot Operations")) );
-  //plotTools->setLabel( tr("Plot Operations") );
-  //#if 0
   autoscaleCheck = new QCheckBox("Autoscale");
   plotTools->addWidget(autoscaleCheck);
   autoscaleCheck->setChecked(TRUE);
   connect(autoscaleCheck, SIGNAL(clicked()), this, SLOT(slotAutoscaleToggled()));
 
-  //plotTools->addSeparator();
-
-   plotTools->addWidget( new QLabel(tr("Ymax:")) );
+  plotTools->addWidget( new QLabel(tr("Ymax:")) );
   ymaxCounter = new QwtCounter( );
   plotTools->addWidget( ymaxCounter );
   ymaxCounter->setRange(-1, 20.0, 0.01);
@@ -101,7 +97,6 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   connect(ymaxCounter, SIGNAL(valueChanged(double)), this, SLOT(slotYmaxChanged(double)));
   ymaxCounter->setDisabled(TRUE);
 
-  //plotTools->addSeparator();
   plotTools->addWidget( new QLabel(tr("Ymin:") ));
   yminCounter = new QwtCounter( );
   plotTools->addWidget( yminCounter );
@@ -156,7 +151,6 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   freezePushButton->setToggleButton( TRUE );
   freezePushButton->setOn( FALSE );
 
-  //plotTools->addSeparator();
 
   // filename the button
   filePushButton = new QPushButton( "Save Data" );
@@ -167,8 +161,6 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
 
   plotTools->connect(filePushButton, SIGNAL( clicked() ),
 		     this, SLOT( enterFileName() ) );
-  //#endif
- // moveDockWindow( plotTools, Qt::DockLeft );
 
   // contruct a QwtPlot Widget
   plotWidget = new QwtPlot();
@@ -176,13 +168,7 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   // QwtPlot specific defaults:
   // colour
   plotWidget->setCanvasBackground(Qt::white);
-  // outline
-  //plotWidget->enableOutline(FALSE);
-  // no legend
-  //plotWidget->enableLegend(FALSE);
-  // no grid
-  //plotWidget->enableGridX(FALSE);
-  //plotWidget->enableGridY(FALSE);
+
   // set some defaults for the axes
   plotWidget->setAxisTitle(QwtPlot::xBottom, "Time/ms");
   plotWidget->setAxisTitle(QwtPlot::yLeft, "Amplitude/V");
@@ -202,7 +188,6 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   // copy the data into the curves
   curve->setRawSamples(x, y, plotLength);
 
-
   groupTools->setLayout(plotTools);
   groupTools->setFixedSize( groupTools->sizeHint() );
   
@@ -212,10 +197,12 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   
   QGroupBox *mainWidget = new QGroupBox();
   mainWidget->setLayout(hbox);
+  
   setWidget(mainWidget);
   
   // finally, refresh the plot
   plotWidget->replot(); 
+  
 }
 
 
