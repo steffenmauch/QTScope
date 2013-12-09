@@ -23,10 +23,9 @@
 #define XTPLOT_H
 
 #include <scopeplotplugin.h>
-#include <q3mainwindow.h>
 #include <qwt_plot.h>
 #include <qwt_plot_curve.h>
-#include <qpushbutton.h>
+#include <QPushButton>
 
 class QwtCounter;
 class QCheckBox;

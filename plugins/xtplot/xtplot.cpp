@@ -24,12 +24,11 @@
 #include "xtplot.h"
 
 #include <qcheckbox.h>
-#include <qlabel.h>
-#include <qstring.h>
-#include <q3groupbox.h>
-#include <q3buttongroup.h>
-#include <qpushbutton.h>
-#include <q3filedialog.h>
+#include <QLabel>
+#include <QString>
+#include <QGroupBox>
+#include <QPushButton>
+#include <QFileDialog>
 #include <qmessagebox.h>
 #include <QToolBar>
 #include <QHBoxLayout>
@@ -39,7 +38,6 @@
 #include <qwt_plot_canvas.h>
 
 #include <stdlib.h>
-
 #include <iostream>
 
 pluginInfo myPluginInfo = {"x-t Plot", "Plot", 1};
@@ -58,7 +56,7 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   callingWidget = caller;
   idThis = id;
 
-  setCaption( QString().sprintf("Channel %s",name) );
+  setWindowTitle( QString().sprintf("Channel %s",name) );
 
   cerr << "Number of samples:" << numberOfSamples << "\n";
 
@@ -112,18 +110,17 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   QFont tbFont("Courier",14);
   tbFont.setBold(TRUE);
 
-  Q3ButtonGroup* tbGrp=new Q3ButtonGroup( 3,
-					Qt::Horizontal);
-  plotTools->addWidget( tbGrp );
+  QGroupBox* tbGrp=new QGroupBox();
+  QHBoxLayout *tbGrp_layout = new QHBoxLayout;
 
   QLabel* lx = new QLabel(tr("X:"), tbGrp);
+  tbGrp_layout->addWidget( lx );
   lx->setFont(tbFont);
 
   // create the button
-  tbIncPushButton = new QPushButton( "+", tbGrp, "tbIncPushButton" );
+  tbIncPushButton = new QPushButton( "+" );
+  tbGrp_layout->addWidget( tbIncPushButton );
   tbIncPushButton->setFont(tbFont);
-  tbIncPushButton->setToggleButton( FALSE );
-  tbIncPushButton->setOn( FALSE );
   tbIncPushButton->setSizeIncrement(0,0);
   tbIncPushButton->setSizePolicy (QSizePolicy(QSizePolicy::Fixed,
 					      QSizePolicy::Fixed));
@@ -132,10 +129,9 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
 		     this, SLOT( incTbEvent() ) );
   
   // create the button
-  tbDecPushButton = new QPushButton( "-", tbGrp, "tbDecPushButton" );
+  tbDecPushButton = new QPushButton( "-" );
+  tbGrp_layout->addWidget( tbDecPushButton );
   tbDecPushButton->setFont(tbFont);
-  tbDecPushButton->setToggleButton( FALSE );
-  tbDecPushButton->setOn( FALSE );
   tbDecPushButton->setSizeIncrement(0,0);
   tbDecPushButton->setSizePolicy (QSizePolicy(QSizePolicy::Fixed,
 					      QSizePolicy::Fixed));
@@ -144,20 +140,19 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   plotTools->connect(tbDecPushButton, SIGNAL( clicked() ),
 		     this, SLOT( decTbEvent() ) );
 
+  tbGrp->setLayout(tbGrp_layout);
+  plotTools->addWidget( tbGrp );
 
   freezePushButton = new QPushButton( "Freeze" );
   plotTools->addWidget( freezePushButton );
   freezePushButton->setEnabled( TRUE );
-  freezePushButton->setToggleButton( TRUE );
-  freezePushButton->setOn( FALSE );
+  freezePushButton->setCheckable( TRUE );
 
 
   // filename the button
   filePushButton = new QPushButton( "Save Data" );
   plotTools->addWidget( filePushButton );
-  filePushButton->setToggleButton( FALSE );
   filePushButton->setEnabled( FALSE );
-  filePushButton->setOn( FALSE );
 
   plotTools->connect(filePushButton, SIGNAL( clicked() ),
 		     this, SLOT( enterFileName() ) );
@@ -352,27 +347,34 @@ void xtPlot::slotAutoscaleToggled()
 
 
 void  xtPlot::enterFileName() {
-	Q3FileDialog* fd=new Q3FileDialog( this );
+	QFileDialog* fd=new QFileDialog( this );
+	QString name = QString( tr("Save Data") );
 	int result;
 	do {
 		result=0;
-		fd->setMode( Q3FileDialog::AnyFile );
-		fd->setFilter("comma separated values (*.csv)");
-		fd->addFilter("space separated values (*.txt)");
-		fd->addFilter("space separated values (*.dat)");
-		if ( fd->exec() == QDialog::Accepted ) {
-			QString filename;
-			filename=fd->selectedFile();
+		QString selectedFilter;
+		QString filename = fd->getSaveFileName( 
+			this, 
+			name, 
+			QDir::currentPath(), 
+			tr("comma separated (*.csv);;whitespace separated (*.txt);;whitespace separated(*.dat)"),
+			&selectedFilter );
+		
+		if ( !filename.isNull() ) {
+
 			QString extension;
-			extension=fd->selectedFilter();
-			extension=extension.mid(extension.find("."),4);
-			if (filename.find(extension)==-1) {
-				filename=filename+extension;
+			//qDebug() << selectedFilter;
+			extension = selectedFilter.section('.', -1);
+			extension.truncate(3);
+			//qDebug() << extension << endl;
+			if ( !filename.contains(extension, Qt::CaseInsensitive) ) {
+				filename=filename+"."+extension;
+				//qDebug() << filename << " " << extension << endl;
 			}
-			FILE* f=fopen(filename.latin1(),"wt");
+			FILE* f=fopen(filename.toLatin1(),"wt");
 			if (f) {
 				char c;
-				if (fd->selectedFilter().find("csv")>0) {
+				if ( extension.contains("csv",Qt::CaseInsensitive) ) {
 					c=',';
 				} else {
 					c=' ';
@@ -394,7 +396,7 @@ void  xtPlot::enterFileName() {
 			result=0;
 		}
 		if (result<0) {
-			fd->setCaption("Error saving file. Please retry.");
+			name = QString("Error saving file. Please retry.");
 		}
         } while (result<0);
 	delete fd;

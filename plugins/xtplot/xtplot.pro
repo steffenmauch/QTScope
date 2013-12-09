@@ -21,9 +21,3 @@ LIBS += -lqwt \
 TARGETDEPS += ../../src/../bin/qtscope 
 target.path = /usr/local/lib/qtscope/plugins 
 INSTALLS += target 
-#The following line was inserted by qt3to4
-QT +=  qt3support 
-#The following line was inserted by qt3to4
-QT +=  
-#The following line was inserted by qt3to4
-QT +=  
