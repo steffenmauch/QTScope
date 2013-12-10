@@ -22,17 +22,15 @@
 #define DISPLAYSETTINGS_H
 
 #include <qvariant.h>
-#include <q3mainwindow.h>
 #include <QDockWidget>
+#include <QLabel>
+#include <QFrame>
+#include <QCloseEvent>
 
 //Added by qt3to4:
 #include <Q3VBoxLayout>
-#include <QFrame>
 #include <Q3GridLayout>
-#include <QCloseEvent>
 #include <Q3HBoxLayout>
-#include <QDockWidget>
-#include <QLabel>
 
 class Q3VBoxLayout;
 class Q3HBoxLayout;
@@ -65,7 +63,6 @@ class displaySettings : public QDockWidget
     QSpinBox* burstSpeedBox;
     QPushButton* applyButton;
     QFrame* frame5;
-    Q3VBoxLayout* testMainWindowLayout;
     Q3VBoxLayout* frame5Layout;
     Q3HBoxLayout* tabLayout;
     Q3GridLayout* groupBox1Layout;
