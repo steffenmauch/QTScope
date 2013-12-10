@@ -60,7 +60,7 @@
 #include <qtimer.h>
 #include <qpainter.h>
 #include <q3paintdevicemetrics.h>
-#include <q3whatsthis.h>
+#include <QWhatsThis>
 #include <q3vbox.h>
 #include <qworkspace.h>
 #include <qcheckbox.h>
@@ -164,8 +164,7 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose )
 						     QString::null, this, SLOT(newView()), fileTools, "open channel" );
 	fileTools->addWidget( channelOpen );
 	QString channelOpenText = tr("<p>This button opens a new plot window.</p>");
-	Q3WhatsThis::add
-		( channelOpen, channelOpenText );
+	QWhatsThis::add( channelOpen, channelOpenText );
 	Q3MimeSourceFactory::defaultFactory()->setPixmap( "fileopen", openIcon );
 
 	fileTools->addSeparator();
