@@ -38,9 +38,11 @@
 #include <qwt_plot_canvas.h>
 
 #include <stdlib.h>
+// for the data formats
+#include <comedilib.h>
 #include <iostream>
 
-pluginInfo myPluginInfo = {"x-t Plot", "Plot", 1};
+pluginInfo myPluginInfo = {"x-t Plot", "Plot", 1, COMEDI_SUBD_AI};
 
 scopePlotPlugin *createPlugin (QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags,int numberOfSamples) {
 	return new xtPlot(caller, parent, name, id, wflags,numberOfSamples);

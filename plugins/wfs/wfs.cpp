@@ -19,10 +19,12 @@
  ***************************************************************************/
 
 #include "wfs.h"
+// for the data formats
+#include <comedilib.h>
 
 #include <iostream>
 
-pluginInfo myPluginInfo = {"WFS Plugin", "Plot", 1};
+pluginInfo myPluginInfo = {"WFS Plugin", "Plot", 1, COMEDI_SUBD_MEMORY};
 
 scopePlotPlugin *createPlugin (QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags,int numberOfSamples) {
 	return new wfs(caller, parent, name, id, wflags,numberOfSamples);

@@ -33,6 +33,7 @@ typedef struct pluginInfo{
   QString name;
   QString type;
   int channelsRequest;
+  int type_comedi;
 };
 
 /**

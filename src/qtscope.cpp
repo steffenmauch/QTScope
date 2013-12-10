@@ -735,7 +735,7 @@ int QTScope::initPlugins()
 					// read the plugin information and store them
 					pI = reinterpret_cast< pluginInfo* > (reinterpret_cast< long >( dlsym( hndl, "myPluginInfo" )));
 					if(pI) {
-						cout << "plugin name: " << pI->name.ascii() << "\n";
+						cout << "plugin name: " << pI->name.ascii() << " comedi_type: " << pI->type_comedi << "\n";
 						// get the plugin information
 						pD.name = pI->name;
 						pD.type = pI->type;
