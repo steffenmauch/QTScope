@@ -69,6 +69,8 @@
 #include <q3buttongroup.h>
 #include <q3dockwindow.h>
 #include <qpushbutton.h>
+#include <QStringList>
+#include <QDebug>
 
 // icons
 #include "fileopen.xpm"
@@ -88,7 +90,17 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose )
 	continous=0;
 	comediError=0;
 
+	QStringList cmdline_args = QCoreApplication::arguments();
+		
 	comediFilename = "/dev/comedi0";
+	// if first command line argument is available use it as 
+	// device name for comedi_open
+	// i.e. sudo ./bin/qtscope /dev/comedi2
+	if( cmdline_args.size() == 2 ){
+		QString str = QString( cmdline_args.at(1) );
+		QByteArray *ba = new QByteArray( str.toLocal8Bit() );
+		comediFilename = ba->data();
+    }		
 
 	comediDevice = comedi_open(comediFilename);
 	if(!comediDevice) {
