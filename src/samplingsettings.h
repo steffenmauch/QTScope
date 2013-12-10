@@ -22,17 +22,17 @@
 #define SAMPLINGSETTINGS_H
 
 #include <QDockWidget>
+#include <QLabel>
+#include <QCheckBox>
+#include <QCloseEvent>
+#include <QVariant>
+#include <QFrame>
 
-#include <qvariant.h>
-#include <q3mainwindow.h>
-#include <qcheckbox.h>
 //Added by qt3to4:
 #include <Q3VBoxLayout>
-#include <Q3Frame>
 #include <Q3GridLayout>
-#include <QCloseEvent>
 #include <Q3HBoxLayout>
-#include <QLabel>
+
 
 class Q3VBoxLayout;
 class Q3HBoxLayout;
@@ -66,7 +66,7 @@ class samplingSettings : public QDockWidget
     QSpinBox* numberOfSamplesBox;
     QCheckBox* continousCheckBox;
     QPushButton* applyButton;
-    Q3Frame* frame5;
+    QFrame* frame5;
     Q3VBoxLayout* frame5Layout;
     Q3GridLayout* groupBox1Layout;
 

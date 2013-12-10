@@ -20,33 +20,23 @@
 
 #include "samplingsettings.h"
 
-#include <qvariant.h>
-#include <qwidget.h>
-#include <q3groupbox.h>
-#include <qlabel.h>
-#include <qspinbox.h>
-#include <qpushbutton.h>
-#include <qlayout.h>
-#include <qtooltip.h>
-#include <q3whatsthis.h>
-#include <qimage.h>
-#include <qpixmap.h>
-#include <qsizepolicy.h>
-//Added by qt3to4:
-#include <Q3GridLayout>
-#include <Q3VBoxLayout>
-#include <Q3Frame>
+#include <QWidget>
 #include <QCloseEvent>
+#include <QLabel>
+#include <QSpinBox>
+#include <QPushButton>
+#include <QLayout>
 
+#include <q3groupbox.h>
 
 samplingSettings::samplingSettings( QWidget* parent, const char* name, double freq, int numCh,int nSamples,int continous)
     : QDockWidget( name, parent, Qt::WDestructiveClose )
 {
   setWindowTitle( tr( "Sampling Settings" ) );
 
-  frame5 = new Q3Frame( this, "frame5" );
-  frame5->setFrameShape( Q3Frame::StyledPanel );
-  frame5->setFrameShadow( Q3Frame::Raised );
+  frame5 = new QFrame( this, "frame5" );
+  frame5->setFrameShape( QFrame::StyledPanel );
+  frame5->setFrameShadow( QFrame::Raised );
   frame5Layout = new Q3VBoxLayout( frame5, 0, 0, "frame5Layout");
 
   groupBox1 = new Q3GroupBox( frame5, "groupBox1" );
