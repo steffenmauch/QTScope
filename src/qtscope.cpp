@@ -628,11 +628,11 @@ void QTScope::testComedi() {
 		return;
 	}
 
-        if ((cmd->convert_src ==  TRIG_TIMER)&&(cmd->convert_arg)) {
+	if ((cmd->convert_src ==  TRIG_TIMER)&&(cmd->convert_arg)) {
 		freq=1E9 / cmd->convert_arg;
 	}
 
-        if ((cmd->scan_begin_src ==  TRIG_TIMER)&&(cmd->scan_begin_arg)) {
+	if ((cmd->scan_begin_src ==  TRIG_TIMER)&&(cmd->scan_begin_arg)) {
 		freq=1E9 / cmd->scan_begin_arg;
 	}
 
@@ -655,27 +655,25 @@ void QTScope::testComedi() {
 	cmd->scan_end_arg = n_chan;
 
 	ret = comedi_command_test(comediDevice,cmd);
-	if(ret<0)
-		{
-			comedi_perror("comedi_command_test");
-			comediError=ret;
-			return;
-		}
+	if(ret<0){
+		comedi_perror("comedi_command_test");
+		comediError=ret;
+	return;
+	
 	cerr << "first test returned " << ret <<"\n";
 	ret = comedi_command_test(comediDevice,cmd);
-	if(ret<0)
-		{
-			comedi_perror("comedi_command_test");
-			comediError=ret;
-			return;
-		}
+	if(ret<0){
+		comedi_perror("comedi_command_test");
+		comediError=ret;
+		return;
+	}
 	cerr << "second test returned " << ret <<"\n";
 
-        if ((cmd->convert_src ==  TRIG_TIMER)&&(cmd->convert_arg)) {
+	if ((cmd->convert_src ==  TRIG_TIMER)&&(cmd->convert_arg)) {
 		freq=1E9 / cmd->convert_arg;
 	}
 
-        if ((cmd->scan_begin_src ==  TRIG_TIMER)&&(cmd->scan_begin_arg)) {
+	if ((cmd->scan_begin_src ==  TRIG_TIMER)&&(cmd->scan_begin_arg)) {
 		freq=1E9 / cmd->scan_begin_arg;
 	}
 
