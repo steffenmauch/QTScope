@@ -215,7 +215,8 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose )
 	help->addAction( tr("&About"), this, SLOT(about()), Qt::Key_F1 );
 	help->addAction( tr("About &Qt"), this, SLOT(aboutQt()) );
 	help->insertSeparator();
-	help->addAction( tr("What's &This"), this, SLOT(whatsThis()), Qt::SHIFT+Qt::Key_F1 );
+	QAction *whatsThisAct = QWhatsThis::createAction();
+	help->addAction( whatsThisAct );
 
 	// create the workspace
 
