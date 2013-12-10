@@ -25,12 +25,13 @@ SUMMARY:
 
 QTScope is a program to display the signals acquired from daq devices
 via the comedi library. It is based on the QT Widget Library
-(Trolltech) and provides a plugin architecture which makes it easy to
+and provides a plugin architecture which makes it easy to
 write own visualisation plugins.
 
-It was written specifically for the USB DUX board
-(http://www.linux-usb-daq.co.uk/), but in theory should work with any
-board with a comedi driver. The data aquisition is done in regular
+It was originally written specifically for the USB DUX board
+(http://www.linux-usb-daq.co.uk/), but today the aim is to be compatible
+with any board with a comedi driver. 
+The data aquisition is done in regular
 intervals. Under 10000Hz data data is scrolled into the data window.
 Above 10000Hz the program does snapshots of 5000 samples and
 displays them every second on the screen.
@@ -39,20 +40,19 @@ displays them every second on the screen.
 WHAT YOU WILL NEED:
 -------------------
 
-This program was developed/tested using the Debian Woody distribution
-with and updated QT library. It should however compile on any modern
-linux setup, provided the following software is installed:
+This program was developed/tested using a linux distribution
+with and QT library 4.x.
+the following software should be installed:
 
 Comedi: a free driver/library framework for a number of data
 acquisition devices http://www.comedi.org
 
-QT (Version > 3):
-http://www.trolltech.com/products/qt/
+QT (Version > 4):
+http://qt-project.org/
 
-Qwt Widget Library:
+Qwt Widget Library 6.x:
 For details about this nice and useful project, see:
 http://qwt.sourceforge.net/
-It has been tested with qwt which is shipped with debian sarge.
 
 
 INSTALLATION:
@@ -66,7 +66,7 @@ INSTALLATION:
 
    (sometimes qmake may not be directly accessible, 
     then you can usually find it under
-   /usr/lib/qt3/bin/qmake or /usr/share/qt3/bin/qmake)
+   /usr/lib/qt4/bin/qmake or /usr/share/qt4/bin/qmake)
 
 3) make
 
@@ -88,6 +88,8 @@ Newer versions will probably contain these planned extensions:
 - more visualisation plugins
 - data storage facility
 - filter plugins for data processing
+- plugin for digital input and output
+- plugin for analog output 
 
 
 WRITING PLUGINS:
@@ -107,6 +109,24 @@ typedef struct pluginInfo{
   QString name;          // the name
   QString type;          // the type, so far not unused (use "Plot")
   int channelsRequest;   // number of channels the plugin requests
+  int type_comedi;       // entry of comedi_subdevice_type which the
+                         // plugin does support, i.e. COMEDI_SUBD_AI
+};
+
+enum comedi_subdevice_type {
+  COMEDI_SUBD_UNUSED,     /* unused by driver */
+  COMEDI_SUBD_AI,         /* analog input */
+  COMEDI_SUBD_AO,         /* analog output */
+  COMEDI_SUBD_DI,         /* digital input */
+  COMEDI_SUBD_DO,         /* digital output */
+  COMEDI_SUBD_DIO,        /* digital input/output */
+  COMEDI_SUBD_COUNTER,    /* counter */
+  COMEDI_SUBD_TIMER,      /* timer */
+  COMEDI_SUBD_MEMORY,     /* memory, EEPROM, DPRAM */
+  COMEDI_SUBD_CALIB,      /* calibration DACs */
+  COMEDI_SUBD_PROC,       /* processor, DSP */
+  COMEDI_SUBD_SERIAL,     /* serial IO */
+  COMEDI_SUBD_PWM         /* PWM */
 };
 
 The following methods are declared as virtual in the base class:
