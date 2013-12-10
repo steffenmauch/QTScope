@@ -130,23 +130,9 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose )
 	int width = settings.readNumEntry( "/geometry/width", 800 );
 	int height = settings.readNumEntry( "/geometry/height", 600 );
 	resize( width, height );
-	QStringList pk = settings.readListEntry( "/pluginpath" );
 	settings.endGroup();
 
-	QStringList::Iterator it = pk.begin();
-	while( it != pk.end() )
-		{
-			pluginPath.append(*it);
-			++it;
-		}
-	// no preferences available, set default
-	if(pluginPath.size() == 0)
-		{
-			pluginPath.append("~/qtscope/plugins");
-			pluginPath.append("~/.qtscope/plugins");
-			pluginPath.append("/usr/local/lib/qtscope/plugins");
-			pluginPath.append("/usr/lib/qtscope/plugins");
-		}
+	loadPluginPath();
 		
 	ws = new QMdiArea();
 	setCentralWidget( ws );
@@ -246,6 +232,31 @@ QTScope::~QTScope() {
 	freeBuffers();
 }
 
+void QTScope::loadPluginPath() {
+	// get plugin paths
+	settings.beginGroup( "/qtscope/" );
+	QStringList pk = settings.readListEntry( "/pluginpath" );
+	settings.endGroup();
+
+	QStringList::Iterator it = pk.begin();
+	
+	QStringListIterator i(pluginPath);
+	while(i.hasNext()){
+		pluginPath.removeAll(i.next());
+	}
+	
+	while( it != pk.end() ){
+		pluginPath.append(*it);
+		++it;
+	}
+	// no preferences available, set default
+	if(pluginPath.size() == 0){
+		pluginPath.append("~/qtscope/plugins");
+		pluginPath.append("~/.qtscope/plugins");
+		pluginPath.append("/usr/local/lib/qtscope/plugins");
+		pluginPath.append("/usr/lib/qtscope/plugins");
+	}
+}
 
 void QTScope::startTimers() {
 	// Generate timer event to read data
@@ -336,6 +347,20 @@ void QTScope::closeEvent( QCloseEvent* ce )
 	while ( (it = activePlugins.first()) )
 		it->target->close();
 
+	saveSettings();
+
+	ce->accept();
+	return;
+}
+
+/*!
+  \fn QTScope::saveSettings()
+
+  This functions write the settings in the 
+  associate file
+*/
+void QTScope::saveSettings()
+{
 	settings.beginGroup( "/qtscope/" );
 	settings.writeEntry( "/pluginpath", pluginPath);
 	settings.writeEntry( "/geometry/width", this->width() );
@@ -354,13 +379,11 @@ void QTScope::closeEvent( QCloseEvent* ce )
 	settings.writeEntry( "/sampling/continous",continous);
 	settings.writeEntry( "/sampling/nchan", n_chan );
 	settings.endGroup( );
-
-	ce->accept();
-	return;
 }
 
+
 /*!
-  \fn ChooserWindow::slotChannelClosed()
+  \fn QTScope::slotChannelClosed()
 
   This removes the plugin information when a plugin window has been closed.
 */
@@ -713,6 +736,8 @@ int QTScope::initPlugins()
 	pd.setFilter(QDir::Dirs);
 
 	cout << "Scanning for plugins...\n";
+	
+	availablePlugins.clear();
 
 	// scan for plugins
 	// locate proper directories in the source tree
@@ -812,6 +837,9 @@ void QTScope::slotConfigure()
 {
 	propertiesDialog *p = new propertiesDialog(this);
 	p->exec();
+	saveSettings();
+	loadPluginPath();
+	initPlugins();
 }
 
 

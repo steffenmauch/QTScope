@@ -25,6 +25,7 @@
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qlayout.h>
+#include <QDebug>
 #include <q3filedialog.h>
 
 propertiesDialog::propertiesDialog(QTScope *c, const char *name)
@@ -87,9 +88,17 @@ void propertiesDialog::addClicked()
  */
 void propertiesDialog::removeClicked()
 {
-  for ( QStringList::Iterator it = caller->pluginPath.begin(); it != caller->pluginPath.end(); ++it )
-    if(ppaths->currentText() == (*it))
-        it = caller->pluginPath.remove(it);
-
-  ppaths->removeItem(ppaths->currentItem());
+	QString selected = ppaths->currentText();
+	ppaths->setCurrentItem( -1 );
+	
+	if( caller->pluginPath.size() > 1 ){
+		for ( QStringList::Iterator it = caller->pluginPath.begin(); it != caller->pluginPath.end(); ++it )
+			if( selected == (*it) )
+				it = caller->pluginPath.remove(it);
+		
+	}
+	else
+		caller->pluginPath.remove( caller->pluginPath.begin() );
+		
+	ppaths->removeItem(ppaths->currentItem());
 }

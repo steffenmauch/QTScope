@@ -84,6 +84,11 @@ class QTScope: public QMainWindow
     // function to read out data from the daq device
     void slotReadData();
     void tileVertical();
+    
+	// save settings
+    void saveSettings();
+    
+    void loadPluginPath();
 
     // open some dialogs to make settings
     void slotConfigure();
