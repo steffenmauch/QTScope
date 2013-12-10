@@ -658,8 +658,8 @@ void QTScope::testComedi() {
 	if(ret<0){
 		comedi_perror("comedi_command_test");
 		comediError=ret;
-	return;
-	
+		return;
+	}
 	cerr << "first test returned " << ret <<"\n";
 	ret = comedi_command_test(comediDevice,cmd);
 	if(ret<0){
