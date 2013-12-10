@@ -21,6 +21,8 @@
 #ifndef SAMPLINGSETTINGS_H
 #define SAMPLINGSETTINGS_H
 
+#include <QDockWidget>
+
 #include <qvariant.h>
 #include <q3mainwindow.h>
 #include <qcheckbox.h>
@@ -42,7 +44,7 @@ class QLabel;
 class QSpinBox;
 class QPushButton;
 
-class samplingSettings : public Q3MainWindow
+class samplingSettings : public QDockWidget
   {
     Q_OBJECT
 
@@ -65,7 +67,6 @@ class samplingSettings : public Q3MainWindow
     QCheckBox* continousCheckBox;
     QPushButton* applyButton;
     Q3Frame* frame5;
-    Q3VBoxLayout* testMainWindowLayout;
     Q3VBoxLayout* frame5Layout;
     Q3GridLayout* groupBox1Layout;
 

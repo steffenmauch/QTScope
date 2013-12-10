@@ -40,20 +40,14 @@
 
 
 samplingSettings::samplingSettings( QWidget* parent, const char* name, double freq, int numCh,int nSamples,int continous)
-    : Q3MainWindow( parent, name, Qt::WDestructiveClose )
+    : QDockWidget( name, parent, Qt::WDestructiveClose )
 {
-  setCaption( tr( "Sampling Settings" ) );
-  //setMinimumSize( QSize( 169, 148 ) );
+  setWindowTitle( tr( "Sampling Settings" ) );
 
-  setCentralWidget( new QWidget( this, "qt_central_widget" ) );
-
-  frame5 = new Q3Frame( centralWidget(), "frame5" );
+  frame5 = new Q3Frame( this, "frame5" );
   frame5->setFrameShape( Q3Frame::StyledPanel );
   frame5->setFrameShadow( Q3Frame::Raised );
   frame5Layout = new Q3VBoxLayout( frame5, 0, 0, "frame5Layout");
-
-  testMainWindowLayout = new Q3VBoxLayout( centralWidget(), 0, 0, "testMainWindowLayout");
-  testMainWindowLayout->addWidget( frame5 );
 
   groupBox1 = new Q3GroupBox( frame5, "groupBox1" );
   groupBox1->setColumnLayout(0, Qt::Vertical );
@@ -118,10 +112,12 @@ samplingSettings::samplingSettings( QWidget* parent, const char* name, double fr
 
   frame5Layout->addWidget( applyButton );
 
-  resize( QSize(169, 150).expandedTo(minimumSizeHint()) );
+  resize( QSize(350, 180) );
   setMaximumSize(size());
   //clearWState( WState_Polished );
 
+  setWidget( frame5 );
+  
   connect( applyButton, SIGNAL( clicked() ), this, SLOT( slotApply() ) );
 }
 

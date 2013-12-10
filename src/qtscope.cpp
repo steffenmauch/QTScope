@@ -863,6 +863,7 @@ void QTScope::slotSamplingSettings()
 	connect(s2, 
 		SIGNAL( signalSamplingSettingsChanged(double,int,int,int)), this, 
 		SLOT( slotSetSamplingSettings(double,int,int,int)));
+	ws->addSubWindow(s2);
 	s2->show();
 }
 
