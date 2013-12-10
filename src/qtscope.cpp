@@ -108,7 +108,7 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose )
 		exit(-1);
 	}
 	// load settings
-	settings.setPath( "www.linux-usb-daq.co.uk", "qtscope" );
+	settings.setPath( "github.com/steffenmauch/QTScope", "qtscope" );
 	boardname=QString("/")+comedi_get_board_name(comediDevice)+QString("/");
 	comedi_close(comediDevice);
 
