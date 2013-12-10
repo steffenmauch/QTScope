@@ -42,17 +42,15 @@
 
 
 displaySettings::displaySettings( QWidget* parent, const char* name, int contRate, int burstRate )
-    : Q3MainWindow( parent, name, Qt::WDestructiveClose )
+    : QDockWidget(name, parent, Qt::WDestructiveClose )
 {
-  setCaption( "Display Settings" );
+  setWindowTitle( tr("Display Settings") );
 
   setMinimumSize( QSize( 169, 148 ) );
-  setCentralWidget( new QWidget( this, "qt_central_widget" ) );
-  testMainWindowLayout = new Q3VBoxLayout( centralWidget(), 0, 0, "testMainWindowLayout");
 
-  frame5 = new Q3Frame( centralWidget(), "frame5" );
-  frame5->setFrameShape( Q3Frame::StyledPanel );
-  frame5->setFrameShadow( Q3Frame::Raised );
+  frame5 = new QFrame( this, "frame5" );
+  frame5->setFrameShape( QFrame::StyledPanel );
+  frame5->setFrameShadow( QFrame::Raised );
   frame5Layout = new Q3VBoxLayout( frame5, 0, 0, "frame5Layout");
 
   tabs = new QTabWidget( frame5, "tabs" );
@@ -104,9 +102,7 @@ displaySettings::displaySettings( QWidget* parent, const char* name, int contRat
   applyButton->setDefault( TRUE );
   applyButton->setFlat( FALSE );
   frame5Layout->addWidget( applyButton );
-  testMainWindowLayout->addWidget( frame5 );
 
-  setCaption( tr( "Display Settings" ) );
   groupBox1->setTitle( tr( "Refresh Rates" ) );
   textLabel1->setText( tr( "Continous" ) );
   textLabel2->setText( tr( "Burst" ) );
@@ -116,6 +112,8 @@ displaySettings::displaySettings( QWidget* parent, const char* name, int contRat
   resize( QSize(169, 150).expandedTo(minimumSizeHint()) );
   setMaximumSize(size());
   //clearWState( WState_Polished );
+  
+  setWidget( frame5 );
 
   connect( applyButton, SIGNAL( clicked() ), this, SLOT( slotApply() ) );
 }

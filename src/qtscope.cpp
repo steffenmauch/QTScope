@@ -850,6 +850,7 @@ void QTScope::slotDisplaySettings()
 {
 	displaySettings *s1 = new displaySettings(ws, "DisplaySettings", continousInterval, burstInterval);
 	connect(s1, SIGNAL(signalIntervalsChanged(int,int)), this, SLOT( slotSetIntervals(int,int)));
+	ws->addSubWindow(s1);
 	s1->show();
 }
 

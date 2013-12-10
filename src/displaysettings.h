@@ -23,9 +23,11 @@
 
 #include <qvariant.h>
 #include <q3mainwindow.h>
+#include <QDockWidget>
+
 //Added by qt3to4:
 #include <Q3VBoxLayout>
-#include <Q3Frame>
+#include <QFrame>
 #include <Q3GridLayout>
 #include <QCloseEvent>
 #include <Q3HBoxLayout>
@@ -42,7 +44,7 @@ class QLabel;
 class QSpinBox;
 class QPushButton;
 
-class displaySettings : public Q3MainWindow
+class displaySettings : public QDockWidget
   {
     Q_OBJECT
 
@@ -62,7 +64,7 @@ class displaySettings : public Q3MainWindow
     QSpinBox* continousSpeedBox;
     QSpinBox* burstSpeedBox;
     QPushButton* applyButton;
-    Q3Frame* frame5;
+    QFrame* frame5;
     Q3VBoxLayout* testMainWindowLayout;
     Q3VBoxLayout* frame5Layout;
     Q3HBoxLayout* tabLayout;
