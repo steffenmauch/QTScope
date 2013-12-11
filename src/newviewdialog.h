@@ -23,10 +23,11 @@
 
 #include "qtscope.h"
 
-#include <qdialog.h>
+#include <QDialog>
+#include <QFrame>
+
 //Added by qt3to4:
 #include <Q3VBoxLayout>
-#include <Q3Frame>
 #include <Q3ValueList>
 #include <Q3PtrList>
 #include <Q3HBoxLayout>
@@ -35,7 +36,7 @@ class Q3HBoxLayout;
 class Q3ListBox;
 class Q3ButtonGroup;
 class QSpinBox;
-class Q3Frame;
+class QFrame;
 
 /**
 This widget provides the user interaction to open a new plot plugin.
@@ -57,7 +58,7 @@ private:
   Q3ButtonGroup *channelsList;
   Q3VBoxLayout *channelsListL;
   Q3ListBox *pluginsList;
-  Q3Frame *f1;
+  QFrame *f1;
   // the spinboxes to choose the channels
   Q3PtrList <QSpinBox> channelSelectors;
 

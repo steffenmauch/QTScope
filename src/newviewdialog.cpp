@@ -1,6 +1,8 @@
 /***************************************************************************
  *   Copyright (C) 2004 by Matthias H. Hennig                              *
  *   hennig@cn.stir.ac.uk                                                  *
+ *   Copyright (C) 2013 by Steffen Mauch                                   *
+ *   Steffen Mauch, steffen.mauch@gmail.com                                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,16 +22,17 @@
 
 #include "newviewdialog.h"
 
-#include <qpushbutton.h>
+#include <QPushButton>
+#include <QSpinBox>
+#include <QLayout>
+
 #include <q3listbox.h>
-#include <qlayout.h>
+
 #include <q3buttongroup.h>
-#include <qspinbox.h>
 //Added by qt3to4:
 #include <Q3HBoxLayout>
 #include <Q3VBoxLayout>
 #include <Q3ValueList>
-#include <Q3Frame>
 
 
 newViewDialog::newViewDialog(int numChannels, Q3ValueList <pluginData> availablePlugins, QTScope *c, QWidget *parent, const char *name, bool modal, Qt::WFlags f )
@@ -42,14 +45,14 @@ newViewDialog::newViewDialog(int numChannels, Q3ValueList <pluginData> available
 
   channelSelectors.setAutoDelete( TRUE );
 
-  setCaption( "QTScope -- Open new Plot" );
+  setWindowTitle( "QTScope -- Open new Plot" );
   resize( 320, 240 );
 
   mainLayout = new Q3VBoxLayout( this, 2, 2, "main");
 
-  f1 = new Q3Frame( this );
-  f1->setFrameShape( Q3Frame::StyledPanel );
-  f1->setFrameShadow( Q3Frame::Sunken );
+  f1 = new QFrame( this );
+  f1->setFrameShape( QFrame::StyledPanel );
+  f1->setFrameShadow( QFrame::Sunken );
   mainLayout->addWidget(f1);
 
   chooserBox = new Q3HBoxLayout( f1, 2, 2, "choose" );
