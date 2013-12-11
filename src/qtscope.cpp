@@ -85,8 +85,7 @@ using std::cerr;
 // and the next one.
 #define MIN_BURST 200
 
-QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose )
-{
+QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose ){
 	continous=0;
 	comediError=0;
 
@@ -228,11 +227,11 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose )
 }
 
 
-QTScope::~QTScope() {
+QTScope::~QTScope(){
 	freeBuffers();
 }
 
-void QTScope::loadPluginPath() {
+void QTScope::loadPluginPath(){
 	// get plugin paths
 	settings.beginGroup( "/qtscope/" );
 	QStringList pk = settings.readListEntry( "/pluginpath" );
@@ -258,7 +257,7 @@ void QTScope::loadPluginPath() {
 	}
 }
 
-void QTScope::startTimers() {
+void QTScope::startTimers(){
 	// Generate timer event to read data
 	readoutTimer = new QTimer(this);
 	connect( readoutTimer, SIGNAL(timeout()), this, SLOT(slotReadData()) );
@@ -280,7 +279,7 @@ void QTScope::startTimers() {
 }
 
 
-void QTScope::stopTimers() {
+void QTScope::stopTimers(){
 	// stop timer
 	if (readoutTimer) {
 		readoutTimer->stop();
@@ -290,7 +289,7 @@ void QTScope::stopTimers() {
 }
 
 
-void QTScope::slotSetIntervals(int c,int b) {
+void QTScope::slotSetIntervals(int c,int b){
 	stopTimers();
 	continousInterval=c;
 	burstInterval=b;
@@ -298,7 +297,7 @@ void QTScope::slotSetIntervals(int c,int b) {
 }
 
 
-void QTScope::stopAll() {
+void QTScope::stopAll(){
 	// stop the data acquisition
 	comedi_cancel(comediDevice,comediSubdevice);
 	// stop the display timers
@@ -314,7 +313,7 @@ void QTScope::stopAll() {
 }
 
 
-void QTScope::freeBuffers() {
+void QTScope::freeBuffers(){
 	if (dataBuffer) {
 		delete dataBuffer;
 		dataBuffer=NULL;
@@ -337,8 +336,7 @@ void QTScope::freeBuffers() {
 }
 
 
-void QTScope::closeEvent( QCloseEvent* ce )
-{
+void QTScope::closeEvent( QCloseEvent* ce ){
 	dataTarget *it;
 
 	stopAll();
@@ -359,8 +357,7 @@ void QTScope::closeEvent( QCloseEvent* ce )
   This functions write the settings in the 
   associate file
 */
-void QTScope::saveSettings()
-{
+void QTScope::saveSettings(){
 	settings.beginGroup( "/qtscope/" );
 	settings.writeEntry( "/pluginpath", pluginPath);
 	settings.writeEntry( "/geometry/width", this->width() );
@@ -387,8 +384,7 @@ void QTScope::saveSettings()
 
   This removes the plugin information when a plugin window has been closed.
 */
-void QTScope::slotChannelClosed(int id)
-{
+void QTScope::slotChannelClosed(int id){
 	dataTarget *it;
 	for ( it = activePlugins.first(); it; it = activePlugins.next() )
 		if( it->id == id)
@@ -398,8 +394,7 @@ void QTScope::slotChannelClosed(int id)
 			}
 }
 
-void QTScope::slotReadData()
-{
+void QTScope::slotReadData(){
 	dataTarget *it;
 	int i, num,ret;
 
@@ -492,8 +487,7 @@ void QTScope::slotReadData()
 	}
 }
 
-void QTScope::slotReplotPlots()
-{
+void QTScope::slotReplotPlots(){
 	dataTarget *it;
 
 	if(activePlugins.count() == 0)
@@ -503,15 +497,13 @@ void QTScope::slotReplotPlots()
 		it->target->replot();
 }
 
-void QTScope::newView()
-{
+void QTScope::newView(){
 	newViewDialog *gv = new newViewDialog(n_chan, availablePlugins, this, this);
 	gv->exec();
 }
 
 
-void QTScope::windowsMenuAboutToShow()
-{
+void QTScope::windowsMenuAboutToShow(){
 	windowsMenu->clear();
 	int cascadeId = windowsMenu->insertItem("&Cascade", ws, SLOT(cascade() ) );
 	int tileId = windowsMenu->insertItem("&Tile", ws, SLOT(tile() ) );
@@ -534,7 +526,7 @@ void QTScope::windowsMenuAboutToShow()
 	#endif
 }
 
-void QTScope::windowsMenuActivated( int id ) {
+void QTScope::windowsMenuActivated( int id ){
 	#if 0
 	QWidget* w = ws->windowList().at( id );
 	if ( w )
@@ -543,8 +535,7 @@ void QTScope::windowsMenuActivated( int id ) {
 	#endif
 }
 
-void QTScope::tileVertical()
-{
+void QTScope::tileVertical(){
 	#if 0
 	// primitive horizontal tiling
 	QWidgetList windows = ws->windowList();
@@ -569,8 +560,7 @@ void QTScope::tileVertical()
 	#endif
 }
 
-void QTScope::about()
-{
+void QTScope::about(){
     QMessageBox::about( this, tr("QTScope"), 
 		tr("Version "+QString(VER)+"\n"+
 		"\n"+QString(DATE)+"\n\n"+
@@ -582,8 +572,7 @@ void QTScope::about()
 }
 
 
-void QTScope::aboutQt()
-{
+void QTScope::aboutQt(){
 	QMessageBox::aboutQt( this, tr("QTScope") );
 }
 
@@ -591,7 +580,7 @@ void QTScope::aboutQt()
 /*!
   \fn QTScope::initComedi()
 */
-void  QTScope::initComedi() {
+void  QTScope::initComedi(){
 	aref = AREF_GROUND;
 
 	comediDevice = comedi_open(comediFilename);
@@ -621,7 +610,7 @@ void  QTScope::initComedi() {
 }
 
 
-void QTScope::initBuffers() {
+void QTScope::initBuffers(){
 	dataBuffer = new sampl_t[max_chan * numberOfSamples];
 	convDataBuffer = new double*[max_chan];
 	for(int i=0; i<max_chan; i++)
@@ -635,7 +624,7 @@ void QTScope::initBuffers() {
 /*!
   \fn QTScope::testComedi()
 */
-void QTScope::testComedi() {
+void QTScope::testComedi(){
 	cerr << "Initialising the cmd structure\n";
 	memset(cmd,0,sizeof(comedi_cmd));
 
@@ -705,7 +694,7 @@ void QTScope::testComedi() {
 
 
 
-void QTScope::startComedi() {
+void QTScope::startComedi(){
 	int ret=comedi_command(comediDevice,cmd);
 	if(ret<0) {
 		comedi_perror("comedi_command");
@@ -720,8 +709,7 @@ void QTScope::startComedi() {
   \fn QTScope::initPlugins()
   Scan for plugins
 */
-int QTScope::initPlugins()
-{
+int QTScope::initPlugins(){
 	const char *error;
 	void *hndl;
 	pluginInfo* pI;
@@ -780,8 +768,7 @@ int QTScope::initPlugins()
 /*!
   \fn QTScope::loadPlugin(QString path)
 */
-int QTScope::runPlugin(QString name, int *channels)
-{
+int QTScope::runPlugin(QString name, int *channels){
 	dataTarget *dT;
 	double **dataSources;
 	sampl_t **rawSources;
@@ -833,8 +820,7 @@ int QTScope::runPlugin(QString name, int *channels)
 /*!
   \fn QTScope::configure()
 */
-void QTScope::slotConfigure()
-{
+void QTScope::slotConfigure(){
 	propertiesDialog *p = new propertiesDialog(this);
 	p->exec();
 	saveSettings();
@@ -846,16 +832,14 @@ void QTScope::slotConfigure()
 /*!
   \fn QTScope::settings()
 */
-void QTScope::slotDisplaySettings()
-{
+void QTScope::slotDisplaySettings(){
 	displaySettings *s1 = new displaySettings(ws, "DisplaySettings", continousInterval, burstInterval);
 	connect(s1, SIGNAL(signalIntervalsChanged(int,int)), this, SLOT( slotSetIntervals(int,int)));
 	ws->addSubWindow(s1);
 	s1->show();
 }
 
-void QTScope::slotSamplingSettings()
-{
+void QTScope::slotSamplingSettings(){
 	samplingSettings *s2 = new samplingSettings(ws, "SamplingSettings", freq, 
 						    n_chan,
 						    numberOfSamples,
@@ -868,7 +852,7 @@ void QTScope::slotSamplingSettings()
 }
 
 
-void QTScope::showSamplingrate() {
+void QTScope::showSamplingrate(){
 	char tmp[256];
 	if (freq>=1e6) {
 		sprintf(tmp,"%3.0f MHz",freq/1e6);
@@ -886,7 +870,7 @@ void QTScope::showSamplingrate() {
 /*!
   \fn QTScope::slotSetNumberOfChannels(int i)
 */
-void QTScope::slotSetSamplingSettings(double r,int n,int s,int c) {
+void QTScope::slotSetSamplingSettings(double r,int n,int s,int c){
 	n_chan=n;
 	freq=r;
 	settings.writeEntry( "/sampling/nsamples", s );
@@ -900,7 +884,7 @@ void QTScope::slotSetSamplingSettings(double r,int n,int s,int c) {
 	showSamplingrate();
 }
 
-void QTScope::slotSlower() {
+void QTScope::slotSlower(){
 	char tmp[256];
 	sprintf(tmp,"%d",((int)freq));
 	double f;
@@ -918,7 +902,7 @@ void QTScope::slotSlower() {
 	slotSetSamplingSettings(f,n_chan,numberOfSamples,continous);
 }
 
-void QTScope::slotFaster() {
+void QTScope::slotFaster(){
 	char tmp[256];
 	sprintf(tmp,"%d",((int)freq));
 	double f;
@@ -937,7 +921,7 @@ void QTScope::slotFaster() {
 }
 
 
-void QTScope::tellPlugins() {
+void QTScope::tellPlugins(){
 	dataTarget *it=NULL;
 	for ( it = activePlugins.first(); it; it = activePlugins.next() ) {
 		if (cmd->convert_src == TRIG_NOW) {
