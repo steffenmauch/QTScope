@@ -577,39 +577,6 @@ void QTScope::aboutQt(){
 }
 
 
-/*!
-  \fn QTScope::initComedi()
-*/
-void  QTScope::initComedi(){
-	aref = AREF_GROUND;
-
-	comediDevice = comedi_open(comediFilename);
-	if(!comediDevice) {
-		comedi_perror(comediFilename);
-		exit(-1);
-	}
-	comediSubdevice = comedi_find_subdevice_by_type(comediDevice,COMEDI_SUBD_AI,0);
-
-	cmd=new comedi_cmd;
-	if (!cmd) {
-		cerr << "Could not allocate memory for the async command\n";
-		exit(-1);
-	}
-			
-	// get basic information about the hardware
-	cout << "driver: " << comedi_get_driver_name(comediDevice) << "\n";
-	cout << "board name: " << comedi_get_board_name(comediDevice) << "\n";
-	max_chan = comedi_get_n_channels(comediDevice, comediSubdevice);
-	maxdata = comedi_get_maxdata(comediDevice, comediSubdevice,0);
-
-	cout << "channels: " << max_chan << "\n";
-
-	// get range information
-	cRange = comedi_get_range(comediDevice, comediSubdevice, 0, range);
-	cout << "comedi initialized...\n";
-}
-
-
 void QTScope::initBuffers(){
 	dataBuffer = new sampl_t[max_chan * numberOfSamples];
 	convDataBuffer = new double*[max_chan];
@@ -692,6 +659,38 @@ void QTScope::testComedi(){
 	cerr << "Sampling rate now: " << freq << "\n";
 }
 
+
+/*!
+  \fn QTScope::initComedi()
+*/
+void  QTScope::initComedi(){
+	aref = AREF_GROUND;
+
+	comediDevice = comedi_open(comediFilename);
+	if(!comediDevice) {
+		comedi_perror(comediFilename);
+		exit(-1);
+	}
+	comediSubdevice = comedi_find_subdevice_by_type(comediDevice,COMEDI_SUBD_AI,0);
+
+	cmd=new comedi_cmd;
+	if (!cmd) {
+		cerr << "Could not allocate memory for the async command\n";
+		exit(-1);
+	}
+			
+	// get basic information about the hardware
+	cout << "driver: " << comedi_get_driver_name(comediDevice) << "\n";
+	cout << "board name: " << comedi_get_board_name(comediDevice) << "\n";
+	max_chan = comedi_get_n_channels(comediDevice, comediSubdevice);
+	maxdata = comedi_get_maxdata(comediDevice, comediSubdevice,0);
+
+	cout << "channels: " << max_chan << "\n";
+
+	// get range information
+	cRange = comedi_get_range(comediDevice, comediSubdevice, 0, range);
+	cout << "comedi initialized...\n";
+}
 
 
 void QTScope::startComedi(){
