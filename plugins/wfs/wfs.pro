@@ -5,9 +5,11 @@
 
 target.path = /usr/local/lib/qtscope/plugins 
 SOURCES += wfs.cpp \
-		plot.cpp
+		plot.cpp \
+		gradientPlot.cpp 
 HEADERS += wfs.h \
-		plot.h 
+		plot.h \
+		gradientPlot.h
 TEMPLATE = lib 
 CONFIG += release \
           warn_on \

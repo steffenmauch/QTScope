@@ -54,20 +54,75 @@ class SpectrogramData: public QwtRasterData
 public:
     SpectrogramData()
     {
-        setInterval( Qt::XAxis, QwtInterval( -1.5, 1.5 ) );
-        setInterval( Qt::YAxis, QwtInterval( -1.5, 1.5 ) );
+        setInterval( Qt::XAxis, QwtInterval( -1, 1 ) );
+        setInterval( Qt::YAxis, QwtInterval( -1, 1 ) );
         setInterval( Qt::ZAxis, QwtInterval( 0.0, 10.0 ) );
+        
+        data[0][0] = 1;
+        data[0][1] = 2;
+        data[1][0] = 3;
+        data[1][1] = 4;
     }
+
 
     virtual double value( double x, double y ) const
     {
+		#if 0
         const double c = 0.842;
 
-        const double v1 = x * x + ( y - c ) * ( y + c );
+        const double v1 = x  + ( y - c ) * ( y + c );
         const double v2 = x * ( y + c ) + x * ( y + c );
 
         return 1.0 / ( v1 * v1 + v2 * v2 );
+        #endif
+        //qDebug() << x << y << endl;
+        if( x > 0.9 || x < -0.9)
+			return 1;
+		if( y > 0.9 || y < -0.9)
+			return 1;
+			
+        return 0;
     }
+    
+private:
+	double data[2][2];
+};
+
+class RasterData: public QwtMatrixRasterData
+{
+public:
+	RasterData(){
+		const double matrix[] =
+		{
+		1.0000,0.0443,0.0098,0.0740,0.0030,0.0122,0.0001,
+		0.0443,1.0000,0.0122,0.0354,0.0013,0.0024,0.0001,
+		0.0098,0.0122,1.0000,0.1146,0.0520,0.0054,0.0068,
+		0.0740,0.0354,0.1146,1.0000,0.0131,0.0589,0.0011,
+		0.0030,0.0013,0.0520,0.0131,1.0000,0.0105,0.0169,
+		0.0122,0.0024,0.005,0.0589,0.0105,1.0000,0.0187,
+		0.0001,0.0001,0.0068,0.0011,0.0169,0.0187,1.0000,
+
+		};
+
+		QVector<double> values;
+		for ( uint i = 0; i < sizeof(matrix) / sizeof(double); i++ )
+			values += matrix[i];
+		
+		// const int numColumns = 4;
+		const int numColumns = 7;
+		setValueMatrix(values, numColumns);
+
+		//setInterval( Qt::XAxis,
+		// QwtInterval( -0.5, 3.5, QwtInterval::ExcludeMaximum ) );
+		setInterval( Qt::XAxis,
+		QwtInterval( 0.5, 7.5, QwtInterval::ExcludeMaximum ) );
+		// setInterval( Qt::YAxis,
+		// QwtInterval( -0.5, 3.5, QwtInterval::ExcludeMaximum ) );
+		setInterval( Qt::YAxis,
+		QwtInterval( 0.5, 7.5, QwtInterval::ExcludeMaximum ) );
+		//setInterval( Qt::ZAxis, QwtInterval(1.0, 6.0) );
+		setInterval( Qt::ZAxis, QwtInterval(0.0, 1.0) );
+	}
 };
 
 class ColorMap: public QwtLinearColorMap
@@ -91,7 +146,8 @@ Plot::Plot( QWidget *parent ):
     d_spectrogram->setColorMap( new ColorMap() );
     d_spectrogram->setCachePolicy( QwtPlotRasterItem::PaintCache );
 
-    d_spectrogram->setData( new SpectrogramData() );
+    //d_spectrogram->setData( new SpectrogramData() );
+    d_spectrogram->setData( new RasterData() );
     d_spectrogram->attach( this );
 
     QList<double> contourLevels;

@@ -21,7 +21,7 @@
 #include "wfs.h"
 // for the data formats
 #include <comedilib.h>
-
+#include <QPainter>
 #include <iostream>
 
 pluginInfo myPluginInfo = {"WFS Plugin", "Plot", 1, COMEDI_SUBD_MEMORY};
@@ -39,21 +39,82 @@ wfs::wfs(QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowF
 	callingWidget = caller;
 	idThis = id;
 	
-	resize(400,200);
+	//set sizePolicy (important for heightForWidth)
+	QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+	sizePolicy.setHeightForWidth(true);
+	setSizePolicy(sizePolicy);
 	
-	d_plot = new Plot(this);
+	window = new QWidget();
+	vbox_layout = new QVBoxLayout();
+	hbox_layout = new QHBoxLayout();
+	
+	d_plot = new Plot();
+	
+	gradient_plot = new gradientPlot( );
+	
+	en_contour = new QPushButton( tr("enable contour") );
+	en_contour->setCheckable( TRUE );
+	
+	en_nullref = new QPushButton( tr("enable reference") );
+	en_nullref->setCheckable( TRUE );
+	
+	clear_nullref = new QPushButton( tr("clear reference") );
+	
+	hbox_layout->addWidget(en_nullref);
+	hbox_layout->addWidget(clear_nullref);
+	
+	vbox_layout->addLayout(hbox_layout);
 
-    setWidget(d_plot);
+	vbox_layout->addWidget(en_contour);
+	vbox_layout->addWidget(gradient_plot);
+	vbox_layout->addWidget(d_plot);
+	d_plot->hide();
+
+	// connect signals to buttons
+	hbox_layout->connect(clear_nullref, SIGNAL( clicked() ),
+		this, SLOT( clearReference() ) );
+	vbox_layout->connect(en_nullref, SIGNAL( clicked() ),
+		this, SLOT( setReference() ) );
+	vbox_layout->connect(en_contour, SIGNAL( clicked() ),
+		this, SLOT( enableCountour() ) );
+
+    window->setLayout(vbox_layout);
+    setWidget(window);
+     
+	//setWidget( gradient_plot );
+    //setWidget(d_plot);
     
     setWindowTitle("Wavefront Sensor plugin");
     
 	show();
+	resize(400,400);
+}
+
+void wfs::enableCountour(){
+	qDebug() << "called function: " << __func__ << endl;
+	
+	if ( en_contour->isChecked() ) {
+		d_plot->show();
+		gradient_plot->hide();
+		//this->resize(400,200);
+	} else {
+		d_plot->hide();
+		gradient_plot->show();
+	}
+}
+
+void wfs::clearReference(){
+	qDebug() << "called function: " << __func__ << endl;
+}
+
+void wfs::setReference(){
+	qDebug() << "called function: " << __func__ << endl;
 }
 
 QSize wfs::sizeHint() const
 {
-	return QSize(100, 110);
-	cout << "getting called\n";
+	return QSize(480, 550);
+	//cout << "getting called\n";
 }
 
 wfs::~wfs()

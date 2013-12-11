@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2013 by Steffen Mauch                                   *
- *   steffen.mauch@gmail.com                                               *
+ *   Steffen Mauch, steffen.mauch@gmail.com                                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,22 +17,33 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <qwt_plot_spectrogram.h>
-#include <qwt_matrix_raster_data.h>
-#include <qwt_plot.h>
+#ifndef GRADIENTPLOT_H
+#define GRADIENTPLOT_H
 
-class Plot: public QwtPlot
+#include <QWidget>
+
+#define WFS_SIZE 224
+#define NB_OF_APERTURES_PER_ROW 14
+
+/**
+@author Steffen Mauch
+*/
+class gradientPlot : public QWidget
 {
-    Q_OBJECT
-
+Q_OBJECT
 public:
-    Plot( QWidget * = NULL );
-
-public Q_SLOTS:
-    void showContour( bool on );
-    void showSpectrogram( bool on );
-    void setAlpha( int );
+	gradientPlot( QWidget* parent = NULL );
+    ~gradientPlot();
 
 private:
-    QwtPlotSpectrogram *d_spectrogram;
+    double ref_slopes_x[NB_OF_APERTURES_PER_ROW][NB_OF_APERTURES_PER_ROW];
+    double ref_slopes_y[NB_OF_APERTURES_PER_ROW][NB_OF_APERTURES_PER_ROW];
+    double actual_slopes_x[NB_OF_APERTURES_PER_ROW][NB_OF_APERTURES_PER_ROW];
+    double actual_slopes_y[NB_OF_APERTURES_PER_ROW][NB_OF_APERTURES_PER_ROW];
+
+protected:
+     void paintEvent(QPaintEvent *event);
+     void resizeEvent(QResizeEvent * event);
 };
+
+#endif

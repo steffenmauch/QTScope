@@ -22,6 +22,11 @@
 
 #include <scopeplotplugin.h>
 #include "plot.h"
+#include "gradientPlot.h"
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+
+#include <QPushButton>
 
 /**
 @author Steffen Mauch
@@ -45,9 +50,23 @@ public:
     void samplingRateChanged() {};
 
    	virtual QSize sizeHint() const;
-   	
+     
 private:
     Plot *d_plot;
+    gradientPlot *gradient_plot;
+    QVBoxLayout *vbox_layout;
+    QHBoxLayout *hbox_layout;
+    QWidget *window;
+    
+    QPushButton *en_contour;
+    QPushButton *en_nullref;
+    QPushButton *clear_nullref;
+
+private slots:
+    void enableCountour();
+    void clearReference();
+    void setReference();
+    
 };
 
 extern "C" {
