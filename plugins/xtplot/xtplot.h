@@ -55,6 +55,10 @@ private:
 
     // pointer to data
     double *ds;
+    
+    // minimum/maximum values inside plot
+    double y_Min;
+	double y_Max;
 
     // plot data is stored here
     double *x;
