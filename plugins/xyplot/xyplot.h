@@ -47,6 +47,7 @@ public:
     void replot();
     void setDataSource(sampl_t**, double **v) {dsx = v[0]; dsy = v[1];}
     void samplingRateChanged() {};
+    void getComedi(comedi_t *comediDevice) {};
 
 private:
     // the data plot

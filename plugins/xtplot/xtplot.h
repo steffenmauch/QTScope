@@ -44,6 +44,7 @@ public:
     void insertValues(int num,int append);
     void replot();
     void setDataSource(sampl_t**, double **v) {ds = v[0];}
+    void getComedi(comedi_t *comediDevice) {};
 
 private:
     // the data plot

@@ -750,6 +750,7 @@ int QTScope::initPlugins(){
 						pD.name = pI->name;
 						pD.type = pI->type;
 						pD.numChannels = pI->channelsRequest;
+						pD.type_comedi = pI->type_comedi;
 						pD.create = reinterpret_cast< CreateP >( reinterpret_cast< long >( dlsym( hndl, "createPlugin" ) ) );
 						availablePlugins.append(pD);
 					} else {
@@ -788,6 +789,13 @@ int QTScope::runPlugin(QString name, int *channels){
 				activePlugins.append(dT);
 
 				dT->channels.clear();
+				
+				#if 1
+				//if( it->type_comedi == COMEDI_SUBD_MEMORY ){
+					//qDebug() << "COMEDI_SUBD_MEMORY" << endl;
+					dT->target->getComedi( comediDevice );
+				//}
+				#endif
 
 				// provide pointers to data sources to the plugin
 				dataSources = new double*[(*it).numChannels];

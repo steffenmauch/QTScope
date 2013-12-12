@@ -53,6 +53,7 @@ public:
 	virtual void setDataSource(sampl_t**, double **) = 0;
 	virtual void insertValues(int n,int append=1) = 0;
 	virtual void replot() = 0;
+	virtual void getComedi(comedi_t *comediDevice) = 0;
 
 	void closeEvent( QCloseEvent * );
 

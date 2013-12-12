@@ -20,6 +20,7 @@
 
 #include "gradientPlot.h"
 #include <QPainter>
+#include <QDebug>
 #include <QResizeEvent>
 
 gradientPlot::gradientPlot( QWidget* parent )
@@ -115,6 +116,20 @@ void gradientPlot::paintEvent(QPaintEvent *){
 	painter.setPen(palette().dark().color());
 	painter.setBrush(Qt::NoBrush);
 	painter.drawRect(QRect(0, 0, WFS_SIZE - 1, WFS_SIZE - 1));
+}
+
+void gradientPlot::setData( double *data_x, double *data_y ){
+	#if 1
+	for( int k=0; k<NB_OF_APERTURES_PER_ROW; k++ ){
+		for( int l=0; l<NB_OF_APERTURES_PER_ROW; l++ ){
+			actual_slopes_x[k][l] = *data_x;
+			data_x++;
+			actual_slopes_y[k][l] = *data_y;
+			data_y++;
+		}
+	}
+	#endif
+	update();
 }
 
 gradientPlot::~gradientPlot()

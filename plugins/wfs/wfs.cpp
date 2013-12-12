@@ -103,6 +103,46 @@ void wfs::enableCountour(){
 	}
 }
 
+void wfs::getComedi(comedi_t *comediDevice1){
+	qDebug() << "called function: " << __func__ << endl;
+	comediDevice = comediDevice1;
+	
+	comediSubdevice = comedi_find_subdevice_by_type(comediDevice,COMEDI_SUBD_MEMORY,0);
+	
+	timer = new QTimer(this);
+	connect(timer, SIGNAL(timeout()), this, SLOT(slotReadData()));
+	timer->start(500);
+	
+}
+
+void wfs::slotReadData(){
+	qDebug() << "called function: " << __func__ << endl;
+	int count = 196;
+	lsampl_t data[count];
+	double data_x[count];
+	
+	int retval = 0;
+	retval = comedi_data_read_n(comediDevice, comediSubdevice, 0, 0, AREF_GROUND, &data[0], 100);
+	
+	if(retval < 0)	{
+		comedi_perror("comedi_data_read");
+		return;
+	}
+	
+	retval = comedi_data_read_n(comediDevice, comediSubdevice, 100, 0, AREF_GROUND, &data[100], 96);
+	
+	if(retval < 0)	{
+		comedi_perror("comedi_data_read");
+		return;
+	}
+	
+	for( int k = 0; k < count; k++ ){
+		//printf("%d\n", data[k]);
+		data_x[k] = double(data[k]);
+	}
+	gradient_plot->setData( &data_x[0], &data_x[0] );
+}
+
 void wfs::clearReference(){
 	qDebug() << "called function: " << __func__ << endl;
 }

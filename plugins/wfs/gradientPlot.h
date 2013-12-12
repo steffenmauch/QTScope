@@ -34,6 +34,8 @@ Q_OBJECT
 public:
 	gradientPlot( QWidget* parent = NULL );
     ~gradientPlot();
+    
+    void setData( double *data_x, double *data_y );
 
 private:
     double ref_slopes_x[NB_OF_APERTURES_PER_ROW][NB_OF_APERTURES_PER_ROW];

@@ -42,6 +42,7 @@ public:
     void insertValues(int, int) {}
     void replot() {}
     void samplingRateChanged() {};
+    void getComedi(comedi_t *comediDevice) {};
 
    	virtual QSize sizeHint() const;
 

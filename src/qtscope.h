@@ -56,6 +56,7 @@ typedef struct pluginData
     QString name;
     QString type;
     int numChannels;
+    int type_comedi;
   };
 
 typedef struct dataTarget

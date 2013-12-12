@@ -25,7 +25,7 @@
 #include "gradientPlot.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-
+#include <QTimer>
 #include <QPushButton>
 
 /**
@@ -48,6 +48,8 @@ public:
     void insertValues(int, int) {}
     void replot() {}
     void samplingRateChanged() {};
+    
+    void getComedi(comedi_t *comediDevice);
 
    	virtual QSize sizeHint() const;
      
@@ -61,11 +63,21 @@ private:
     QPushButton *en_contour;
     QPushButton *en_nullref;
     QPushButton *clear_nullref;
+    
+    // comedi specific variables
+    comedi_t *comediDevice;
+    int comediSubdevice;
+
+    // the comedi command
+    comedi_cmd *cmd;
+    
+    QTimer *timer;
 
 private slots:
     void enableCountour();
     void clearReference();
     void setReference();
+    void slotReadData();
     
 };
 
