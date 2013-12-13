@@ -22,7 +22,7 @@
 
 #include <iostream>
 
-pluginInfo myPluginInfo = {"Dummy Plugin", "Plot", 2};
+pluginInfo myPluginInfo = {"Dummy Plugin", "Plot", 2, 0};
 
 scopePlotPlugin *createPlugin (QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags,int numberOfSamples) {
 	return new dummy(caller, parent, name, id, wflags,numberOfSamples);

@@ -22,7 +22,7 @@
 #include <QDebug>
 #include <iostream>
 
-pluginInfo myPluginInfo = {"Switch Plugin", "Plot", 2};
+pluginInfo myPluginInfo = {"Switch Plugin", "Plot", 2, COMEDI_SUBD_DO};
 
 scopePlotPlugin *createPlugin (QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags,int numberOfSamples) {
 	return new switchPlugin(caller, parent, name, id, wflags,numberOfSamples);
