@@ -10,4 +10,5 @@ warn_on
 SUBDIRS += xtplot \
            dummy \
            wfs \
-           xyplot 
+           xyplot \
+           switch
