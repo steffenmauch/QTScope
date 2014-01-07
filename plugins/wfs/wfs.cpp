@@ -88,6 +88,13 @@ wfs::wfs(QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowF
     
 	show();
 	resize(400,400);
+	
+	 MatrixXd m(2,2);
+m(0,0) = 3;
+m(1,0) = 2.5;
+m(0,1) = -1;
+m(1,1) = m(1,0) + m(0,1);
+std::cout << m << std::endl;
 }
 
 void wfs::enableCountour(){

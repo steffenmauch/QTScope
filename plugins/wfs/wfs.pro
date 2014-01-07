@@ -18,7 +18,8 @@ CONFIG += release \
           plugin 
 INCLUDEPATH = ../../plugins/wfs \
               ../../src \
-              /usr/include/qwt
+              /usr/include/qwt \
+              /usr/include/eigen3
 LIBS += -lqwt \
 		../../src/scopeplotplugin.o \
         ../../src/moc_scopeplotplugin.o 

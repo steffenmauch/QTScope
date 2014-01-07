@@ -31,14 +31,14 @@ gradientPlot::gradientPlot( QWidget* parent )
     for( int k=0; k<14; k++ ){
 		for( int l=0; l<14; l++ ){
 			ref_slopes_x[k][l] = 8.0f+k*16;
-			ref_slopes_y[k][l] = 8.0f+l*16;
+            ref_slopes_y[k][l] = 8.0f+l*16;
 		}
 	}
 	
 	for( int k=0; k<14; k++ ){
 		for( int l=0; l<14; l++ ){
 			actual_slopes_x[k][l] = 8.0f+k*16+3;
-			actual_slopes_y[k][l] = 8.0f+l*16-3;
+            actual_slopes_y[k][l] = 8.0f+l*16;
 		}
 	}
     
@@ -119,7 +119,7 @@ void gradientPlot::paintEvent(QPaintEvent *){
 }
 
 void gradientPlot::setData( double *data_x, double *data_y ){
-	#if 1
+    #if 0
 	for( int k=0; k<NB_OF_APERTURES_PER_ROW; k++ ){
 		for( int l=0; l<NB_OF_APERTURES_PER_ROW; l++ ){
 			actual_slopes_x[k][l] = *data_x;
