@@ -28,9 +28,6 @@
 #include <QTimer>
 #include <QPushButton>
 
-#include <Eigen/Core>
-using namespace Eigen;
-
 /**
 @author Steffen Mauch
 */
@@ -66,7 +63,6 @@ private:
     QPushButton *en_contour;
     QPushButton *en_nullref;
     QPushButton *clear_nullref;
-    MatrixXf lmatrix;  
     
     // comedi specific variables
     comedi_t *comediDevice;

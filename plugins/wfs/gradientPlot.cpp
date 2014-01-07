@@ -27,22 +27,28 @@ gradientPlot::gradientPlot( QWidget* parent )
 	: QWidget( parent )
 {
 	resize(300,300);
+	
+	ref_slopes_x = new MatrixXd(NB_OF_APERTURES_PER_ROW,NB_OF_APERTURES_PER_ROW);
+	ref_slopes_y = new MatrixXd(NB_OF_APERTURES_PER_ROW,NB_OF_APERTURES_PER_ROW);
+    
+    actual_slopes_x = new MatrixXd(NB_OF_APERTURES_PER_ROW,NB_OF_APERTURES_PER_ROW);
+    actual_slopes_y = new MatrixXd(NB_OF_APERTURES_PER_ROW,NB_OF_APERTURES_PER_ROW);
     
     for( int k=0; k<14; k++ ){
 		for( int l=0; l<14; l++ ){
-			ref_slopes_x[k][l] = 8.0f+k*16;
-            ref_slopes_y[k][l] = 8.0f+l*16;
+			(*ref_slopes_x)(k,l) = 8.0f+k*16;
+            (*ref_slopes_y)(k,l) = 8.0f+l*16;
 		}
 	}
 	
 	for( int k=0; k<14; k++ ){
 		for( int l=0; l<14; l++ ){
-			actual_slopes_x[k][l] = 8.0f+k*16+3;
-            actual_slopes_y[k][l] = 8.0f+l*16;
+			(*actual_slopes_x)(k,l) = 8.0f+k*16+3;
+            (*actual_slopes_y)(k,l) = 8.0f+l*16;
 		}
 	}
     
-    actual_slopes_x[1][1] = -1;
+    (*actual_slopes_x)(1,1) = -1;
 }
 
 void gradientPlot::resizeEvent(QResizeEvent * event){
@@ -89,12 +95,12 @@ void gradientPlot::paintEvent(QPaintEvent *){
 	
 	for( int k=0; k<14; k++ ){
 		for( int l=0; l<14; l++ ){
-			if( actual_slopes_x[k][l] == -1 || actual_slopes_y[k][l] == -1 ){
+			if( (*actual_slopes_x)(k,l) == -1 || (*actual_slopes_y)(k,l) == -1 ){
 				;
 			}
 			else{
-				painter.drawLine( QPointF(ref_slopes_x[k][l], ref_slopes_y[l][l]), 
-					QPointF(actual_slopes_x[k][l], actual_slopes_y[l][l]) );
+				painter.drawLine( QPointF( (*ref_slopes_x)(k,l), (*ref_slopes_y)(l,l) ), 
+					QPointF( (*actual_slopes_x)(k,l), (*actual_slopes_y)(l,l) ) );
 				}
 			}
 	}
@@ -108,7 +114,7 @@ void gradientPlot::paintEvent(QPaintEvent *){
 	
 	for( int k=0; k<14; k++ ){
 		for( int l=0; l<14; l++ )
-			painter.drawPoint( QPointF(ref_slopes_x[k][l], ref_slopes_y[l][l]) );
+			painter.drawPoint( QPointF( (*ref_slopes_x)(k,l), (*ref_slopes_y)(l,l) ) );
 	}
 	painter.restore();
 
@@ -122,9 +128,9 @@ void gradientPlot::setData( double *data_x, double *data_y ){
     #if 0
 	for( int k=0; k<NB_OF_APERTURES_PER_ROW; k++ ){
 		for( int l=0; l<NB_OF_APERTURES_PER_ROW; l++ ){
-			actual_slopes_x[k][l] = *data_x;
+			(*actual_slopes_x)(k,l) = *data_x;
 			data_x++;
-			actual_slopes_y[k][l] = *data_y;
+			(*actual_slopes_y)(k,l) = *data_y;
 			data_y++;
 		}
 	}
@@ -134,6 +140,11 @@ void gradientPlot::setData( double *data_x, double *data_y ){
 
 gradientPlot::~gradientPlot()
 {
+	delete ref_slopes_x;
+	delete ref_slopes_y;
+    
+    delete actual_slopes_x;
+    delete actual_slopes_y;
 }
 
 

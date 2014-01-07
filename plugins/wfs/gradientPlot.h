@@ -22,6 +22,9 @@
 
 #include <QWidget>
 
+#include <Eigen/Core>
+using namespace Eigen;
+
 #define WFS_SIZE 224
 #define NB_OF_APERTURES_PER_ROW 14
 
@@ -38,10 +41,15 @@ public:
     void setData( double *data_x, double *data_y );
 
 private:
-    double ref_slopes_x[NB_OF_APERTURES_PER_ROW][NB_OF_APERTURES_PER_ROW];
-    double ref_slopes_y[NB_OF_APERTURES_PER_ROW][NB_OF_APERTURES_PER_ROW];
-    double actual_slopes_x[NB_OF_APERTURES_PER_ROW][NB_OF_APERTURES_PER_ROW];
-    double actual_slopes_y[NB_OF_APERTURES_PER_ROW][NB_OF_APERTURES_PER_ROW];
+    //double ref_slopes_y[NB_OF_APERTURES_PER_ROW][NB_OF_APERTURES_PER_ROW];
+    //double actual_slopes_x[NB_OF_APERTURES_PER_ROW][NB_OF_APERTURES_PER_ROW];
+    //double actual_slopes_y[NB_OF_APERTURES_PER_ROW][NB_OF_APERTURES_PER_ROW];
+    MatrixXd *actual_slopes_x;
+    MatrixXd *actual_slopes_y;
+    
+	MatrixXd *ref_slopes_x;
+	MatrixXd *ref_slopes_y;
+	
 
 protected:
      void paintEvent(QPaintEvent *event);
