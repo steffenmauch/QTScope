@@ -51,12 +51,6 @@ private:
     
 	MatrixXd *ref_slopes_x;
 	MatrixXd *ref_slopes_y;
-	
-	MatrixXd *matC;
-	MatrixXd *matE;
-	
-	void calcMatrixC( int n );
-	void calcMatrixE( int n );
 
 protected:
      void paintEvent(QPaintEvent *event);

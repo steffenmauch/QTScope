@@ -21,12 +21,26 @@
 #include <qwt_matrix_raster_data.h>
 #include <qwt_plot.h>
 
+#include <iostream>
+#include <Eigen/SVD>
+#include <Eigen/Core>
+using namespace Eigen;
+
+#define WFS_SIZE 224
+#define NB_OF_APERTURES_PER_ROW 14
+
+#define DEBUG_RECONSTRUCTION 0
+
+
 class Plot: public QwtPlot
 {
     Q_OBJECT
 
 public:
     Plot( QWidget * = NULL );
+	~Plot();
+	
+	void setData( double *data_x, double *data_y );
 
 public Q_SLOTS:
     void showContour( bool on );
@@ -35,4 +49,16 @@ public Q_SLOTS:
 
 private:
     QwtPlotSpectrogram *d_spectrogram;
+    
+    MatrixXd *actual_slopes_x;
+    MatrixXd *actual_slopes_y;
+    
+	MatrixXd *ref_slopes_x;
+	MatrixXd *ref_slopes_y;
+	
+	MatrixXd *matC;
+	MatrixXd *matE;
+	
+	void calcMatrixC( int n );
+	void calcMatrixE( int n );
 };

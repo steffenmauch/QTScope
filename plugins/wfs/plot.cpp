@@ -193,6 +193,116 @@ Plot::Plot( QWidget *parent ):
     const QColor c( Qt::darkBlue );
     zoomer->setRubberBandPen( c );
     zoomer->setTrackerPen( c );
+    
+    
+    	
+	ref_slopes_x = new MatrixXd(NB_OF_APERTURES_PER_ROW,NB_OF_APERTURES_PER_ROW);
+	ref_slopes_y = new MatrixXd(NB_OF_APERTURES_PER_ROW,NB_OF_APERTURES_PER_ROW);
+    
+    actual_slopes_x = new MatrixXd(NB_OF_APERTURES_PER_ROW,NB_OF_APERTURES_PER_ROW);
+    actual_slopes_y = new MatrixXd(NB_OF_APERTURES_PER_ROW,NB_OF_APERTURES_PER_ROW);
+    
+	matC = new MatrixXd( 2*NB_OF_APERTURES_PER_ROW*(NB_OF_APERTURES_PER_ROW-1),
+						2*NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW );
+						
+	matE = new MatrixXd( 2*NB_OF_APERTURES_PER_ROW*(NB_OF_APERTURES_PER_ROW-1), 
+			NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW );
+	
+	(*matC).setZero();
+	(*matE).setZero();
+	
+	calcMatrixC( NB_OF_APERTURES_PER_ROW );
+	calcMatrixE( NB_OF_APERTURES_PER_ROW );
+}
+
+Plot::~Plot( ){
+	delete ref_slopes_x;
+	delete ref_slopes_y;
+    
+    delete actual_slopes_x;
+    delete actual_slopes_y;
+    
+    delete matE;
+    delete matC;
+}
+
+void Plot::setData( double *data_x, double *data_y ){
+	#if 1
+	//qDebug() << "here i am";
+
+	for( int k=0; k<NB_OF_APERTURES_PER_ROW; k++ ){
+		for( int l=0; l<NB_OF_APERTURES_PER_ROW; l++ ){
+			(*actual_slopes_x)(k,l) = *data_x;
+			data_x++;
+			(*actual_slopes_y)(k,l) = *data_y;
+			data_y++;
+		}
+	}
+	
+	
+	MatrixXd S( 2, NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW );
+	S << Map<MatrixXd>((*actual_slopes_x).data(),1, NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW),
+		Map<MatrixXd>((*actual_slopes_y).data(),1, NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW) ;
+
+	
+	JacobiSVD<MatrixXd> svd( (*matE), ComputeThinU | ComputeThinV);
+	
+	MatrixXd temp;
+	//temp << svd.matrixV()*svd.singularValues()*(*matC)*S;
+	//temp << svd.singularValues();
+	//temp << (*matC);
+	
+	std::cout << (*matC)*S << std::endl;
+	
+	#if 0
+[n, n]=size(Sx);
+S = [reshape(Sx', 1,n*n) reshape(Sy', 1,n*n)]';
+E = getE(n);
+[U, D, V] = svd(E, 0);
+D = pinv(D);
+C = getC(n); 
+W=V*D*U'*C*S;
+W=reshape(W', n, n)./ds;
+	#endif
+
+	#endif
+	update();
+}
+
+void Plot::calcMatrixE( int n ){
+
+	for( int i=1; i<=n; i++ ) {
+		for( int j=1; j<=(n-1); j++ ){
+			
+			(*matE)((i-1)*(n-1)+j-1, (i-1)*n+j-1)=-1; 
+			(*matE)((i-1)*(n-1)+j-1, (i-1)*n+j+1-1)=1; 
+			(*matE)((n+i-1)*(n-1)+j-1, i+(j-1)*n-1)=-1;
+			(*matE)((n+i-1)*(n-1)+j-1, i+j*n-1)=1;
+		}
+	}
+
+#if DEBUG_RECONSTRUCTION
+	std::cout << "matE - Plot";
+	std::cout << (*matE) << std::endl;
+#endif
+}
+
+void Plot::calcMatrixC( int n ){
+
+	for( int i=1; i<=n; i++ ) {
+		for( int j=1; j<(n-1); j++ ){
+			
+			(*matC)((i-1)*(n-1)+j-1, (i-1)*n+j-1)=0.5;
+			(*matC)((i-1)*(n-1)+j-1, (i-1)*n+j+1-1)=0.5; 
+			(*matC)((n+i-1)*(n-1)+j-1, n*(n+j-1)+i-1)=0.5; 
+			(*matC)((n+i-1)*(n-1)+j-1, n*(n+j)+i-1)=0.5; 
+		}
+	}
+	
+#if DEBUG_RECONSTRUCTION
+	std::cout << "matC - Plot";
+	std::cout << (*matC) << std::endl;
+#endif
 }
 
 void Plot::showContour( bool on )

@@ -141,7 +141,11 @@ void wfs::slotReadData(){
 		//printf("%d\n", data[k]);
 		data_x[k] = double(data[k]);
 	}
-	gradient_plot->setData( &data_x[0], &data_x[0] );
+	
+	if ( en_contour->isChecked() ) 
+		d_plot->setData( &data_x[0], &data_x[0] );
+	else
+		gradient_plot->setData( &data_x[0], &data_x[0] );
 }
 
 void wfs::clearReference(){
