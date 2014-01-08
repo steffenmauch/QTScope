@@ -28,6 +28,8 @@ using namespace Eigen;
 #define WFS_SIZE 224
 #define NB_OF_APERTURES_PER_ROW 14
 
+#define DEBUG_RECONSTRUCTION 0
+
 /**
 @author Steffen Mauch
 */
@@ -50,6 +52,11 @@ private:
 	MatrixXd *ref_slopes_x;
 	MatrixXd *ref_slopes_y;
 	
+	MatrixXd *matC;
+	MatrixXd *matE;
+	
+	void calcMatrixC( int n );
+	void calcMatrixE( int n );
 
 protected:
      void paintEvent(QPaintEvent *event);

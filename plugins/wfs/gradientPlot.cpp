@@ -23,6 +23,8 @@
 #include <QDebug>
 #include <QResizeEvent>
 
+#include <iostream>
+
 gradientPlot::gradientPlot( QWidget* parent )
 	: QWidget( parent )
 {
@@ -33,6 +35,18 @@ gradientPlot::gradientPlot( QWidget* parent )
     
     actual_slopes_x = new MatrixXd(NB_OF_APERTURES_PER_ROW,NB_OF_APERTURES_PER_ROW);
     actual_slopes_y = new MatrixXd(NB_OF_APERTURES_PER_ROW,NB_OF_APERTURES_PER_ROW);
+    
+    matC = new MatrixXd( 2*NB_OF_APERTURES_PER_ROW*(NB_OF_APERTURES_PER_ROW-1),
+						2*NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW );
+						
+	matE = new MatrixXd( 2*NB_OF_APERTURES_PER_ROW*(NB_OF_APERTURES_PER_ROW-1), 
+			NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW );
+	
+	(*matC).setZero();
+	(*matE).setZero();
+	
+	calcMatrixC( NB_OF_APERTURES_PER_ROW );
+	calcMatrixE( NB_OF_APERTURES_PER_ROW );
     
     for( int k=0; k<14; k++ ){
 		for( int l=0; l<14; l++ ){
@@ -49,6 +63,44 @@ gradientPlot::gradientPlot( QWidget* parent )
 	}
     
     (*actual_slopes_x)(1,1) = -1;
+}
+
+
+	
+void gradientPlot::calcMatrixE( int n ){
+
+	for( int i=1; i<=n; i++ ) {
+		for( int j=1; j<=(n-1); j++ ){
+			
+			(*matE)((i-1)*(n-1)+j-1, (i-1)*n+j-1)=-1; 
+			(*matE)((i-1)*(n-1)+j-1, (i-1)*n+j+1-1)=1; 
+			(*matE)((n+i-1)*(n-1)+j-1, i+(j-1)*n-1)=-1;
+			(*matE)((n+i-1)*(n-1)+j-1, i+j*n-1)=1;
+		}
+	}
+
+#if DEBUG_RECONSTRUCTION
+	std::cout << "haha";
+	std::cout << (*matC) << std::endl;
+#endif
+}
+
+void gradientPlot::calcMatrixC( int n ){
+
+	for( int i=1; i<=n; i++ ) {
+		for( int j=1; j<(n-1); j++ ){
+			
+			(*matC)((i-1)*(n-1)+j-1, (i-1)*n+j-1)=0.5;
+			(*matC)((i-1)*(n-1)+j-1, (i-1)*n+j+1-1)=0.5; 
+			(*matC)((n+i-1)*(n-1)+j-1, n*(n+j-1)+i-1)=0.5; 
+			(*matC)((n+i-1)*(n-1)+j-1, n*(n+j)+i-1)=0.5; 
+		}
+	}
+	
+#if DEBUG_RECONSTRUCTION
+	std::cout << "haha";
+	std::cout << (*matC) << std::endl;
+#endif
 }
 
 void gradientPlot::resizeEvent(QResizeEvent * event){
