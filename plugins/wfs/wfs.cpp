@@ -121,6 +121,7 @@ void wfs::slotReadData(){
 	int count = 196;
 	lsampl_t data[count];
 	double data_x[count];
+	double data_y[count];
 	
 	int retval = 0;
 	retval = comedi_data_read_n(comediDevice, comediSubdevice, 0, 0, AREF_GROUND, &data[0], 100);
@@ -141,11 +142,20 @@ void wfs::slotReadData(){
 		//printf("%d\n", data[k]);
 		data_x[k] = double(data[k]);
 	}
+	#if 1
+	
+	for( int k=0; k<14; k++ ){
+		for( int l=0; l<14; l++ ){
+			data_x[k*14+l] = 4;
+            data_y[k*14+l] = 0;
+		}
+	}
 	
 	if ( en_contour->isChecked() ) 
-		d_plot->setData( &data_x[0], &data_x[0] );
+		d_plot->setData( &data_x[0], &data_y[0] );
 	else
-		gradient_plot->setData( &data_x[0], &data_x[0] );
+		gradient_plot->setData( &data_x[0], &data_y[0] );
+	#endif
 }
 
 void wfs::clearReference(){

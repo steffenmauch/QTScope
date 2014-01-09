@@ -31,6 +31,7 @@ using namespace Eigen;
 
 #define DEBUG_RECONSTRUCTION 0
 
+class RasterData;
 
 class Plot: public QwtPlot
 {
@@ -58,6 +59,8 @@ private:
 	
 	MatrixXd *matC;
 	MatrixXd *matE;
+	
+	MatrixXd *result;
 	
 	void calcMatrixC( int n );
 	void calcMatrixE( int n );

@@ -49,80 +49,50 @@ public:
     }
 };
 
-class SpectrogramData: public QwtRasterData
-{
-public:
-    SpectrogramData()
-    {
-        setInterval( Qt::XAxis, QwtInterval( -1, 1 ) );
-        setInterval( Qt::YAxis, QwtInterval( -1, 1 ) );
-        setInterval( Qt::ZAxis, QwtInterval( 0.0, 10.0 ) );
-        
-        data[0][0] = 1;
-        data[0][1] = 2;
-        data[1][0] = 3;
-        data[1][1] = 4;
-    }
-
-
-    virtual double value( double x, double y ) const
-    {
-		#if 0
-        const double c = 0.842;
-
-        const double v1 = x  + ( y - c ) * ( y + c );
-        const double v2 = x * ( y + c ) + x * ( y + c );
-
-        return 1.0 / ( v1 * v1 + v2 * v2 );
-        #endif
-        //qDebug() << x << y << endl;
-        if( x > 0.9 || x < -0.9)
-			return 1;
-		if( y > 0.9 || y < -0.9)
-			return 1;
-			
-        return 0;
-    }
-    
-private:
-	double data[2][2];
-};
-
 class RasterData: public QwtMatrixRasterData
 {
 public:
-	RasterData(){
-		const double matrix[] =
-		{
-        1.2000,1.0000,0.8000,0.6000,0.4000,0.2000,0.0000,
-        1.2000,1.0000,0.8000,0.6000,0.4000,0.2000,0.0000,
-        1.2000,1.0000,0.8000,0.6000,0.4000,0.2000,0.0000,
-        1.2000,1.0000,0.8000,0.6000,0.4000,0.2000,0.0000,
-        1.2000,1.0000,0.8000,0.6000,0.4000,0.2000,0.0000,
-        1.2000,1.0000,0.8000,0.6000,0.4000,0.2000,0.0000,
-        1.2000,1.0000,0.8068,0.6000,0.4000,0.2000,0.0000,
+	RasterData( ){
 
-		};
 
 		QVector<double> values;
-		for ( uint i = 0; i < sizeof(matrix) / sizeof(double); i++ )
-			values += matrix[i];
+
+		for( uint i = 0; i < NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW; i++ ){
+			values += 0;
+		}
 		
-		// const int numColumns = 4;
-		const int numColumns = 7;
+		numColumns = NB_OF_APERTURES_PER_ROW;
 		setValueMatrix(values, numColumns);
 
-		//setInterval( Qt::XAxis,
-		// QwtInterval( -0.5, 3.5, QwtInterval::ExcludeMaximum ) );
 		setInterval( Qt::XAxis,
-		QwtInterval( 0.5, 7.5, QwtInterval::ExcludeMaximum ) );
-		// setInterval( Qt::YAxis,
-		// QwtInterval( -0.5, 3.5, QwtInterval::ExcludeMaximum ) );
+		QwtInterval( 1, NB_OF_APERTURES_PER_ROW, QwtInterval::ExcludeMaximum ) );
 		setInterval( Qt::YAxis,
-		QwtInterval( 0.5, 7.5, QwtInterval::ExcludeMaximum ) );
-		//setInterval( Qt::ZAxis, QwtInterval(1.0, 6.0) );
-		setInterval( Qt::ZAxis, QwtInterval(0.0, 1.0) );
+		QwtInterval( 1, NB_OF_APERTURES_PER_ROW, QwtInterval::ExcludeMaximum ) );
+		setInterval( Qt::ZAxis, QwtInterval(0.0, 10.0) );
 	}
+	
+	RasterData( double* data ){
+
+
+		QVector<double> values;
+
+		for( uint i = 0; i < NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW; i++ ){
+			values += data[i];
+		}
+		
+		numColumns = NB_OF_APERTURES_PER_ROW;
+		setValueMatrix(values, numColumns);
+
+		setInterval( Qt::XAxis,
+		QwtInterval( 1, NB_OF_APERTURES_PER_ROW, QwtInterval::ExcludeMaximum ) );
+		setInterval( Qt::YAxis,
+		QwtInterval( 1, NB_OF_APERTURES_PER_ROW, QwtInterval::ExcludeMaximum ) );
+
+		setInterval( Qt::ZAxis, QwtInterval(0.0, 10.0) );
+	}
+	
+private:
+	int numColumns;
 };
 
 class ColorMap: public QwtLinearColorMap
@@ -146,7 +116,6 @@ Plot::Plot( QWidget *parent ):
     d_spectrogram->setColorMap( new ColorMap() );
     d_spectrogram->setCachePolicy( QwtPlotRasterItem::PaintCache );
 
-    //d_spectrogram->setData( new SpectrogramData() );
     d_spectrogram->setData( new RasterData() );
     d_spectrogram->attach( this );
 
@@ -207,6 +176,8 @@ Plot::Plot( QWidget *parent ):
 						
 	matE = new MatrixXd( 2*NB_OF_APERTURES_PER_ROW*(NB_OF_APERTURES_PER_ROW-1), 
 			NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW );
+			
+	result = new MatrixXd( NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW,1 );
 	
 	(*matC).setZero();
 	(*matE).setZero();
@@ -224,6 +195,8 @@ Plot::~Plot( ){
     
     delete matE;
     delete matC;
+    
+    delete result;
 }
 
 void Plot::setData( double *data_x, double *data_y ){
@@ -248,11 +221,7 @@ void Plot::setData( double *data_x, double *data_y ){
 	
 	JacobiSVD<MatrixXd> svd( (*matE), ComputeThinU | ComputeThinV);
 	
-	MatrixXd temp;
-	//temp << svd.matrixV()*svd.singularValues()*(*matC)*S;
-	//temp << svd.singularValues();
-	//temp << (*matC);
-	
+	#if 0
 	std::cout << "Eigen output:" << std::endl;
 	std::cout << S.size() << std::endl;
 	
@@ -261,10 +230,17 @@ void Plot::setData( double *data_x, double *data_y ){
 	std::cout << "size singular value: " << (svd.singularValues()).asDiagonal().size() << std::endl;
 	
 	std::cout << "size V*D*U'*C*S: " << (svd.matrixV()*svd.singularValues().asDiagonal()*svd.matrixU().transpose()*(*matC)*S.transpose()).size() << std::endl;
+	#endif
 	
-	MatrixXd result(NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW,1);
-	result << (svd.matrixV()*svd.singularValues().asDiagonal()*svd.matrixU().transpose()*(*matC)*S.transpose());
+	(*result) << (svd.matrixV()*svd.singularValues().asDiagonal()*svd.matrixU().transpose()*(*matC)*S.transpose());
+
+	std::cout << (*result);
 	
+    d_spectrogram->setData( new RasterData( (*result).data() ) );
+    replot();
+	
+	
+	//
 	#if 0
 [n, n]=size(Sx);
 S = [reshape(Sx', 1,n*n) reshape(Sy', 1,n*n)]';
