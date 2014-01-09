@@ -240,10 +240,11 @@ void Plot::setData( double *data_x, double *data_y ){
 	}
 	
 	
-	MatrixXd S( 2, NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW );
-	S << Map<MatrixXd>((*actual_slopes_x).data(),1, NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW),
-		Map<MatrixXd>((*actual_slopes_y).data(),1, NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW) ;
-
+	MatrixXd S( 1, 2*NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW );
+	S << Map<MatrixXd>( ((*actual_slopes_x).transpose()).data(),
+						1, NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW),
+		Map<MatrixXd>( ((*actual_slopes_y).transpose()).data(),
+						1, NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW) ;
 	
 	JacobiSVD<MatrixXd> svd( (*matE), ComputeThinU | ComputeThinV);
 	
@@ -252,7 +253,17 @@ void Plot::setData( double *data_x, double *data_y ){
 	//temp << svd.singularValues();
 	//temp << (*matC);
 	
-	std::cout << (*matC)*S << std::endl;
+	std::cout << "Eigen output:" << std::endl;
+	std::cout << S.size() << std::endl;
+	
+	std::cout << "C*S size: " << ((*matC)*S.transpose()).size() << std::endl;
+	
+	std::cout << "size singular value: " << (svd.singularValues()).asDiagonal().size() << std::endl;
+	
+	std::cout << "size V*D*U'*C*S: " << (svd.matrixV()*svd.singularValues().asDiagonal()*svd.matrixU().transpose()*(*matC)*S.transpose()).size() << std::endl;
+	
+	MatrixXd result(NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW,1);
+	result << (svd.matrixV()*svd.singularValues().asDiagonal()*svd.matrixU().transpose()*(*matC)*S.transpose());
 	
 	#if 0
 [n, n]=size(Sx);
