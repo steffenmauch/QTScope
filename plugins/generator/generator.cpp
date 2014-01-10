@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Steffen Mauch                                   *
+ *   Copyright (C) 2014 by Steffen Mauch                                   *
  *   steffen.mauch@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
