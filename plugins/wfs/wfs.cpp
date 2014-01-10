@@ -142,20 +142,20 @@ void wfs::slotReadData(){
 		//printf("%d\n", data[k]);
 		data_x[k] = double(data[k]);
 	}
-	#if 1
 	
+	// enable this for a fake tip/tilt wavefront
+	#if 1
 	for( int k=0; k<14; k++ ){
 		for( int l=0; l<14; l++ ){
-			data_x[k*14+l] = 4;
-            data_y[k*14+l] = 0;
+			data_x[k*14+l] = 8.0f+k*16+4;
+            data_y[k*14+l] = 8.0f+l*16+0;
 		}
 	}
-	
+	#endif
 	if ( en_contour->isChecked() ) 
 		d_plot->setData( &data_x[0], &data_y[0] );
 	else
 		gradient_plot->setData( &data_x[0], &data_y[0] );
-	#endif
 }
 
 void wfs::clearReference(){

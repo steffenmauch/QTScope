@@ -26,6 +26,29 @@
 #include <Eigen/Core>
 using namespace Eigen;
 
+
+#include <Eigen/SVD>
+
+
+template<typename _Matrix_Type_>
+bool pseudoInverse(const _Matrix_Type_ &a, _Matrix_Type_ &result, double
+epsilon = std::numeric_limits<typename _Matrix_Type_::Scalar>::epsilon())
+{
+  if(a.rows()<a.cols())
+      return false;
+
+  Eigen::JacobiSVD< _Matrix_Type_ > svd = a.jacobiSvd(Eigen::ComputeFullU |
+Eigen::ComputeFullV);
+
+  typename _Matrix_Type_::Scalar tolerance = epsilon * std::max(a.cols(),
+a.rows()) * svd.singularValues().array().abs().maxCoeff();
+
+  result = svd.matrixV() * _Matrix_Type_( (svd.singularValues().array().abs() >
+tolerance).select(svd.singularValues().
+      array().inverse(), 0) ).asDiagonal() * svd.matrixU().adjoint();
+}
+
+
 #define WFS_SIZE 224
 #define NB_OF_APERTURES_PER_ROW 14
 

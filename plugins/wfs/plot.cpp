@@ -68,7 +68,7 @@ public:
 		QwtInterval( 1, NB_OF_APERTURES_PER_ROW, QwtInterval::ExcludeMaximum ) );
 		setInterval( Qt::YAxis,
 		QwtInterval( 1, NB_OF_APERTURES_PER_ROW, QwtInterval::ExcludeMaximum ) );
-		setInterval( Qt::ZAxis, QwtInterval(0.0, 10.0) );
+		setInterval( Qt::ZAxis, QwtInterval(-40.0, 40.0) );
 	}
 	
 	RasterData( double* data ){
@@ -88,7 +88,8 @@ public:
 		setInterval( Qt::YAxis,
 		QwtInterval( 1, NB_OF_APERTURES_PER_ROW, QwtInterval::ExcludeMaximum ) );
 
-		setInterval( Qt::ZAxis, QwtInterval(0.0, 10.0) );
+		setInterval( Qt::ZAxis, QwtInterval(-40.0, 40.0) );
+
 	}
 	
 private:
@@ -101,9 +102,10 @@ public:
     ColorMap():
         QwtLinearColorMap( Qt::darkCyan, Qt::red )
     {
-        addColorStop( 0.1, Qt::cyan );
-        addColorStop( 0.6, Qt::green );
-        addColorStop( 0.95, Qt::yellow );
+        addColorStop( 0.1, Qt::blue );
+        addColorStop( 0.4, Qt::green );
+        addColorStop( 0.7, Qt::yellow );
+        addColorStop( 1.0, Qt::red );
     }
 };
 
@@ -120,7 +122,7 @@ Plot::Plot( QWidget *parent ):
     d_spectrogram->attach( this );
 
     QList<double> contourLevels;
-    for ( double level = 0.5; level < 10.0; level += 1.0 )
+    for ( double level = -40; level < 40.0; level += 1.0 )
         contourLevels += level;
     d_spectrogram->setContourLevels( contourLevels );
 
@@ -167,6 +169,13 @@ Plot::Plot( QWidget *parent ):
     	
 	ref_slopes_x = new MatrixXd(NB_OF_APERTURES_PER_ROW,NB_OF_APERTURES_PER_ROW);
 	ref_slopes_y = new MatrixXd(NB_OF_APERTURES_PER_ROW,NB_OF_APERTURES_PER_ROW);
+	
+	for( int k=0; k<14; k++ ){
+		for( int l=0; l<14; l++ ){
+			(*ref_slopes_x)(k,l) = 8.0f+k*16;
+            (*ref_slopes_y)(k,l) = 8.0f+l*16;
+		}
+	}
     
     actual_slopes_x = new MatrixXd(NB_OF_APERTURES_PER_ROW,NB_OF_APERTURES_PER_ROW);
     actual_slopes_y = new MatrixXd(NB_OF_APERTURES_PER_ROW,NB_OF_APERTURES_PER_ROW);
@@ -212,29 +221,49 @@ void Plot::setData( double *data_x, double *data_y ){
 		}
 	}
 	
+	MatrixXd refX = ((*actual_slopes_x)-(*ref_slopes_x));
+	MatrixXd refY = ((*actual_slopes_y)-(*ref_slopes_y));
 	
 	MatrixXd S( 1, 2*NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW );
-	S << Map<MatrixXd>( ((*actual_slopes_x).transpose()).data(),
+	S << Map<MatrixXd>( ( refX.transpose()).data(),
 						1, NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW),
-		Map<MatrixXd>( ((*actual_slopes_y).transpose()).data(),
+		 Map<MatrixXd>( ( refY.transpose()).data(),
 						1, NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW) ;
+	
+	
 	
 	JacobiSVD<MatrixXd> svd( (*matE), ComputeThinU | ComputeThinV);
 	
-	#if 0
+	MatrixXd D = svd.singularValues().asDiagonal();
+	MatrixXd pseudoInvD( NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW,
+							NB_OF_APERTURES_PER_ROW*NB_OF_APERTURES_PER_ROW );
+	pseudoInverse( D, pseudoInvD, 10e-9);
+	
+#if 0
 	std::cout << "Eigen output:" << std::endl;
+	
+	//std::cout << "matrix S:" << S << std::endl;
+	
 	std::cout << S.size() << std::endl;
 	
 	std::cout << "C*S size: " << ((*matC)*S.transpose()).size() << std::endl;
 	
+	//std::cout << "C value: " << (*matC) << std::endl;
+	
+	//std::cout << "E value: " << (*matE) << std::endl;
+	
 	std::cout << "size singular value: " << (svd.singularValues()).asDiagonal().size() << std::endl;
 	
-	std::cout << "size V*D*U'*C*S: " << (svd.matrixV()*svd.singularValues().asDiagonal()*svd.matrixU().transpose()*(*matC)*S.transpose()).size() << std::endl;
-	#endif
+	std::cout << "Pinv(D): " << pseudoInvD << "::end Pinv(D) " << endl;;
 	
-	(*result) << (svd.matrixV()*svd.singularValues().asDiagonal()*svd.matrixU().transpose()*(*matC)*S.transpose());
+	std::cout << "size V*D*U'*C*S: " << (svd.matrixV()* pseudoInvD *svd.matrixU().transpose()*(*matC)*S.transpose()).size() << std::endl;
+#endif
+	
+	(*result) << (svd.matrixV() * pseudoInvD * svd.matrixU().transpose()*(*matC)*S.transpose());
 
-	std::cout << (*result);
+#if 0
+	std::cout << "values of wavefront reconstruction: " << (*result);
+#endif
 	
     d_spectrogram->setData( new RasterData( (*result).data() ) );
     replot();
@@ -277,7 +306,7 @@ void Plot::calcMatrixE( int n ){
 void Plot::calcMatrixC( int n ){
 
 	for( int i=1; i<=n; i++ ) {
-		for( int j=1; j<(n-1); j++ ){
+		for( int j=1; j<=(n-1); j++ ){
 			
 			(*matC)((i-1)*(n-1)+j-1, (i-1)*n+j-1)=0.5;
 			(*matC)((i-1)*(n-1)+j-1, (i-1)*n+j+1-1)=0.5; 
