@@ -11,4 +11,5 @@ SUBDIRS += xtplot \
            dummy \
            wfs \
            xyplot \
-           switch
+           switch \
+           generator
