@@ -62,14 +62,33 @@ generatorPlugin::generatorPlugin(QTScope* caller, QWidget* parent, const char* n
 	
 	dropdown = new QComboBox();
 	
-	dropdown->addItem( QString( tr("Sinus") ) );
-	dropdown->addItem( QString( tr("Triangle") ) );
-	dropdown->addItem( QString( tr("Rectangle") ) );
+	dropdown->addItem( QString( tr("Sinus") ), QVariant::fromValue(0));
+	dropdown->addItem( QString( tr("Triangle") ), QVariant::fromValue(1));
+	dropdown->addItem( QString( tr("Rectangle") ), QVariant::fromValue(2) );
 	
 	vbox_layout->addWidget( dropdown );
 	vbox_layout->addWidget( window2 );
 	
 	vbox_layout->setAlignment ( Qt::AlignHCenter );
+ 
+    for ( int i = 0; i < NB_SAMPLES; i++ ) {
+        x[i] =  ((double)i) / NB_SAMPLES;
+        y[i] = 0;
+    }
+ 
+    plot = new QwtPlot();
+    curve = new QwtPlotCurve();
+    curve->setRawSamples(x, y, 101);
+    curve->attach( plot );
+
+    plot->setAxisAutoScale(0, true);
+    plot->setAxisAutoScale(2, true);
+    
+    plot->setAxisTitle(0,tr("in [V]"));
+    plot->setAxisTitle(2,tr("in [s]"));
+	
+	vbox_layout->addWidget( plot );
+
 	
 	save = new QPushButton( tr("Set") );
 	vbox_layout->addWidget(save);
@@ -88,11 +107,37 @@ generatorPlugin::generatorPlugin(QTScope* caller, QWidget* parent, const char* n
 void generatorPlugin::saveCheckBoxes(){
 	qDebug() << "called function: " << __func__ << endl;
 	
+	double freq = frequency->text().toDouble();
+	double off = offset->text().toDouble();
+	double amp = amplitude->text().toDouble();
+	
+	int index =  dropdown->itemData( dropdown->currentIndex() ).toInt();
+	
+	for ( int i = 0; i < NB_SAMPLES; i++ ) {
+        x[i] = 2/(freq) * ((double)i) / ((double)NB_SAMPLES);
+        
+        if( index == 2 ){
+			if( i%(NB_SAMPLES/2) <= NB_SAMPLES/4 )
+				y[i] = -amp/2 + off;
+			else
+				y[i] = amp/2 + off;
+		}
+		else if( index == 1 ){
+			y[i] = amp/2.0 - amp* (i%(NB_SAMPLES/2) / ((double)NB_SAMPLES/2.0)) + off;
+		}
+		else
+			y[i] = amp*sin(2*3.1415*freq*x[i]) + off;
+			
+    }
+    curve->setRawSamples(x, y, NB_SAMPLES);
+
+	plot->replot();	
 }
 
 QSize generatorPlugin::sizeHint() const
 {
-	return QSize(100, 100);
+	qDebug() << "called function: " << __func__ << endl;
+	return QSize(200, 400);
 }
 
 generatorPlugin::~generatorPlugin()

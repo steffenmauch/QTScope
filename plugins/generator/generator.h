@@ -29,6 +29,11 @@
 #include <QLabel>
 #include <QLineEdit>
 
+#include <qwt_plot_curve.h>
+#include <qwt_plot.h>
+
+#define NB_SAMPLES 1001
+
 /**
 @author Steffen Mauch
 */
@@ -54,9 +59,16 @@ public:
    	virtual QSize sizeHint() const;
    	
 private:
+
+    double x[NB_SAMPLES];
+    double y[NB_SAMPLES];
+ 
 	QLineEdit *frequency;
 	QLineEdit *amplitude;
 	QLineEdit *offset;
+
+	QwtPlot *plot;
+	QwtPlotCurve *curve;
 
 	QComboBox *dropdown;
 	QVector<QCheckBox*> *list;

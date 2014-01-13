@@ -13,9 +13,13 @@ CONFIG += release \
           plugin 
 TARGET = switch
 INCLUDEPATH = ../../plugins/generator \
+			 /usr/include/qwt \
               ../../src 
-LIBS += ../../src/scopeplotplugin.o \
+LIBS += -lqwt \
+		../../src/scopeplotplugin.o \
         ../../src/moc_scopeplotplugin.o 
 POST_TARGETDEPS += ../../src/../bin/qtscope 
 target.path = /usr/local/lib/qtscope/plugins 
 INSTALLS += target 
+
+
