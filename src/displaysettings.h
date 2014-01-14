@@ -24,7 +24,6 @@
 #include <qvariant.h>
 #include <QDockWidget>
 #include <QLabel>
-#include <QFrame>
 #include <QCloseEvent>
 
 //Added by qt3to4:
@@ -42,7 +41,7 @@ class QLabel;
 class QSpinBox;
 class QPushButton;
 
-class displaySettings : public QDockWidget
+class displaySettings : public QWidget
   {
     Q_OBJECT
 
@@ -62,7 +61,6 @@ class displaySettings : public QDockWidget
     QSpinBox* continousSpeedBox;
     QSpinBox* burstSpeedBox;
     QPushButton* applyButton;
-    QFrame* frame5;
     Q3VBoxLayout* frame5Layout;
     Q3HBoxLayout* tabLayout;
     Q3GridLayout* groupBox1Layout;

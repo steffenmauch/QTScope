@@ -40,20 +40,17 @@
 #include <Q3Frame>
 #include <QCloseEvent>
 
+#include <QRect>
 
 displaySettings::displaySettings( QWidget* parent, const char* name, int contRate, int burstRate )
-    : QDockWidget(name, parent, Qt::WDestructiveClose )
 {
   setWindowTitle( tr("Display Settings") );
 
   setMinimumSize( QSize( 169, 148 ) );
 
-  frame5 = new QFrame( this, "frame5" );
-  frame5->setFrameShape( QFrame::StyledPanel );
-  frame5->setFrameShadow( QFrame::Raised );
-  frame5Layout = new Q3VBoxLayout( frame5, 0, 0, "frame5Layout");
+  frame5Layout = new Q3VBoxLayout( this, 0, 0, "frame5Layout");
 
-  tabs = new QTabWidget( frame5, "tabs" );
+  tabs = new QTabWidget( this, "tabs" );
 
   tab = new QWidget( tabs, "tab" );
   tabLayout = new Q3HBoxLayout( tab, 0, 0, "tabLayout");
@@ -97,7 +94,7 @@ displaySettings::displaySettings( QWidget* parent, const char* name, int contRat
   tabs->insertTab( tab, QString("") );
   frame5Layout->addWidget( tabs );
 
-  applyButton = new QPushButton( frame5, "applyButton" );
+  applyButton = new QPushButton( this, "applyButton" );
   applyButton->setAutoDefault( TRUE );
   applyButton->setDefault( TRUE );
   applyButton->setFlat( FALSE );
@@ -111,9 +108,8 @@ displaySettings::displaySettings( QWidget* parent, const char* name, int contRat
 
   resize( QSize(169, 150).expandedTo(minimumSizeHint()) );
   setMaximumSize(size());
-  //clearWState( WState_Polished );
-  
-  setWidget( frame5 );
+
+  setLayout( frame5Layout );
 
   connect( applyButton, SIGNAL( clicked() ), this, SLOT( slotApply() ) );
 }

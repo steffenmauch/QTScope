@@ -30,16 +30,12 @@
 #include <q3groupbox.h>
 
 samplingSettings::samplingSettings( QWidget* parent, const char* name, double freq, int numCh,int nSamples,int continous)
-    : QDockWidget( name, parent, Qt::WDestructiveClose )
 {
-  setWindowTitle( tr( "Sampling Settings" ) );
+  setWindowTitle( tr( "Sampling Settings" ) ); 
+  
+  frame5Layout = new Q3VBoxLayout( this, 0, 0, "frame5Layout");
 
-  frame5 = new QFrame( this, "frame5" );
-  frame5->setFrameShape( QFrame::StyledPanel );
-  frame5->setFrameShadow( QFrame::Raised );
-  frame5Layout = new Q3VBoxLayout( frame5, 0, 0, "frame5Layout");
-
-  groupBox1 = new Q3GroupBox( frame5, "groupBox1" );
+  groupBox1 = new Q3GroupBox( this, "groupBox1" );
   groupBox1->setColumnLayout(0, Qt::Vertical );
   groupBox1->layout()->setSpacing( 4 );
   groupBox1->layout()->setMargin( 4 );
@@ -94,7 +90,7 @@ samplingSettings::samplingSettings( QWidget* parent, const char* name, double fr
   textLabel4->setAlignment( int( Qt::AlignVCenter | Qt::AlignRight ) );
   groupBox1Layout->addWidget( textLabel4, 3, 0 );
 
-  applyButton = new QPushButton( frame5, "applyButton" );
+  applyButton = new QPushButton( this, "applyButton" );
   applyButton->setAutoDefault( TRUE );
   applyButton->setDefault( TRUE );
   applyButton->setFlat( FALSE );
@@ -104,9 +100,8 @@ samplingSettings::samplingSettings( QWidget* parent, const char* name, double fr
 
   resize( QSize(350, 180) );
   setMaximumSize(size());
-  //clearWState( WState_Polished );
 
-  setWidget( frame5 );
+  setLayout( frame5Layout );
   
   connect( applyButton, SIGNAL( clicked() ), this, SLOT( slotApply() ) );
 }

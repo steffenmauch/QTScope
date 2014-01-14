@@ -28,12 +28,12 @@
 using std::cout;
 
 scopePlotPlugin::scopePlotPlugin(QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags,int)
-    //: QWidget(parent, name, wflags)
-    : QDockWidget(name, parent, wflags)
 {
 	idThis = id;
 	// prevent division by zero
 	freq=1;
+	
+	cout << "plugin: " << idThis << " created\n";
 	
 	connect(caller, SIGNAL(signalSamplingRateChanged(double)), this, SLOT( slotSetSamplingRate(double)));
 }

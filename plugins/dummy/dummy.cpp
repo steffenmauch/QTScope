@@ -21,6 +21,7 @@
 #include "dummy.h"
 
 #include <iostream>
+#include <QDebug>
 
 pluginInfo myPluginInfo = {"Dummy Plugin", "Plot", 2, 0};
 
@@ -40,9 +41,9 @@ dummy::dummy(QTScope* caller, QWidget* parent, const char* name, int id, Qt::Win
 	resize(400,200);
 	QPalette Pal(palette());
 	// set black background
-	Pal.setColor(QPalette::Background, Qt::black);
-	setAutoFillBackground(true);
-	setPalette(Pal);
+	//Pal.setColor(QPalette::Background, Qt::black);
+	//setAutoFillBackground(true);
+	//setPalette(Pal);
 	show();
 }
 

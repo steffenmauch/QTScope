@@ -44,7 +44,7 @@ class QLabel;
 class QSpinBox;
 class QPushButton;
 
-class samplingSettings : public QDockWidget
+class samplingSettings : public QWidget
   {
     Q_OBJECT
 
@@ -66,7 +66,6 @@ class samplingSettings : public QDockWidget
     QSpinBox* numberOfSamplesBox;
     QCheckBox* continousCheckBox;
     QPushButton* applyButton;
-    QFrame* frame5;
     Q3VBoxLayout* frame5Layout;
     Q3GridLayout* groupBox1Layout;
 
