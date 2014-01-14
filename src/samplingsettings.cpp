@@ -27,8 +27,6 @@
 #include <QPushButton>
 #include <QLayout>
 
-#include <q3groupbox.h>
-
 samplingSettings::samplingSettings( QWidget* parent, const char* name, double freq, int numCh,int nSamples,int continous)
 {
   setWindowTitle( tr( "Sampling Settings" ) ); 
