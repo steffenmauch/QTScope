@@ -27,14 +27,12 @@
 #include <QCloseEvent>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-
-//Added by qt3to4:
 #include <QGridLayout>
 
-class Q3GridLayout;
+class QGridLayout;
 class QTabWidget;
 class QWidget;
-class Q3GroupBox;
+class QGroupBox;
 class QLabel;
 class QSpinBox;
 class QPushButton;
@@ -53,7 +51,7 @@ class displaySettings : public QWidget
 
     QTabWidget* tabs;
     QWidget* tab;
-    Q3GroupBox* groupBox1;
+    QGroupBox* groupBox1;
     QLabel* textLabel1;
     QLabel* textLabel2;
     QSpinBox* continousSpeedBox;

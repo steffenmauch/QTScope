@@ -32,8 +32,7 @@
 #include <qpixmap.h>
 #include <qsizepolicy.h>
 
-#include <q3groupbox.h>
-
+#include <QGroupBox>
 #include <QCloseEvent>
 #include <QRect>
 
@@ -50,11 +49,9 @@ displaySettings::displaySettings( QWidget* parent, const char* name, int contRat
   tab = new QWidget( tabs, "tab" );
   tabLayout = new QHBoxLayout( tab, 0, 0, "tabLayout");
 
-  groupBox1 = new Q3GroupBox( tab, "groupBox1" );
-  groupBox1->setColumnLayout(0, Qt::Vertical );
-  groupBox1->layout()->setSpacing( 4 );
-  groupBox1->layout()->setMargin( 4 );
-  groupBox1Layout = new QGridLayout( groupBox1->layout() );
+  groupBox1 = new QGroupBox( tab, "groupBox1" );
+  QHBoxLayout *layout = new QHBoxLayout( groupBox1 ) ;
+  groupBox1Layout = new QGridLayout( layout );
   groupBox1Layout->setAlignment( Qt::AlignTop );
 
   textLabel1 = new QLabel( groupBox1, "textLabel1" );
