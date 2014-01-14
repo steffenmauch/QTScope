@@ -54,7 +54,6 @@ private:
 	QCheckBox *cb ;
 	QVector<QCheckBox*> *list;
 	QVBoxLayout *vbox_layout;
-    QWidget *window;
     QPushButton *save;
     
 private slots:

@@ -74,7 +74,6 @@ private:
 	QVector<QCheckBox*> *list;
 	QHBoxLayout *hbox_layout;
 	QVBoxLayout *vbox_layout;
-    QWidget *window;
     QWidget *window2;
     QPushButton *save;
     

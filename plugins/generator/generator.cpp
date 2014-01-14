@@ -39,7 +39,6 @@ generatorPlugin::generatorPlugin(QTScope* caller, QWidget* parent, const char* n
 			
 	list = new QVector<QCheckBox*>();
 	
-	window = new QWidget();
 	window2 = new QWidget();
 	hbox_layout = new QHBoxLayout();
 	vbox_layout = new QVBoxLayout();
@@ -95,8 +94,7 @@ generatorPlugin::generatorPlugin(QTScope* caller, QWidget* parent, const char* n
 	vbox_layout->connect(save, SIGNAL( clicked() ),
 		this, SLOT( saveCheckBoxes() ) );
 	
-	window->setLayout(vbox_layout);
-    setWidget(window);
+    setLayout(vbox_layout);
 	
 	setWindowTitle("analog output");
 	

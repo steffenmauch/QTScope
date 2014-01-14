@@ -44,7 +44,6 @@ wfs::wfs(QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowF
 	sizePolicy.setHeightForWidth(true);
 	setSizePolicy(sizePolicy);
 	
-	window = new QWidget();
 	vbox_layout = new QVBoxLayout();
 	hbox_layout = new QHBoxLayout();
 	
@@ -78,8 +77,7 @@ wfs::wfs(QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowF
 	vbox_layout->connect(en_contour, SIGNAL( clicked() ),
 		this, SLOT( enableCountour() ) );
 
-    window->setLayout(vbox_layout);
-    setWidget(window);
+    setLayout(vbox_layout);
      
 	//setWidget( gradient_plot );
     //setWidget(d_plot);

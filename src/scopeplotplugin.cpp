@@ -22,6 +22,7 @@
 
 #include "qtscope.h"
 #include <QCloseEvent>
+#include <QDebug>
 
 #include <iostream>
 

@@ -75,7 +75,7 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
 	clearData();
 
 	// allow Docking
-	setAllowedAreas(Qt::LeftDockWidgetArea | Qt::TopDockWidgetArea);
+	//setAllowedAreas(Qt::LeftDockWidgetArea | Qt::TopDockWidgetArea);
   
 	// construct a toolbar
 	QVBoxLayout *plotTools = new QVBoxLayout();
@@ -192,10 +192,7 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
 	hbox->addWidget(groupTools);
 	hbox->addWidget(plotWidget);
   
-	QGroupBox *mainWidget = new QGroupBox();
-	mainWidget->setLayout(hbox);
-  
-	setWidget(mainWidget);
+	setLayout( hbox );
   
 	// finally, refresh the plot
 	plotWidget->replot(); 

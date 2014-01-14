@@ -42,7 +42,7 @@ This is the base class for all plot widgets, implemented as plugins.
 
 @author Matthias H. Hennig, Bernd Porr
 */
-class scopePlotPlugin : public QDockWidget
+class scopePlotPlugin : public QWidget
 {
 Q_OBJECT
 

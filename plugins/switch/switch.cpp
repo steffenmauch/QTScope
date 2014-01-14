@@ -43,7 +43,6 @@ switchPlugin::switchPlugin(QTScope* caller, QWidget* parent, const char* name, i
 	
 	list = new QVector<QCheckBox*>();
 	
-	window = new QWidget();
 	vbox_layout = new QVBoxLayout();
 	
 	for(int k=0; k<NUMBER; k++){
@@ -62,8 +61,7 @@ switchPlugin::switchPlugin(QTScope* caller, QWidget* parent, const char* name, i
 	vbox_layout->connect(save, SIGNAL( clicked() ),
 		this, SLOT( saveCheckBoxes() ) );
 	
-	window->setLayout(vbox_layout);
-    setWidget(window);
+    setLayout(vbox_layout);
 	
 	setWindowTitle("digital output");
 	

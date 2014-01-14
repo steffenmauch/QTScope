@@ -201,10 +201,7 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   hbox->addWidget(groupTools);
   hbox->addWidget(plotWidget);
   
-  QGroupBox *mainWidget = new QGroupBox();
-  mainWidget->setLayout(hbox);
-  
-  setWidget(mainWidget);
+  setLayout(hbox);
 }
 
 

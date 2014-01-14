@@ -58,7 +58,6 @@ private:
     gradientPlot *gradient_plot;
     QVBoxLayout *vbox_layout;
     QHBoxLayout *hbox_layout;
-    QWidget *window;
     
     QPushButton *en_contour;
     QPushButton *en_nullref;
