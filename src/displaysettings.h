@@ -25,14 +25,12 @@
 #include <QDockWidget>
 #include <QLabel>
 #include <QCloseEvent>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 //Added by qt3to4:
-#include <Q3VBoxLayout>
-#include <Q3GridLayout>
-#include <Q3HBoxLayout>
+#include <QGridLayout>
 
-class Q3VBoxLayout;
-class Q3HBoxLayout;
 class Q3GridLayout;
 class QTabWidget;
 class QWidget;
@@ -61,9 +59,9 @@ class displaySettings : public QWidget
     QSpinBox* continousSpeedBox;
     QSpinBox* burstSpeedBox;
     QPushButton* applyButton;
-    Q3VBoxLayout* frame5Layout;
-    Q3HBoxLayout* tabLayout;
-    Q3GridLayout* groupBox1Layout;
+    QVBoxLayout* frame5Layout;
+    QHBoxLayout* tabLayout;
+    QGridLayout* groupBox1Layout;
 
   private slots:
     virtual void slotApply();

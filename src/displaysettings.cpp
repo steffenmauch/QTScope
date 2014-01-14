@@ -23,23 +23,18 @@
 #include <qvariant.h>
 #include <qtabwidget.h>
 #include <qwidget.h>
-#include <q3groupbox.h>
 #include <qlabel.h>
 #include <qspinbox.h>
 #include <qpushbutton.h>
 #include <qlayout.h>
 #include <qtooltip.h>
-#include <q3whatsthis.h>
 #include <qimage.h>
 #include <qpixmap.h>
 #include <qsizepolicy.h>
-//Added by qt3to4:
-#include <Q3GridLayout>
-#include <Q3HBoxLayout>
-#include <Q3VBoxLayout>
-#include <Q3Frame>
-#include <QCloseEvent>
 
+#include <q3groupbox.h>
+
+#include <QCloseEvent>
 #include <QRect>
 
 displaySettings::displaySettings( QWidget* parent, const char* name, int contRate, int burstRate )
@@ -48,18 +43,18 @@ displaySettings::displaySettings( QWidget* parent, const char* name, int contRat
 
   setMinimumSize( QSize( 169, 148 ) );
 
-  frame5Layout = new Q3VBoxLayout( this, 0, 0, "frame5Layout");
+  frame5Layout = new QVBoxLayout( this, 0, 0);
 
   tabs = new QTabWidget( this, "tabs" );
 
   tab = new QWidget( tabs, "tab" );
-  tabLayout = new Q3HBoxLayout( tab, 0, 0, "tabLayout");
+  tabLayout = new QHBoxLayout( tab, 0, 0, "tabLayout");
 
   groupBox1 = new Q3GroupBox( tab, "groupBox1" );
   groupBox1->setColumnLayout(0, Qt::Vertical );
   groupBox1->layout()->setSpacing( 4 );
   groupBox1->layout()->setMargin( 4 );
-  groupBox1Layout = new Q3GridLayout( groupBox1->layout() );
+  groupBox1Layout = new QGridLayout( groupBox1->layout() );
   groupBox1Layout->setAlignment( Qt::AlignTop );
 
   textLabel1 = new QLabel( groupBox1, "textLabel1" );
@@ -114,8 +109,9 @@ displaySettings::displaySettings( QWidget* parent, const char* name, int contRat
   connect( applyButton, SIGNAL( clicked() ), this, SLOT( slotApply() ) );
 }
 
-displaySettings::~displaySettings()
-{}
+displaySettings::~displaySettings(){
+
+}
 
 void displaySettings::closeEvent( QCloseEvent* ce )
 {
