@@ -27,19 +27,15 @@
 #include <QCloseEvent>
 #include <QVariant>
 #include <QFrame>
-
-//Added by qt3to4:
-#include <Q3VBoxLayout>
-#include <Q3GridLayout>
-#include <Q3HBoxLayout>
+#include <QVBoxLayout>
+#include <QGridLayout>
 
 
-class Q3VBoxLayout;
-class Q3HBoxLayout;
-class Q3GridLayout;
+class QVBoxLayout;
+class QGridLayout;
 class QTabWidget;
 class QWidget;
-class Q3GroupBox;
+class QGroupBox;
 class QLabel;
 class QSpinBox;
 class QPushButton;
@@ -56,7 +52,7 @@ class samplingSettings : public QWidget
 
   private:
 
-    Q3GroupBox* groupBox1;
+    QGroupBox* groupBox1;
     QLabel* textLabel1;
     QLabel* textLabel2;
     QLabel* textLabel3;
@@ -66,8 +62,8 @@ class samplingSettings : public QWidget
     QSpinBox* numberOfSamplesBox;
     QCheckBox* continousCheckBox;
     QPushButton* applyButton;
-    Q3VBoxLayout* frame5Layout;
-    Q3GridLayout* groupBox1Layout;
+    QVBoxLayout* frame5Layout;
+    QGridLayout* groupBox1Layout;
 
   private slots:
     virtual void slotApply();

@@ -33,7 +33,7 @@ propertiesDialog::propertiesDialog(QTScope *c, const char *name)
 {
   caller = c;
 
-  // so fra, only the plugin paths can be set!
+  // so far, only the plugin paths can be set!
 
   Q3VBox *pluginsTab = new Q3VBox( this );
   pluginsTab->setMargin( 5 );
