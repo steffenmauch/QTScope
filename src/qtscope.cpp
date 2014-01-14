@@ -505,45 +505,50 @@ void QTScope::newView(){
 
 void QTScope::windowsMenuAboutToShow(){
 	windowsMenu->clear();
-	int cascadeId = windowsMenu->insertItem("&Cascade", ws, SLOT(cascade() ) );
-	int tileId = windowsMenu->insertItem("&Tile", ws, SLOT(tile() ) );
+	int cascadeId = windowsMenu->insertItem("&Cascade", ws, SLOT(cascadeSubWindows() ) );
+	int tileId = windowsMenu->insertItem("&Tile", ws, SLOT(tileSubWindows() ) );
 	int verTileId = windowsMenu->insertItem("Tile &Vertical", this, SLOT(tileVertical() ) );
-	#if 0
-	if ( ws->windowList().isEmpty() ) {
+	
+	if ( ws->subWindowList().isEmpty() ) {
 		windowsMenu->setItemEnabled( cascadeId, FALSE );
 		windowsMenu->setItemEnabled( tileId, FALSE );
 		windowsMenu->setItemEnabled( verTileId, FALSE );
 	}
 	
 	windowsMenu->insertSeparator();
-	QWidgetList windows = ws->windowList();
-	for ( int i = 0; i < int(windows.count()); ++i ) {
-		int id = windowsMenu->insertItem(windows.at(i)->caption(),
+	
+	int i = 0;
+	foreach( QMdiSubWindow *window, ws->subWindowList() ){		
+		int id = windowsMenu->insertItem( window->caption(),
 						 this, SLOT( windowsMenuActivated( int ) ) );
 		windowsMenu->setItemParameter( id, i );
-		windowsMenu->setItemChecked( id, ws->activeWindow() == windows.at(i) );
+		if( ws->activeSubWindow() == window )
+			windowsMenu->setItemChecked( id, true );
+		else
+			windowsMenu->setItemChecked( id, false );
+		i++;
 	}
-	#endif
+	
 }
 
 void QTScope::windowsMenuActivated( int id ){
-	#if 0
-	QWidget* w = ws->windowList().at( id );
+	QWidget* w = ws->subWindowList().at( id );
 	if ( w )
 		w->showNormal();
 	w->setFocus();
-	#endif
 }
 
 void QTScope::tileVertical(){
-	#if 0
+	
 	// primitive horizontal tiling
-	QWidgetList windows = ws->windowList();
+	QList<QMdiSubWindow*> windows = ws->subWindowList();
 	if ( !windows.count() )
 		return;
 
 	int heightForEach = ws->height() / windows.count();
 	int y = 0;
+	
+	#if 0
 	for ( int i = 0; i < int(windows.count()); ++i ) {
 		QWidget *window = windows.at(i);
 //		if ( window->testWState( WState_Maximized ) ) {

@@ -4,6 +4,7 @@
 #include "scopeplotplugin.h"
 // Qt related includes
 #include <QMainWindow>
+#include <QMdiSubWindow>
 #include <QMdiArea>
 
 #include <q3ptrlist.h>
