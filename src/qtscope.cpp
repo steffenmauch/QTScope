@@ -548,21 +548,19 @@ void QTScope::tileVertical(){
 	int heightForEach = ws->height() / windows.count();
 	int y = 0;
 	
-	#if 0
-	for ( int i = 0; i < int(windows.count()); ++i ) {
-		QWidget *window = windows.at(i);
-//		if ( window->testWState( WState_Maximized ) ) {
-//			// prevent flicker
-//			window->hide();
-//			window->showNormal();
-//		}
-		int preferredHeight = window->minimumHeight()+window->parentWidget()->baseSize().height();
+	foreach( QMdiSubWindow *window, ws->subWindowList() ){		
+		QWidget *widget = window->widget();
+		if ( widget->windowState() == Qt::WindowMaximized ) {
+			// prevent flicker
+			window->hide();
+			window->showNormal();
+		}
+		int preferredHeight = widget->minimumHeight()+widget->parentWidget()->baseSize().height();
 		int actHeight = QMAX(heightForEach, preferredHeight);
 
-		window->parentWidget()->setGeometry( 0, y, ws->width(), actHeight );
+		widget->parentWidget()->setGeometry( 0, y, ws->width(), actHeight );
 		y += actHeight;
 	}
-	#endif
 }
 
 void QTScope::about(){
