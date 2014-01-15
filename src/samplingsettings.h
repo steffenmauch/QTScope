@@ -29,6 +29,7 @@
 #include <QFrame>
 #include <QVBoxLayout>
 #include <QGridLayout>
+#include <QGroupBox>
 
 
 class QVBoxLayout;
