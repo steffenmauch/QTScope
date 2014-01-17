@@ -23,50 +23,38 @@
  ***************************************************************************/
 
 #include "qtscope.h"
-#include <QMainWindow>
-#include <QLabel>
-#include <QCloseEvent>
+
 #include "newviewdialog.h"
 #include "propertiesdialog.h"
 #include "displaysettings.h"
 #include "samplingsettings.h"
 
-
 #include <unistd.h>
 #include <dlfcn.h>
 
 #include <iostream>
-
 #include <math.h>
 
-#include <qimage.h>
-#include <qpixmap.h>
+#include <QApplication>
+#include <QMainWindow>
+#include <QCloseEvent>
+
+#include <QResource>
+#include <QImage>
+#include <QPixmap>
 #include <QToolBar>
-#include <q3toolbar.h>
-#include <qtoolbutton.h>
-#include <q3popupmenu.h>
-#include <qmenubar.h>
-#include <q3textedit.h>
-#include <qfile.h>
-#include <q3filedialog.h>
-#include <qstatusbar.h>
-#include <qmessagebox.h>
-#include <qprinter.h>
-#include <qapplication.h>
-#include <q3accel.h>
-#include <q3textstream.h>
-#include <qtimer.h>
-#include <qpainter.h>
-#include <q3paintdevicemetrics.h>
+#include <QToolButton>
+#include <QMenuBar>
+#include <QDir>
+#include <QStatusBar>
+#include <QMessageBox>
+#include <QPrinter>
+#include <QTimer>
+#include <QPainter>
 #include <QWhatsThis>
-#include <q3vbox.h>
-#include <qworkspace.h>
-#include <qcheckbox.h>
-#include <qlayout.h>
-#include <qstring.h>
-#include <q3buttongroup.h>
-#include <q3dockwindow.h>
-#include <qpushbutton.h>
+#include <QWorkspace>
+#include <QString>
+#include <QPushButton>
 #include <QStringList>
 #include <QDebug>
 
@@ -148,7 +136,7 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose ){
 	fileTools->addWidget( channelOpen );
 	QString channelOpenText = tr("<p>This button opens a new plot window.</p>");
 	QWhatsThis::add( channelOpen, channelOpenText );
-	Q3MimeSourceFactory::defaultFactory()->setPixmap( "fileopen", openIcon );
+	QResource::registerResource(openIcon.toImage().bits(), "fileopen");
 
 	fileTools->addSeparator();
 	// slower timebase
@@ -157,7 +145,7 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose ){
 			 QString::null, this, SLOT(slotSlower()), 
 			 fileTools, "lower sampling rate" );
 	fileTools->addWidget( lowRate );
-	Q3MimeSourceFactory::defaultFactory()->setPixmap( "lower sampling rate", slowerIcon );
+	QResource::registerResource(slowerIcon.toImage().bits(), "lower sampling rate");
 
 	// timebase
 	labelTimebase=new QLabel(fileTools,"timebase");
@@ -169,7 +157,7 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose ){
 			 QString::null, this, SLOT(slotFaster()), 
 			 fileTools, "higher sampling rate" );
 	fileTools->addWidget( highRate );
-	Q3MimeSourceFactory::defaultFactory()->setPixmap( "higher sampling rate", fasterIcon );
+	QResource::registerResource(fasterIcon.toImage().bits(), "higher sampling rate");
 
 	fileTools->addSeparator();
 

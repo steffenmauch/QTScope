@@ -2,17 +2,17 @@
 #define QTSCOPE_H
 
 #include "scopeplotplugin.h"
+
 // Qt related includes
 #include <QMainWindow>
 #include <QMdiSubWindow>
 #include <QMdiArea>
-
-#include <q3ptrlist.h>
 #include <QSettings>
-#include <QLabel>
 #include <QCloseEvent>
 #include <QList>
+#include <QLabel>
 
+#include <q3ptrlist.h>
 
 // data aquisition via comedi
 #include <comedilib.h>
