@@ -20,7 +20,7 @@
 #include "propertiesdialog.h"
 #include "qtscope.h"
 
-#include <q3vbox.h>
+#include <QVBoxLayout>
 #include <QListWidget>
 #include <QLabel>
 #include <QPushButton>
@@ -32,25 +32,31 @@ propertiesDialog::propertiesDialog(QTScope *c, const char *name)
 {
 	caller = c;
 
-	tabWidget = new QTabWidget(this);
+	tabWidget = new QTabWidget( this );
 
 	// so far, only the plugin paths can be set!
 
-	Q3VBox *pluginsTab = new Q3VBox( this );
-	pluginsTab->setMargin( 5 );
-	pluginsTab->setSpacing( 5 );
+	QWidget *pluginsTab = new QWidget();
+	QVBoxLayout *vBoxPluginsTab = new QVBoxLayout();
+	pluginsTab->setLayout( vBoxPluginsTab );
+	
+	//pluginsTab->setMargin( 5 );
+	//pluginsTab->setSpacing( 5 );
 
-	new QLabel( QString( "Plugin Search Path (restart to activate)" ), pluginsTab );
+	vBoxPluginsTab->addWidget( new QLabel( QString( "Plugin Search Path (restart to activate)" ) ) );
 
-	ppaths = new QListWidget( pluginsTab );
+	ppaths = new QListWidget();
+	vBoxPluginsTab->addWidget( ppaths );
 	
 	for ( QStringList::Iterator it = caller->pluginPath.begin(); it != caller->pluginPath.end(); ++it ){
 		new QListWidgetItem( *it, ppaths );
     }
 
-	QPushButton *addButton = new QPushButton("Add New...", pluginsTab);
+	QPushButton *addButton = new QPushButton("Add New...");
+	vBoxPluginsTab->addWidget( addButton );
 	connect ( addButton, SIGNAL( clicked() ), SLOT( addClicked() ) );
-	removeButton = new QPushButton("Remove", pluginsTab);
+	removeButton = new QPushButton("Remove");
+	vBoxPluginsTab->addWidget( removeButton );
 	connect ( removeButton, SIGNAL( clicked() ), SLOT( removeClicked() ) );
 
 	addButton->setMaximumSize(addButton->sizeHint());
