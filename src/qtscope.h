@@ -50,7 +50,7 @@ class QPushButton;
 // the function that will return a plugin object
 typedef scopePlotPlugin* ( *CreateP )(QTScope* , QWidget* , const char* , int , Qt::WindowFlags, int);
 
-typedef struct pluginData
+struct pluginData
   {
     CreateP create;
     QString name;
@@ -59,7 +59,7 @@ typedef struct pluginData
     int type_comedi;
   };
 
-typedef struct dataTarget
+struct dataTarget
   {
     QList<int> channels;
     int id;

@@ -29,7 +29,7 @@
 
 class QTScope;
 
-typedef struct pluginInfo{
+struct pluginInfo{
   QString name;
   QString type;
   int channelsRequest;
