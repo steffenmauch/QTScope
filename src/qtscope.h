@@ -8,11 +8,10 @@
 #include <QMdiArea>
 
 #include <q3ptrlist.h>
-#include <qsettings.h>
-#include <qlabel.h>
-//Added by qt3to4:
-#include <Q3ValueList>
+#include <QSettings>
+#include <QLabel>
 #include <QCloseEvent>
+#include <QList>
 
 
 // data aquisition via comedi
@@ -62,7 +61,7 @@ typedef struct pluginData
 
 typedef struct dataTarget
   {
-    Q3ValueList <int> channels;
+    QList<int> channels;
     int id;
     scopePlotPlugin *target;
   };
@@ -146,7 +145,7 @@ class QTScope: public QMainWindow
     //-------------------
 
     // collect available plugin data
-    Q3ValueList <pluginData> availablePlugins;
+    QList<pluginData> availablePlugins;
 
     // store information about running plugins
     Q3PtrList <dataTarget> activePlugins;

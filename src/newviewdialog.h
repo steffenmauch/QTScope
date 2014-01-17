@@ -30,12 +30,10 @@
 #include <QHBoxLayout>
 #include <QListWidget>
 #include <QSpinBox>
+#include <QList>
 
 //Added by qt3to4:
 #include <Q3ValueList>
-#include <QList>
-
-class QFrame;
 
 /**
 This widget provides the user interaction to open a new plot plugin.
@@ -75,7 +73,7 @@ private:
   unsigned int maxChannels;
 
 public:
-    newViewDialog(int numChannels, Q3ValueList <pluginData> availablePlugins, QTScope *c, QWidget *parent = 0, const char *name = 0, bool modal = TRUE, Qt::WFlags f = 0);
+    newViewDialog(int numChannels, QList<pluginData> availablePlugins, QTScope *c, QWidget *parent = 0, const char *name = 0, bool modal = TRUE, Qt::WFlags f = 0);
     ~newViewDialog();
 
 private slots:

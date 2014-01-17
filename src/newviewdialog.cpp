@@ -27,11 +27,7 @@
 #include <QLayout>
 #include <QDebug>
 
-//Added by qt3to4:
-#include <Q3ValueList>
-
-
-newViewDialog::newViewDialog(int numChannels, Q3ValueList <pluginData> availablePlugins, QTScope *c, QWidget *parent, const char *name, bool modal, Qt::WFlags f )
+newViewDialog::newViewDialog(int numChannels, QList<pluginData> availablePlugins, QTScope *c, QWidget *parent, const char *name, bool modal, Qt::WFlags f )
     : QDialog(parent, name, modal, f)
 {
   caller = c;

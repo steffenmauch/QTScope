@@ -24,8 +24,6 @@
 
 #include "qtscope.h"
 #include <QMainWindow>
-//Added by qt3to4:
-#include <Q3ValueList>
 #include <QLabel>
 #include <QCloseEvent>
 #include "newviewdialog.h"
@@ -776,7 +774,7 @@ int QTScope::runPlugin(QString name, int *channels){
 	double **dataSources;
 	sampl_t **rawSources;
 
-	Q3ValueList<pluginData>::iterator it;
+	QList<pluginData>::iterator it;
 	for ( it = availablePlugins.begin(); it != availablePlugins.end(); ++it )
 		if( (*it).name == name)
 			{
