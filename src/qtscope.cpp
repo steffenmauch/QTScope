@@ -126,7 +126,7 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose ){
     ws->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
 	// the main toolbar, for file operations etc.
-	QToolBar * fileTools = addToolBar( "file operations" );
+	QToolBar * fileTools = addToolBar( tr("file operations") );
 	//fileTools->setLabel( tr("File Operations") );
 
 	// add an open icon
@@ -189,13 +189,7 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose ){
 	help->addAction( whatsThisAct );
 
 	// create the workspace
-
-	//vb->setFrameStyle( Q3Frame::StyledPanel | Q3Frame::Sunken );
 	fileTools->setStyleSheet( "border-style: sunken; " );
-
-	// allow Docking
-	//setDockEnabled ( Qt::DockTop, TRUE );
-	//setDockEnabled ( Qt::DockLeft, TRUE );
 
 	// load all plugins
 	initPlugins();
@@ -373,11 +367,10 @@ void QTScope::saveSettings(){
 void QTScope::slotChannelClosed(int id){
 	dataTarget *it;
 	for ( it = activePlugins.first(); it; it = activePlugins.next() )
-		if( it->id == id)
-			{
-				activePlugins.remove();
-				continue;
-			}
+		if( it->id == id){
+			activePlugins.remove();
+			continue;
+		}
 }
 
 void QTScope::slotReadData(){
@@ -395,7 +388,7 @@ void QTScope::slotReadData(){
 	// count the data points
 	num = 0;
 
-	if (continous) { // continous data
+	if (continous) { // continuous data
 		// read data from the device
 		while (comedi_get_buffer_contents(comediDevice,comediSubdevice)) {
 			// read data from device
