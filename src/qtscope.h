@@ -123,7 +123,6 @@ class QTScope: public QMainWindow
   private:
     // program properties
     QSettings settings;
-    QString filename;
     // main Workspace that contains all plot windows
     QMdiArea* ws;
     QMenu* windowsMenu;

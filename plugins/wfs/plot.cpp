@@ -254,7 +254,7 @@ void Plot::setData( double *data_x, double *data_y ){
 	
 	std::cout << "size singular value: " << (svd.singularValues()).asDiagonal().size() << std::endl;
 	
-	std::cout << "Pinv(D): " << pseudoInvD << "::end Pinv(D) " << endl;;
+	std::cout << "Pinv(D): " << pseudoInvD << "::end Pinv(D) " << endl;
 	
 	std::cout << "size V*D*U'*C*S: " << (svd.matrixV()* pseudoInvD *svd.matrixU().transpose()*(*matC)*S.transpose()).size() << std::endl;
 #endif

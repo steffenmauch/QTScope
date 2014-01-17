@@ -28,7 +28,7 @@
 
 using std::cout;
 
-scopePlotPlugin::scopePlotPlugin(QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags,int)
+scopePlotPlugin::scopePlotPlugin(QTScope* caller, QWidget* , const char* , int id, Qt::WindowFlags ,int)
 {
 	idThis = id;
 	// prevent division by zero

@@ -77,7 +77,7 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose ){
 
 	QStringList cmdline_args = QCoreApplication::arguments();
 		
-	comediFilename = "/dev/comedi0";
+	comediFilename = (char*)("/dev/comedi0");
 	// if first command line argument is available use it as 
 	// device name for comedi_open
 	// i.e. sudo ./bin/qtscope /dev/comedi2
