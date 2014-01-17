@@ -27,7 +27,6 @@
 #include <QLayout>
 #include <QDebug>
 
-#include <q3buttongroup.h>
 //Added by qt3to4:
 #include <Q3ValueList>
 
@@ -59,10 +58,11 @@ newViewDialog::newViewDialog(int numChannels, Q3ValueList <pluginData> available
   pluginsList->setFocusPolicy( Qt::StrongFocus );
   pluginsList->setFrameStyle( QFrame::Panel | QFrame::Raised );
 
-  Q3ValueList<pluginData>::iterator it;
-  for ( it = pl.begin(); it != pl.end(); ++it )
-	new QListWidgetItem( (*it).name, pluginsList );
-    //pluginsList->insertItem( (*it).name );
+  QLinkedList<pluginData>::iterator it = pl.begin();
+	while( it != pl.end() ){
+		new QListWidgetItem( (*it).name, pluginsList );
+		it++;
+	}
 
   connect( pluginsList, SIGNAL( itemSelectionChanged () ),
 	this, SLOT( slotPluginSelected() ) );
@@ -70,12 +70,18 @@ newViewDialog::newViewDialog(int numChannels, Q3ValueList <pluginData> available
   chooserBox->addWidget(pluginsList);
 
   // the channels
-  channelsList = new Q3ButtonGroup( "Select Input Channel(s)", f1 );
-  channelsList->setColumnLayout(0, Qt::Vertical );
-  channelsList->layout()->setSpacing( 6 );
-  channelsList->layout()->setMargin( 11 );
-  channelsListL = new QVBoxLayout( channelsList->layout() );
-  channelsListL->setAlignment( Qt::AlignTop );
+  channelsList = new QWidget( );
+  channelsListLayout = new QVBoxLayout();
+  channelsListLayout->addWidget( new QLabel("Select Input Channel(s)") );
+  
+  channelsListL = new QVBoxLayout( );
+  channelsListWidget = new QWidget();
+  
+  channelsListWidget->setLayout( channelsListL );
+  
+  channelsListLayout->addWidget( channelsListWidget );
+  channelsListLayout->addStretch(1);
+  channelsList->setLayout(channelsListLayout);
 
   chooserBox->addWidget(channelsList);
 
@@ -131,14 +137,14 @@ void newViewDialog::accept()
 }
 
 /*!
-    \fn newViewDialog::slotPluginSelected(const QString & name)
+    \fn newViewDialog::slotPluginSelected()
  */
 void newViewDialog::slotPluginSelected()
 {
 	QString name = pluginsList->currentItem()->text();
 	okPushButton->setEnabled( TRUE );
-  Q3ValueList<pluginData>::iterator it;
-  for ( it = pl.begin(); it != pl.end(); ++it )
+	QLinkedList<pluginData>::iterator it = pl.begin();
+	while( it != pl.end() )
     {
       if ( (*it).name == name )
         {
@@ -155,6 +161,7 @@ void newViewDialog::slotPluginSelected()
               channelSelectors.remove();
           }
         }
+        it++;
     }
 }
 

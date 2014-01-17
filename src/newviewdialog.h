@@ -25,17 +25,16 @@
 
 #include <QDialog>
 #include <QFrame>
+#include <QWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QListWidget>
-
+#include <QSpinBox>
 
 //Added by qt3to4:
 #include <Q3ValueList>
-#include <Q3PtrList>
-class Q3ButtonGroup;
+#include <QList>
 
-class QSpinBox;
 class QFrame;
 
 /**
@@ -55,11 +54,14 @@ private:
   QVBoxLayout *mainLayout;
   QHBoxLayout *chooserBox;
   QHBoxLayout *buttonBox;
-  Q3ButtonGroup *channelsList;
+  QWidget *channelsList;
+  QWidget *channelsListWidget;
+  QVBoxLayout *channelsListLayout;
   QVBoxLayout *channelsListL;
   QListWidget *pluginsList;
   QFrame *f1;
   // the spinboxes to choose the channels
+  //QList<QSpinBox *> list; // right replacement!
   Q3PtrList <QSpinBox> channelSelectors;
 
   QPushButton *okPushButton;
