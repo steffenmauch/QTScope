@@ -25,16 +25,16 @@
 
 #include <QDialog>
 #include <QFrame>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QListWidget>
+
 
 //Added by qt3to4:
-#include <Q3VBoxLayout>
 #include <Q3ValueList>
 #include <Q3PtrList>
-#include <Q3HBoxLayout>
-
-class Q3HBoxLayout;
-class Q3ListBox;
 class Q3ButtonGroup;
+
 class QSpinBox;
 class QFrame;
 
@@ -52,12 +52,12 @@ private:
   Q3ValueList <pluginData> pl;
 
   // Layout elements
-  Q3VBoxLayout *mainLayout;
-  Q3HBoxLayout *chooserBox;
-  Q3HBoxLayout *buttonBox;
+  QVBoxLayout *mainLayout;
+  QHBoxLayout *chooserBox;
+  QHBoxLayout *buttonBox;
   Q3ButtonGroup *channelsList;
-  Q3VBoxLayout *channelsListL;
-  Q3ListBox *pluginsList;
+  QVBoxLayout *channelsListL;
+  QListWidget *pluginsList;
   QFrame *f1;
   // the spinboxes to choose the channels
   Q3PtrList <QSpinBox> channelSelectors;
@@ -80,7 +80,7 @@ private slots:
     void accept();
 
 public slots:
-    void slotPluginSelected(const QString &name);
+    void slotPluginSelected();
 
 };
 

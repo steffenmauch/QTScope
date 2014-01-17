@@ -25,13 +25,10 @@
 #include <QPushButton>
 #include <QSpinBox>
 #include <QLayout>
-
-#include <q3listbox.h>
+#include <QDebug>
 
 #include <q3buttongroup.h>
 //Added by qt3to4:
-#include <Q3HBoxLayout>
-#include <Q3VBoxLayout>
 #include <Q3ValueList>
 
 
@@ -48,25 +45,27 @@ newViewDialog::newViewDialog(int numChannels, Q3ValueList <pluginData> available
   setWindowTitle( "QTScope -- Open new Plot" );
   resize( 320, 240 );
 
-  mainLayout = new Q3VBoxLayout( this, 2, 2, "main");
+  mainLayout = new QVBoxLayout( this, 2, 2, "main");
 
   f1 = new QFrame( this );
   f1->setFrameShape( QFrame::StyledPanel );
   f1->setFrameShadow( QFrame::Sunken );
   mainLayout->addWidget(f1);
 
-  chooserBox = new Q3HBoxLayout( f1, 2, 2, "choose" );
+  chooserBox = new QHBoxLayout( f1, 2, 2, "choose" );
 
   // the list of plugins
-  pluginsList = new Q3ListBox( f1 );
+  pluginsList = new QListWidget( f1 );
   pluginsList->setFocusPolicy( Qt::StrongFocus );
-  pluginsList->setFrameStyle( Q3Frame::Panel | Q3Frame::Raised );
+  pluginsList->setFrameStyle( QFrame::Panel | QFrame::Raised );
 
   Q3ValueList<pluginData>::iterator it;
   for ( it = pl.begin(); it != pl.end(); ++it )
-    pluginsList->insertItem( (*it).name );
+	new QListWidgetItem( (*it).name, pluginsList );
+    //pluginsList->insertItem( (*it).name );
 
-  connect( pluginsList, SIGNAL( highlighted ( const QString &) ), this, SLOT( slotPluginSelected(const QString &)));
+  connect( pluginsList, SIGNAL( itemSelectionChanged () ),
+	this, SLOT( slotPluginSelected() ) );
 
   chooserBox->addWidget(pluginsList);
 
@@ -75,18 +74,19 @@ newViewDialog::newViewDialog(int numChannels, Q3ValueList <pluginData> available
   channelsList->setColumnLayout(0, Qt::Vertical );
   channelsList->layout()->setSpacing( 6 );
   channelsList->layout()->setMargin( 11 );
-  channelsListL = new Q3VBoxLayout( channelsList->layout() );
+  channelsListL = new QVBoxLayout( channelsList->layout() );
   channelsListL->setAlignment( Qt::AlignTop );
 
   chooserBox->addWidget(channelsList);
 
   // OK+Cancel
-  buttonBox = new Q3HBoxLayout( mainLayout );
+  buttonBox = new QHBoxLayout( mainLayout );
 
   okPushButton = new QPushButton( this, "ok" );
   okPushButton->setText( "OK" );
   okPushButton->setDefault( TRUE );
   okPushButton->setMaximumSize(okPushButton->sizeHint());
+  okPushButton->setEnabled( FALSE );
   //okPushButton->setSizePolicy(QSizePolicy::Fixed);
   buttonBox->addWidget( okPushButton );
 
@@ -100,10 +100,10 @@ newViewDialog::newViewDialog(int numChannels, Q3ValueList <pluginData> available
   connect( okPushButton, SIGNAL( clicked() ), this, SLOT( accept() ) );
   connect( cancelPushButton, SIGNAL( clicked() ), this, SLOT( reject() ) );
 
-  // start with first plugin
-  pluginsList->setCurrentItem(0);
-
-
+	if( pluginsList->count() > 0 ){
+		// start with first plugin
+		pluginsList->setCurrentRow(0);
+	}
 }
 
 
@@ -115,24 +115,28 @@ newViewDialog::~newViewDialog()
  */
 void newViewDialog::accept()
 {
-  // prepare a list of requested channels
-  int *channels = new int[maxSelect];
-  channelSelectors.first();
-  for(unsigned int i=0; i<maxSelect; i++) {
-    channels[i] = channelSelectors.current()->value();
-    channelSelectors.next();
-  }
-  // start a new plugin
-  caller->runPlugin(pluginsList->currentText(), channels);
-
-  QDialog::accept();
+	//if( pluginsList->currentRow() >= 0 ){
+		// prepare a list of requested channels
+		int *channels = new int[maxSelect];
+		channelSelectors.first();
+		for(unsigned int i=0; i<maxSelect; i++) {
+			channels[i] = channelSelectors.current()->value();
+			channelSelectors.next();
+		}
+		// start a new plugin
+		qDebug() << pluginsList->currentItem()->text();
+		caller->runPlugin(pluginsList->currentItem()->text(), channels);
+		QDialog::accept();
+	//}
 }
 
 /*!
     \fn newViewDialog::slotPluginSelected(const QString & name)
  */
-void newViewDialog::slotPluginSelected(const QString &name)
+void newViewDialog::slotPluginSelected()
 {
+	QString name = pluginsList->currentItem()->text();
+	okPushButton->setEnabled( TRUE );
   Q3ValueList<pluginData>::iterator it;
   for ( it = pl.begin(); it != pl.end(); ++it )
     {
