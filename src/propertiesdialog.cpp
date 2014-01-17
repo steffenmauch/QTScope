@@ -24,9 +24,9 @@
 #include <q3listbox.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
-#include <qlayout.h>
+#include <QLayout>
 #include <QDebug>
-#include <q3filedialog.h>
+#include <QFileDialog>
 
 propertiesDialog::propertiesDialog(QTScope *c, const char *name)
     : Q3TabDialog(c, name)
@@ -71,8 +71,8 @@ propertiesDialog::~propertiesDialog()
  */
 void propertiesDialog::addClicked()
 {
-  Q3FileDialog* fd = new Q3FileDialog( this, "file dialog", TRUE );
-  fd->setMode( Q3FileDialog::Directory );
+  QFileDialog* fd = new QFileDialog( this, "file dialog");
+  fd->setMode( QFileDialog::Directory );
   QString fileName;
   if ( fd->exec() == QDialog::Accepted )
     {
@@ -92,10 +92,12 @@ void propertiesDialog::removeClicked()
 	ppaths->setCurrentItem( -1 );
 	
 	if( caller->pluginPath.size() > 1 ){
-		for ( QStringList::Iterator it = caller->pluginPath.begin(); it != caller->pluginPath.end(); ++it )
-			if( selected == (*it) )
+		for ( QStringList::Iterator it = caller->pluginPath.begin(); it != caller->pluginPath.end(); ++it ){
+			if( selected == (*it) ){
 				it = caller->pluginPath.remove(it);
-		
+				break;
+			}
+		}
 	}
 	else
 		caller->pluginPath.remove( caller->pluginPath.begin() );
