@@ -24,7 +24,8 @@
 #include <QDialog>
 
 class QTScope;
-class Q3ListBox;
+class QPushButton;
+class QListWidget;
 /**
 A dialog to allow the user to change the default behaviour of the program.
 
@@ -36,8 +37,9 @@ class propertiesDialog : public QDialog
 
   private:
     QTScope *caller;
-    Q3ListBox *ppaths;
+    QListWidget *ppaths;
     QTabWidget	*tabWidget;
+    QPushButton *removeButton;
 
   public:
     propertiesDialog(QTScope *c, const char *name = 0);

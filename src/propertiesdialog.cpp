@@ -21,7 +21,7 @@
 #include "qtscope.h"
 
 #include <q3vbox.h>
-#include <q3listbox.h>
+#include <QListWidget>
 #include <QLabel>
 #include <QPushButton>
 #include <QLayout>
@@ -42,24 +42,27 @@ propertiesDialog::propertiesDialog(QTScope *c, const char *name)
 
 	new QLabel( QString( "Plugin Search Path (restart to activate)" ), pluginsTab );
 
-	ppaths = new Q3ListBox( pluginsTab );
-	for ( QStringList::Iterator it = caller->pluginPath.begin(); it != caller->pluginPath.end(); ++it )
-    {
-      ppaths->insertItem( *it );
+	ppaths = new QListWidget( pluginsTab );
+	
+	for ( QStringList::Iterator it = caller->pluginPath.begin(); it != caller->pluginPath.end(); ++it ){
+		new QListWidgetItem( *it, ppaths );
     }
-	ppaths->setCurrentItem( 1 );
 
 	QPushButton *addButton = new QPushButton("Add New...", pluginsTab);
 	connect ( addButton, SIGNAL( clicked() ), SLOT( addClicked() ) );
-	QPushButton *removeButton = new QPushButton("Remove", pluginsTab);
+	removeButton = new QPushButton("Remove", pluginsTab);
 	connect ( removeButton, SIGNAL( clicked() ), SLOT( removeClicked() ) );
 
 	addButton->setMaximumSize(addButton->sizeHint());
 	removeButton->setMaximumSize(removeButton->sizeHint());
 
 	tabWidget->addTab( pluginsTab, "Plugins" );
-
 	tabWidget->resize(320, 270);
+	
+	if( ppaths->count() == 0 )
+		removeButton->setEnabled( FALSE );
+	else
+		ppaths->setCurrentRow(0);
 }
 
 propertiesDialog::~propertiesDialog()
@@ -70,15 +73,16 @@ propertiesDialog::~propertiesDialog()
  */
 void propertiesDialog::addClicked()
 {
-  QFileDialog* fd = new QFileDialog( this, "file dialog");
-  fd->setMode( QFileDialog::Directory );
-  QString fileName;
-  if ( fd->exec() == QDialog::Accepted )
-    {
-      fileName = fd->selectedFile();
-      ppaths->insertItem( fileName );
-      caller->pluginPath.append(fileName);
-    }
+	QFileDialog* fd = new QFileDialog( this, "file dialog");
+	fd->setMode( QFileDialog::Directory );
+	QString fileName;
+	if ( fd->exec() == QDialog::Accepted ){
+		fileName = fd->selectedFile();
+		new QListWidgetItem( fileName, ppaths );
+		caller->pluginPath.append(fileName);
+		removeButton->setEnabled( TRUE );
+		ppaths->setCurrentRow( 0 );
+	}
 }
 
 
@@ -87,9 +91,7 @@ void propertiesDialog::addClicked()
  */
 void propertiesDialog::removeClicked()
 {
-	QString selected = ppaths->currentText();
-	ppaths->setCurrentItem( -1 );
-	
+	QString selected = ppaths->currentItem()->text();
 	if( caller->pluginPath.size() > 1 ){
 		for ( QStringList::Iterator it = caller->pluginPath.begin(); it != caller->pluginPath.end(); ++it ){
 			if( selected == (*it) ){
@@ -101,5 +103,11 @@ void propertiesDialog::removeClicked()
 	else
 		caller->pluginPath.remove( caller->pluginPath.begin() );
 		
-	ppaths->removeItem(ppaths->currentItem());
+	QListWidgetItem* item = ppaths->takeItem( ppaths->currentRow() );
+	delete item;
+	
+	if( ppaths->count() == 0 ){
+		removeButton->setEnabled( FALSE );
+	}
+	ppaths->setCurrentRow( 0 );
 }
