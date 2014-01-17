@@ -833,6 +833,7 @@ int QTScope::runPlugin(QString name, int *channels){
 void QTScope::slotConfigure(){
 	propertiesDialog *p = new propertiesDialog(this);
 	p->exec();
+
 	saveSettings();
 	loadPluginPath();
 	initPlugins();

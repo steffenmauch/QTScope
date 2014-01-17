@@ -22,45 +22,44 @@
 
 #include <q3vbox.h>
 #include <q3listbox.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
+#include <QLabel>
+#include <QPushButton>
 #include <QLayout>
 #include <QDebug>
 #include <QFileDialog>
 
 propertiesDialog::propertiesDialog(QTScope *c, const char *name)
-    : Q3TabDialog(c, name)
 {
-  caller = c;
+	caller = c;
 
-  // so far, only the plugin paths can be set!
+	tabWidget = new QTabWidget(this);
 
-  Q3VBox *pluginsTab = new Q3VBox( this );
-  pluginsTab->setMargin( 5 );
-  pluginsTab->setSpacing( 5 );
+	// so far, only the plugin paths can be set!
 
-  (void)new QLabel( QString( "Plugin Search Path (restart to activate)" ), pluginsTab );
+	Q3VBox *pluginsTab = new Q3VBox( this );
+	pluginsTab->setMargin( 5 );
+	pluginsTab->setSpacing( 5 );
 
-  ppaths = new Q3ListBox( pluginsTab );
-  for ( QStringList::Iterator it = caller->pluginPath.begin(); it != caller->pluginPath.end(); ++it )
+	new QLabel( QString( "Plugin Search Path (restart to activate)" ), pluginsTab );
+
+	ppaths = new Q3ListBox( pluginsTab );
+	for ( QStringList::Iterator it = caller->pluginPath.begin(); it != caller->pluginPath.end(); ++it )
     {
       ppaths->insertItem( *it );
     }
-  ppaths->setCurrentItem( 1 );
+	ppaths->setCurrentItem( 1 );
 
-  QPushButton *addButton = new QPushButton("Add New...", pluginsTab);
-  connect ( addButton, SIGNAL( clicked() ), SLOT( addClicked() ) );
-  QPushButton *removeButton = new QPushButton("Remove", pluginsTab);
-  connect ( removeButton, SIGNAL( clicked() ), SLOT( removeClicked() ) );
+	QPushButton *addButton = new QPushButton("Add New...", pluginsTab);
+	connect ( addButton, SIGNAL( clicked() ), SLOT( addClicked() ) );
+	QPushButton *removeButton = new QPushButton("Remove", pluginsTab);
+	connect ( removeButton, SIGNAL( clicked() ), SLOT( removeClicked() ) );
 
-  addButton->setMaximumSize(addButton->sizeHint());
-  removeButton->setMaximumSize(removeButton->sizeHint());
+	addButton->setMaximumSize(addButton->sizeHint());
+	removeButton->setMaximumSize(removeButton->sizeHint());
 
-  addTab( pluginsTab, "Plugins" );
+	tabWidget->addTab( pluginsTab, "Plugins" );
 
-  resize(320, 270);
-
-
+	tabWidget->resize(320, 270);
 }
 
 propertiesDialog::~propertiesDialog()
