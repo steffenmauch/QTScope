@@ -3,8 +3,10 @@
  *   hennig@cn.stir.ac.uk                                                  *
  *   Copyright (C) 2005 by Bernd Porr                                      *
  *   Bernd Porr, BerndPorr@f2s.com                                         *
- *   Copyright (C) 2013 by Steffen Mauch                                   *
- *   Steffen Mauch, steffen.mauch@gmail.com                                *
+ *                                                                         *
+ *   porting to QT4 + improvements                                         *
+ *   Copyright (C) 2014 by Steffen Mauch                                   *
+ *   steffen.mauch@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -136,7 +138,7 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose ){
 	fileTools->addWidget( channelOpen );
 	QString channelOpenText = tr("<p>This button opens a new plot window.</p>");
 	QWhatsThis::add( channelOpen, channelOpenText );
-	QResource::registerResource(openIcon.toImage().bits(), "fileopen");
+	//QResource::registerResource(openIcon.toImage().bits(), "fileopen");
 
 	fileTools->addSeparator();
 	// slower timebase
@@ -145,7 +147,7 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose ){
 			 QString::null, this, SLOT(slotSlower()), 
 			 fileTools, "lower sampling rate" );
 	fileTools->addWidget( lowRate );
-	QResource::registerResource(slowerIcon.toImage().bits(), "lower sampling rate");
+	//QResource::registerResource(slowerIcon.toImage().bits(), "lower sampling rate");
 
 	// timebase
 	labelTimebase=new QLabel(fileTools,"timebase");
@@ -157,7 +159,7 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose ){
 			 QString::null, this, SLOT(slotFaster()), 
 			 fileTools, "higher sampling rate" );
 	fileTools->addWidget( highRate );
-	QResource::registerResource(fasterIcon.toImage().bits(), "higher sampling rate");
+	//QResource::registerResource(fasterIcon.toImage().bits(), "higher sampling rate");
 
 	fileTools->addSeparator();
 
@@ -317,13 +319,13 @@ void QTScope::freeBuffers(){
 
 
 void QTScope::closeEvent( QCloseEvent* ce ){
-	dataTarget *it;
 
 	stopAll();
 
 	// announce close to active plugins
-	while ( (it = activePlugins.first()) )
-		it->target->close();
+	QListIterator<dataTarget> it(activePlugins);
+	while( it.hasNext() )
+		it.next().target->close();
 
 	saveSettings();
 
@@ -365,16 +367,20 @@ void QTScope::saveSettings(){
   This removes the plugin information when a plugin window has been closed.
 */
 void QTScope::slotChannelClosed(int id){
-	dataTarget *it;
-	for ( it = activePlugins.first(); it; it = activePlugins.next() )
-		if( it->id == id){
-			activePlugins.remove();
+
+	QMutableListIterator<dataTarget> it(activePlugins);
+
+	while( it.hasNext() ){
+		dataTarget *target = &(it.next());
+		if( target->id == id){
+			//delete target;
+			it.remove();
 			continue;
 		}
+	}
 }
 
 void QTScope::slotReadData(){
-	dataTarget *it;
 	int i, num,ret;
 
 	if (comediError) {
@@ -421,11 +427,11 @@ void QTScope::slotReadData(){
 			}
 			cout.flush();
 		}
-		// announce data to plugins
+		// announce data to plugins	
 		if(activePlugins.count() != 0) {
-			for ( it = activePlugins.first(); it; it = activePlugins.next() ) {
-				it->target->insertValues(num,TRUE);
-			}
+			QMutableListIterator<dataTarget> it(activePlugins);
+			while( it.hasNext() )
+				it.next().target->insertValues(num,TRUE);
 		}
 		slotReplotPlots();
 	} else { // just bursts of data
@@ -457,9 +463,9 @@ void QTScope::slotReadData(){
 		}
 		// announce data to plugins
 		if(activePlugins.count() != 0) {
-			for ( it = activePlugins.first(); it; it = activePlugins.next() ) {
-				it->target->insertValues(num,FALSE);
-			}
+			QMutableListIterator<dataTarget> it(activePlugins);
+			while( it.hasNext() )
+				it.next().target->insertValues(num,FALSE);
 		}
 		slotReplotPlots();
 		startComedi();
@@ -467,13 +473,12 @@ void QTScope::slotReadData(){
 }
 
 void QTScope::slotReplotPlots(){
-	dataTarget *it;
-
 	if(activePlugins.count() == 0)
 		return;
 
-	for ( it = activePlugins.first(); it; it = activePlugins.next() )
-		it->target->replot();
+	QMutableListIterator<dataTarget> it(activePlugins);
+	while( it.hasNext() )
+		it.next().target->replot();
 }
 
 void QTScope::newView(){
@@ -741,7 +746,6 @@ int QTScope::initPlugins(){
 				}
 			}
 		}
-		activePlugins.setAutoDelete( TRUE );
 	}
 	return 0;
 }
@@ -768,7 +772,8 @@ int QTScope::runPlugin(QString name, int *channels){
 							  Qt::WDestructiveClose,
 							  numberOfSamples);
 				dT->id = pCount;
-				activePlugins.append(dT);
+				
+				activePlugins << *dT;
 
 				dT->channels.clear();
 				
@@ -912,14 +917,16 @@ void QTScope::slotFaster(){
 
 
 void QTScope::tellPlugins(){
-	dataTarget *it=NULL;
-	for ( it = activePlugins.first(); it; it = activePlugins.next() ) {
+	QMutableListIterator<dataTarget> it(activePlugins);
+	dataTarget target;
+	while( it.hasNext() ){
+		target = it.next();
 		if (cmd->convert_src == TRIG_NOW) {
 			// no time between different samples
-			it->target->slotSetSamplingRate(freq);
+			target.target->slotSetSamplingRate(freq);
 		} else {
 			// time between different samples
-			it->target->slotSetSamplingRate(freq/n_chan);
+			target.target->slotSetSamplingRate(freq/n_chan);
 		}
 	}
 }
