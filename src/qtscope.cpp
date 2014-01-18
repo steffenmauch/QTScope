@@ -73,7 +73,7 @@ using std::cerr;
 // and the next one.
 #define MIN_BURST 200
 
-QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose ){
+QTScope::QTScope() : QMainWindow( ){
 	continous=0;
 	comediError=0;
 
@@ -95,27 +95,27 @@ QTScope::QTScope() : QMainWindow( 0, "QTScope", Qt::WDestructiveClose ){
 		exit(-1);
 	}
 	// load settings
-	settings.setPath( "github.com/steffenmauch/QTScope", "qtscope" );
+	settings.setPath( QSettings::NativeFormat, QSettings::UserScope, "github.com/steffenmauch/QTScope" );
 	boardname=QString("/")+comedi_get_board_name(comediDevice)+QString("/");
 	comedi_close(comediDevice);
 
 	settings.beginGroup( "/qtscope/"+boardname+"/" );
-	numberOfSamples =  settings.readNumEntry( "/sampling/nsamples", INITIAL_NUMBER_OF_SAMPLES );
-	continousInterval = settings.readNumEntry( "/timing/continous", CONTINOUS_TIMER_INTERVAL );
-	burstInterval = settings.readNumEntry( "/timing/burst", BURST_TIMER_INTERVAL );
-	freq = settings.readNumEntry( "/sampling/rate", INITIAL_SAMPLING_RATE );
-	continous=settings.readNumEntry( "/sampling/continous",freq<FREQU_THRES_CONT);
-	n_chan =  settings.readNumEntry( "/sampling/nchan", INITIAL_NUMBER_OF_CHANNELS );
-	range = settings.readNumEntry( "/sampling/range", INITIAL_RANGE );
-	aref = settings.readNumEntry( "/sampling/aref", AREF_GROUND );
+	numberOfSamples =  settings.value( "/sampling/nsamples", INITIAL_NUMBER_OF_SAMPLES ).toInt();
+	continousInterval = settings.value( "/timing/continous", CONTINOUS_TIMER_INTERVAL ).toInt();
+	burstInterval = settings.value( "/timing/burst", BURST_TIMER_INTERVAL ).toInt();
+	freq = settings.value( "/sampling/rate", INITIAL_SAMPLING_RATE ).toInt();
+	continous=settings.value( "/sampling/continous",freq<FREQU_THRES_CONT).toInt();
+	n_chan =  settings.value( "/sampling/nchan", INITIAL_NUMBER_OF_CHANNELS ).toInt();
+	range = settings.value( "/sampling/range", INITIAL_RANGE ).toInt();
+	aref = settings.value( "/sampling/aref", AREF_GROUND ).toInt();
 
 	settings.endGroup();
 
 	// get plugin paths
 	settings.beginGroup( "/qtscope/" );
 	// window size
-	int width = settings.readNumEntry( "/geometry/width", 800 );
-	int height = settings.readNumEntry( "/geometry/height", 600 );
+	int width = settings.value( "/geometry/width", 800 ).toInt();
+	int height = settings.value( "/geometry/height", 600 ).toInt();
 	resize( width, height );
 	settings.endGroup();
 
@@ -341,22 +341,22 @@ void QTScope::closeEvent( QCloseEvent* ce ){
 */
 void QTScope::saveSettings(){
 	settings.beginGroup( "/qtscope/" );
-	settings.writeEntry( "/pluginpath", pluginPath);
-	settings.writeEntry( "/geometry/width", this->width() );
-	settings.writeEntry( "/geometry/height", this->height() );
+	settings.setValue( "/pluginpath", pluginPath);
+	settings.setValue( "/geometry/width", this->width() );
+	settings.setValue( "/geometry/height", this->height() );
 	settings.endGroup( );
 
 	// save settings
 	settings.beginGroup( "/qtscope/"+boardname+"/" );
-	settings.writeEntry( "/timing/continous", continousInterval );
-	settings.writeEntry( "/timing/burst", burstInterval );
-	settings.writeEntry( "/sampling/range", range );
-	settings.writeEntry( "/sampling/aref", aref );
+	settings.setValue( "/timing/continous", continousInterval );
+	settings.setValue( "/timing/burst", burstInterval );
+	settings.setValue( "/sampling/range", range );
+	settings.setValue( "/sampling/aref", aref );
 	char tmp[256];
 	sprintf(tmp,"%9.0f",freq);
-	settings.writeEntry( "/sampling/rate", tmp );
-	settings.writeEntry( "/sampling/continous",continous);
-	settings.writeEntry( "/sampling/nchan", n_chan );
+	settings.setValue( "/sampling/rate", tmp );
+	settings.setValue( "/sampling/continous",continous);
+	settings.setValue( "/sampling/nchan", n_chan );
 	settings.endGroup( );
 }
 
