@@ -2,6 +2,10 @@
  *   Copyright (C) 2004 by Matthias H. Hennig                              *
  *   hennig@cn.stir.ac.uk                                                  *
  *                                                                         *
+ *   porting to QT4 + improvements                                         *
+ *   Copyright (C) 2014 by Steffen Mauch                                   *
+ *   steffen.mauch@gmail.com                                               *
+ *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -20,23 +24,14 @@
 
 #include "displaysettings.h"
 
-#include <qvariant.h>
-#include <qtabwidget.h>
-#include <qwidget.h>
-#include <qlabel.h>
-#include <qspinbox.h>
-#include <qpushbutton.h>
-#include <qlayout.h>
-#include <qtooltip.h>
-#include <qimage.h>
-#include <qpixmap.h>
-#include <qsizepolicy.h>
-
+#include <QTabWidget>
+#include <QWidget>
+#include <QLabel>
+#include <QSpinBox>
+#include <QPushButton>
 #include <QGroupBox>
-#include <QCloseEvent>
-#include <QRect>
 
-displaySettings::displaySettings( QWidget* parent, const char* name, int contRate, int burstRate )
+displaySettings::displaySettings( QWidget* , const char* , int contRate, int burstRate )
 {
   setWindowTitle( tr("Display Settings") );
 

@@ -2,6 +2,10 @@
  *   Copyright (C) 2004 by Matthias H. Hennig                              *
  *   hennig@cn.stir.ac.uk                                                  *
  *                                                                         *
+ *   porting to QT4 + improvements                                         *
+ *   Copyright (C) 2014 by Steffen Mauch                                   *
+ *   steffen.mauch@gmail.com                                               *
+ *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -21,9 +25,7 @@
 #ifndef DISPLAYSETTINGS_H
 #define DISPLAYSETTINGS_H
 
-#include <qvariant.h>
 #include <QDockWidget>
-#include <QLabel>
 #include <QCloseEvent>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
