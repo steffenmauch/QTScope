@@ -2,6 +2,10 @@
  *   Copyright (C) 2004 by Matthias H. Hennig                              *
  *   hennig@cn.stir.ac.uk                                                  *
  *                                                                         *
+ *   porting to QT4 + improvements                                         *
+ *   Copyright (C) 2014 by Steffen Mauch                                   *
+ *   steffen.mauch@gmail.com                                               *
+ *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -25,15 +29,11 @@
 
 #include <QDialog>
 #include <QFrame>
-#include <QWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QListWidget>
 #include <QSpinBox>
 #include <QList>
-
-//Added by qt3to4:
-#include <Q3ValueList>
 
 /**
 This widget provides the user interaction to open a new plot plugin.
@@ -46,7 +46,7 @@ Q_OBJECT
 
 private:
   // store a copy of the plugin data here
-  Q3ValueList <pluginData> pl;
+  QList <pluginData> pl;
 
   // Layout elements
   QVBoxLayout *mainLayout;
@@ -59,8 +59,7 @@ private:
   QListWidget *pluginsList;
   QFrame *f1;
   // the spinboxes to choose the channels
-  //QList<QSpinBox *> list; // right replacement!
-  Q3PtrList <QSpinBox> channelSelectors;
+  QList<QSpinBox *> channelSelectors;
 
   QPushButton *okPushButton;
   QPushButton *cancelPushButton;
@@ -68,9 +67,9 @@ private:
   QTScope *caller;
 
   // number of channels the plugin requests
-  unsigned int maxSelect;
+  int maxSelect;
   // number of channels available
-  unsigned int maxChannels;
+  int maxChannels;
 
 public:
     newViewDialog(int numChannels, QList<pluginData> availablePlugins, QTScope *c, QWidget *parent = 0, const char *name = 0, bool modal = TRUE, Qt::WFlags f = 0);
