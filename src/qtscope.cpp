@@ -150,7 +150,7 @@ QTScope::QTScope() : QMainWindow( ){
 	//QResource::registerResource(slowerIcon.toImage().bits(), "lower sampling rate");
 
 	// timebase
-	labelTimebase=new QLabel(fileTools,"timebase");
+	labelTimebase=new QLabel("timebase");
 	fileTools->addWidget( labelTimebase );
 	
 	// faster timebase
@@ -769,7 +769,7 @@ int QTScope::runPlugin(QString name, int *channels){
 							  ws, 
 							  QString("%1").arg(channels[0]), 
 							  pCount, 
-							  Qt::WDestructiveClose,
+							  Qt::Widget,
 							  numberOfSamples);
 				dT->id = pCount;
 				
@@ -868,7 +868,7 @@ void QTScope::showSamplingrate(){
 void QTScope::slotSetSamplingSettings(double r,int n,int s,int c){
 	n_chan=n;
 	freq=r;
-	settings.writeEntry( "/sampling/nsamples", s );
+	settings.setValue( "/sampling/nsamples", s );
 	stopAll();
 	initComedi();
 	continous=c;
