@@ -133,21 +133,23 @@ QTScope::QTScope() : QMainWindow( ){
 
 	// add an open icon
 	QPixmap openIcon = QPixmap( fileopen );
-	QToolButton * channelOpen = new QToolButton( openIcon, tr("New Plot Window"),
-						     QString::null, this, SLOT(newView()), fileTools, "open channel" );
+	QToolButton * channelOpen = new QToolButton();
+	channelOpen->setIcon( openIcon );
+	channelOpen->setToolTip( tr("New Plot Window") );
+	connect(channelOpen, SIGNAL(clicked()), this, SLOT(newView()));					
 	fileTools->addWidget( channelOpen );
 	QString channelOpenText = tr("<p>This button opens a new plot window.</p>");
-	QWhatsThis::add( channelOpen, channelOpenText );
-	//QResource::registerResource(openIcon.toImage().bits(), "fileopen");
+	//QWhatsThis::add( channelOpen, channelOpenText );
 
 	fileTools->addSeparator();
+	
 	// slower timebase
 	QPixmap slowerIcon = QPixmap( slower_xpm );
-	QToolButton *lowRate = new QToolButton( slowerIcon, tr("lower sampling rate"),
-			 QString::null, this, SLOT(slotSlower()), 
-			 fileTools, "lower sampling rate" );
+	QToolButton *lowRate = new QToolButton();
+	lowRate->setIcon( slowerIcon );
+	lowRate->setToolTip( tr("lower sampling rate") );
+	connect(lowRate, SIGNAL(clicked()), this, SLOT(slotSlower()));
 	fileTools->addWidget( lowRate );
-	//QResource::registerResource(slowerIcon.toImage().bits(), "lower sampling rate");
 
 	// timebase
 	labelTimebase=new QLabel("timebase");
@@ -155,11 +157,11 @@ QTScope::QTScope() : QMainWindow( ){
 	
 	// faster timebase
 	QPixmap fasterIcon = QPixmap( faster_xpm );
-	QToolButton *highRate = new QToolButton( fasterIcon, tr("higher sampling rate"),
-			 QString::null, this, SLOT(slotFaster()), 
-			 fileTools, "higher sampling rate" );
+	QToolButton *highRate = new QToolButton();
+	highRate->setIcon( fasterIcon );
+	highRate->setToolTip( tr("higher sampling rate") );
+	connect(highRate, SIGNAL(clicked()), this, SLOT(slotFaster()));
 	fileTools->addWidget( highRate );
-	//QResource::registerResource(fasterIcon.toImage().bits(), "higher sampling rate");
 
 	fileTools->addSeparator();
 
