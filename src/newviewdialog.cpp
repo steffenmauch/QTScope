@@ -1,8 +1,10 @@
 /***************************************************************************
  *   Copyright (C) 2004 by Matthias H. Hennig                              *
  *   hennig@cn.stir.ac.uk                                                  *
- *   Copyright (C) 2013 by Steffen Mauch                                   *
- *   Steffen Mauch, steffen.mauch@gmail.com                                *
+ *                                                                         *
+ *   porting to QT4 + improvements                                         *
+ *   Copyright (C) 2014 by Steffen Mauch                                   *
+ *   steffen.mauch@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -32,11 +34,9 @@ newViewDialog::newViewDialog(int numChannels, QList<pluginData> availablePlugins
 {
   caller = c;
   pl = availablePlugins;
-  maxSelect = 1;
+  maxSelect = 0;
   maxChannels = numChannels;
-
-  channelSelectors.setAutoDelete( TRUE );
-
+  
   setWindowTitle( "QTScope -- Open new Plot" );
   resize( 320, 240 );
 
@@ -54,10 +54,9 @@ newViewDialog::newViewDialog(int numChannels, QList<pluginData> availablePlugins
   pluginsList->setFocusPolicy( Qt::StrongFocus );
   pluginsList->setFrameStyle( QFrame::Panel | QFrame::Raised );
 
-  QLinkedList<pluginData>::iterator it = pl.begin();
-	while( it != pl.end() ){
-		new QListWidgetItem( (*it).name, pluginsList );
-		it++;
+  QListIterator<pluginData> it(pl);
+	while( it.hasNext() ){
+		new QListWidgetItem( it.next().name, pluginsList );
 	}
 
   connect( pluginsList, SIGNAL( itemSelectionChanged () ),
@@ -117,19 +116,20 @@ newViewDialog::~newViewDialog()
  */
 void newViewDialog::accept()
 {
-	//if( pluginsList->currentRow() >= 0 ){
-		// prepare a list of requested channels
-		int *channels = new int[maxSelect];
-		channelSelectors.first();
-		for(unsigned int i=0; i<maxSelect; i++) {
-			channels[i] = channelSelectors.current()->value();
-			channelSelectors.next();
-		}
-		// start a new plugin
-		qDebug() << pluginsList->currentItem()->text();
-		caller->runPlugin(pluginsList->currentItem()->text(), channels);
-		QDialog::accept();
-	//}
+	// prepare a list of requested channels
+	int *channels = new int[maxSelect];
+	
+	QListIterator<QSpinBox *> it(channelSelectors);
+	int i=0;
+	while( it.hasNext() ){
+		channels[i] = (it.next())->value();
+		i++;
+	}
+	
+	// start a new plugin
+	qDebug() << pluginsList->currentItem()->text();
+	caller->runPlugin(pluginsList->currentItem()->text(), channels);
+	QDialog::accept();
 }
 
 /*!
@@ -139,26 +139,29 @@ void newViewDialog::slotPluginSelected()
 {
 	QString name = pluginsList->currentItem()->text();
 	okPushButton->setEnabled( TRUE );
-	QLinkedList<pluginData>::iterator it = pl.begin();
-	while( it != pl.end() )
-    {
-      if ( (*it).name == name )
-        {
-          maxSelect = (*it).numChannels;
-          if(channelSelectors.count() < maxSelect)
-            for(unsigned int i = channelSelectors.count(); i < maxSelect; i++) {
-              channelSelectors.append( new QSpinBox( 0, maxChannels-1, 1, channelsList ) );
-              channelsListL->addWidget(channelSelectors.current());
-              channelSelectors.current()->show();
-            }
-          else if(channelSelectors.count() > maxSelect) {
-            channelSelectors.last();
-            for(unsigned int i = maxSelect; i< channelSelectors.count(); i++)
-              channelSelectors.remove();
-          }
+	
+	QListIterator<pluginData> it(pl);
+	while( it.hasNext() ){
+		pluginData data = it.next();
+		if ( data.name == name ){
+			maxSelect = data.numChannels;
+			//qDebug() << "max Select: " << maxSelect;
+			 
+			if(channelSelectors.count() < maxSelect)
+				for( int i = channelSelectors.count(); i < maxSelect; i++ ) {
+					QSpinBox *spinBox = new QSpinBox();
+					spinBox->setRange( 0, maxChannels-1 );
+					channelsListL->addWidget( spinBox );
+					
+					channelSelectors << spinBox ;
+				}
+			else if(channelSelectors.count() > maxSelect) {
+				channelSelectors.last();
+				for( int i = maxSelect; i< channelSelectors.count(); i++ )
+					 delete channelSelectors.takeLast();
+			}
         }
-        it++;
-    }
+	}
 }
 
 
