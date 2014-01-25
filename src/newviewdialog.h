@@ -50,6 +50,7 @@ private:
 
   // Layout elements
   QVBoxLayout *mainLayout;
+  QVBoxLayout *main;
   QHBoxLayout *chooserBox;
   QHBoxLayout *buttonBox;
   QWidget *channelsList;

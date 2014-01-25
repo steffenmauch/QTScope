@@ -30,7 +30,7 @@
 #include <QDebug>
 
 newViewDialog::newViewDialog(int numChannels, QList<pluginData> availablePlugins, QTScope *c, QWidget *parent, const char *name, bool modal, Qt::WFlags f )
-    : QDialog(parent, name, modal, f)
+    : QDialog( parent )
 {
   caller = c;
   pl = availablePlugins;
@@ -38,42 +38,50 @@ newViewDialog::newViewDialog(int numChannels, QList<pluginData> availablePlugins
   maxChannels = numChannels;
   
   setWindowTitle( "QTScope -- Open new Plot" );
-  resize( 320, 240 );
+  resize( 350, 240 );
 
-  mainLayout = new QVBoxLayout( this, 2, 2, "main");
+  main = new QVBoxLayout();
+  mainLayout = new QVBoxLayout();
+  mainLayout->setContentsMargins(2,2,2,2);
 
-  f1 = new QFrame( this );
+  f1 = new QFrame();
   f1->setFrameShape( QFrame::StyledPanel );
   f1->setFrameShadow( QFrame::Sunken );
-  mainLayout->addWidget(f1);
+  main->addWidget(f1);
 
-  chooserBox = new QHBoxLayout( f1, 2, 2, "choose" );
+  f1->setLayout(mainLayout);
+
+
+  chooserBox = new QHBoxLayout();
 
   // the list of plugins
-  pluginsList = new QListWidget( f1 );
+  pluginsList = new QListWidget( );
   pluginsList->setFocusPolicy( Qt::StrongFocus );
   pluginsList->setFrameStyle( QFrame::Panel | QFrame::Raised );
 
   QListIterator<pluginData> it(pl);
-	while( it.hasNext() ){
-		new QListWidgetItem( it.next().name, pluginsList );
-	}
+    while( it.hasNext() ){
+        new QListWidgetItem( it.next().name, pluginsList );
+    }
 
   connect( pluginsList, SIGNAL( itemSelectionChanged () ),
-	this, SLOT( slotPluginSelected() ) );
+    this, SLOT( slotPluginSelected() ) );
 
   chooserBox->addWidget(pluginsList);
+  QWidget* temp = new QWidget();
+  temp->setLayout(chooserBox);
+  mainLayout->addWidget(temp);
 
   // the channels
   channelsList = new QWidget( );
   channelsListLayout = new QVBoxLayout();
   channelsListLayout->addWidget( new QLabel("Select Input Channel(s)") );
-  
+
   channelsListL = new QVBoxLayout( );
   channelsListWidget = new QWidget();
-  
+
   channelsListWidget->setLayout( channelsListL );
-  
+
   channelsListLayout->addWidget( channelsListWidget );
   channelsListLayout->addStretch(1);
   channelsList->setLayout(channelsListLayout);
@@ -81,9 +89,12 @@ newViewDialog::newViewDialog(int numChannels, QList<pluginData> availablePlugins
   chooserBox->addWidget(channelsList);
 
   // OK+Cancel
-  buttonBox = new QHBoxLayout( mainLayout );
+  buttonBox = new QHBoxLayout();
+  QWidget *bBox = new QWidget();
+  bBox->setLayout(buttonBox);
+  mainLayout->addWidget(bBox);
 
-  okPushButton = new QPushButton( this, "ok" );
+  okPushButton = new QPushButton( );
   okPushButton->setText( "OK" );
   okPushButton->setDefault( TRUE );
   okPushButton->setMaximumSize(okPushButton->sizeHint());
@@ -91,7 +102,7 @@ newViewDialog::newViewDialog(int numChannels, QList<pluginData> availablePlugins
   //okPushButton->setSizePolicy(QSizePolicy::Fixed);
   buttonBox->addWidget( okPushButton );
 
-  cancelPushButton = new QPushButton( this, "cancel" );
+  cancelPushButton = new QPushButton( );
   cancelPushButton->setText( "Cancel" );
   //cancelPushButton->setAccel( Key_Escape );
   cancelPushButton->setMaximumSize(cancelPushButton->sizeHint());
@@ -101,10 +112,12 @@ newViewDialog::newViewDialog(int numChannels, QList<pluginData> availablePlugins
   connect( okPushButton, SIGNAL( clicked() ), this, SLOT( accept() ) );
   connect( cancelPushButton, SIGNAL( clicked() ), this, SLOT( reject() ) );
 
-	if( pluginsList->count() > 0 ){
-		// start with first plugin
-		pluginsList->setCurrentRow(0);
-	}
+    if( pluginsList->count() > 0 ){
+        // start with first plugin
+        pluginsList->setCurrentRow(0);
+    }
+
+    setLayout(main);
 }
 
 
