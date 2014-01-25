@@ -79,15 +79,18 @@ propertiesDialog::~propertiesDialog()
  */
 void propertiesDialog::addClicked()
 {
-	QFileDialog* fd = new QFileDialog( this, "file dialog");
-	fd->setMode( QFileDialog::Directory );
-	QString fileName;
+    QFileDialog* fd = new QFileDialog( this, "file dialog");
+    fd->setFileMode(QFileDialog::Directory);
+    fd->setOption(QFileDialog::ShowDirsOnly, true);
+    QStringList fileNames;
 	if ( fd->exec() == QDialog::Accepted ){
-		fileName = fd->selectedFile();
-		new QListWidgetItem( fileName, ppaths );
-		caller->pluginPath.append(fileName);
-		removeButton->setEnabled( TRUE );
-		ppaths->setCurrentRow( 0 );
+        fileNames = fd->selectedFiles();
+        if( fileNames.count() > 0 ){
+            new QListWidgetItem( fileNames.at(0), ppaths );
+            caller->pluginPath.append(fileNames.at(0));
+            removeButton->setEnabled( TRUE );
+            ppaths->setCurrentRow( 0 );
+        }
 	}
 }
 
@@ -101,13 +104,13 @@ void propertiesDialog::removeClicked()
 	if( caller->pluginPath.size() > 1 ){
 		for ( QStringList::Iterator it = caller->pluginPath.begin(); it != caller->pluginPath.end(); ++it ){
 			if( selected == (*it) ){
-				it = caller->pluginPath.remove(it);
+                it = caller->pluginPath.erase(it);
 				break;
 			}
 		}
 	}
 	else
-		caller->pluginPath.remove( caller->pluginPath.begin() );
+        caller->pluginPath.erase( caller->pluginPath.begin() );
 		
 	QListWidgetItem* item = ppaths->takeItem( ppaths->currentRow() );
 	delete item;
