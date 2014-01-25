@@ -504,7 +504,7 @@ void QTScope::windowsMenuAboutToShow(){
 	
 	int i = 0;
 	foreach( QMdiSubWindow *window, ws->subWindowList() ){		
-        QAction* id = windowsMenu->addAction( window->caption() );
+        QAction* id = windowsMenu->addAction( window->windowTitle() );
         id->setData( i );
         connect(id, SIGNAL(triggered()),this, SLOT( windowsMenuActivated() ) );
 
@@ -545,7 +545,7 @@ void QTScope::tileVertical(){
 			window->showNormal();
 		}
 		int preferredHeight = widget->minimumHeight()+widget->parentWidget()->baseSize().height();
-		int actHeight = QMAX(heightForEach, preferredHeight);
+        int actHeight = qMax(heightForEach, preferredHeight);
 
 		widget->parentWidget()->setGeometry( 0, y, ws->width(), actHeight );
 		y += actHeight;
@@ -553,6 +553,7 @@ void QTScope::tileVertical(){
 }
 
 void QTScope::about(){
+#if 0
     QMessageBox::about( this, tr("QTScope"), 
 		tr("Version "+QString(VER)+"\n"+
 		"\n"+QString(DATE)+"\n\n"+
@@ -561,6 +562,7 @@ void QTScope::about(){
 		"\nand\n\nSteffen Mauch\nsteffen.mauch@gmail.com\n"+
 		"\n...a simple DAQ program for comedi devices...\n")
 	);
+#endif
 }
 
 
@@ -709,7 +711,10 @@ int QTScope::initPlugins(){
 	QDir pd;
 	pCount = 0;
 
-	d.setNameFilter("*.so");
+    QStringList filters;
+    filters << "*.so" ;
+    d.setNameFilters( filters );
+
 	d.setSorting(QDir::Name);
 	d.setFilter(QDir::Files);
 	pd.setFilter(QDir::Dirs);
@@ -724,11 +729,11 @@ int QTScope::initPlugins(){
 		pd.setPath(*it);
 		//int counter = 0;
 		for (uint i=0; i<pd.count(); i++) {
-			// find plugin files
-			d.setPath(pd.absFilePath(pd[i]));
+            // find plugin files
+            d.setPath( pd.absoluteFilePath(pd[i]) );
 			for (uint j=0; j<d.count(); j++) {
-				cout << "found:" << d.absFilePath(d[j]).latin1() << "\n";
-				hndl = dlopen(d.absFilePath(d[j]).latin1(), RTLD_LAZY);
+                cout << "found:" << d.absoluteFilePath(d[j]).toStdString() << "\n";
+                hndl = dlopen(d.absoluteFilePath(d[j]).toStdString().c_str(), RTLD_LAZY);
 				error = dlerror();
 				if (error != NULL) {
 					fprintf(stderr, "dlsym(message): %s\n", error);
@@ -737,7 +742,7 @@ int QTScope::initPlugins(){
 					// read the plugin information and store them
 					pI = reinterpret_cast< pluginInfo* > (reinterpret_cast< long >( dlsym( hndl, "myPluginInfo" )));
 					if(pI) {
-						cout << "plugin name: " << pI->name.ascii() << " comedi_type: " << pI->type_comedi << "\n";
+                        cout << "plugin name: " << pI->name.toStdString() << " comedi_type: " << pI->type_comedi << "\n";
 						// get the plugin information
 						pD.name = pI->name;
 						pD.type = pI->type;
@@ -746,7 +751,7 @@ int QTScope::initPlugins(){
 						pD.create = reinterpret_cast< CreateP >( reinterpret_cast< long >( dlsym( hndl, "createPlugin" ) ) );
 						availablePlugins.append(pD);
 					} else {
-						cout << pI->name.ascii() << " is not a QTScope plugin\n";
+                        cout << pI->name.toStdString() << " is not a QTScope plugin\n";
 					}
 				}
 			}
@@ -772,10 +777,10 @@ int QTScope::runPlugin(QString name, int *channels){
 				dT = new dataTarget;
 				dT->target = (*it).create(this, 
 							  ws, 
-							  QString("%1").arg(channels[0]), 
+                              QString("%1").arg(channels[0]).toStdString().c_str(),
 							  pCount, 
 							  Qt::Widget,
-							  numberOfSamples);
+                              numberOfSamples);
 				dT->id = pCount;
 				
 				activePlugins << *dT;
