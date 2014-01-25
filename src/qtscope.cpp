@@ -168,7 +168,7 @@ QTScope::QTScope() : QMainWindow( ){
 	// the file menu
 	QMenu *file = menuBar()->addMenu( tr("&File") );
 	file->addAction( tr("&New Plot Window"), this, SLOT(newView()), Qt::CTRL+Qt::Key_N );
-	file->insertSeparator();
+    file->addSeparator();
 	file->addAction(tr("&Quit"), qApp, SLOT( closeAllWindows() ), Qt::CTRL+Qt::Key_Q );
 
 	// the settings menu
@@ -178,17 +178,15 @@ QTScope::QTScope() : QMainWindow( ){
 	set->addAction( tr("&Plugin Paths"), this, SLOT(slotConfigure()), Qt::CTRL+Qt::Key_P );
 
 	// the windows menu to provide some functions to arrange windows
-	windowsMenu = new QMenu( );
-	windowsMenu->setCheckable( TRUE );
+    windowsMenu = menuBar()->addMenu( tr("&Windows") );
 	connect( windowsMenu, SIGNAL( aboutToShow() ),  this, SLOT( windowsMenuAboutToShow() ) );
-	menuBar()->insertItem( "&Windows", windowsMenu );
-	menuBar()->insertSeparator();
+    menuBar()->addSeparator();
 
 	// Help menu
 	QMenu *help = menuBar()->addMenu(tr("&Help"));
 	help->addAction( tr("&About"), this, SLOT(about()), Qt::Key_F1 );
 	help->addAction( tr("About &Qt"), this, SLOT(aboutQt()) );
-	help->insertSeparator();
+    help->addSeparator();
 	QAction *whatsThisAct = QWhatsThis::createAction();
 	help->addAction( whatsThisAct );
 
@@ -207,7 +205,7 @@ QTScope::QTScope() : QMainWindow( ){
 	startComedi();
 
 	showSamplingrate();
-	statusBar()->message( tr("Ready"), 2000 );
+    statusBar()->showMessage( tr("Ready"), 2000 );
 }
 
 
@@ -216,9 +214,9 @@ QTScope::~QTScope(){
 }
 
 void QTScope::loadPluginPath(){
-	// get plugin paths
-	settings.beginGroup( "/qtscope/" );
-	QStringList pk = settings.readListEntry( "/pluginpath" );
+    // get plugin paths
+    settings.beginGroup( "/qtscope" );
+    QStringList pk = settings.value( "/pluginpath" ).toStringList();
 	settings.endGroup();
 
 	QStringList::Iterator it = pk.begin();
@@ -342,7 +340,7 @@ void QTScope::closeEvent( QCloseEvent* ce ){
   associate file
 */
 void QTScope::saveSettings(){
-	settings.beginGroup( "/qtscope/" );
+    settings.beginGroup( "/qtscope/" );
 	settings.setValue( "/pluginpath", pluginPath);
 	settings.setValue( "/geometry/width", this->width() );
 	settings.setValue( "/geometry/height", this->height() );
@@ -491,33 +489,38 @@ void QTScope::newView(){
 
 void QTScope::windowsMenuAboutToShow(){
 	windowsMenu->clear();
-	int cascadeId = windowsMenu->insertItem("&Cascade", ws, SLOT(cascadeSubWindows() ) );
-	int tileId = windowsMenu->insertItem("&Tile", ws, SLOT(tileSubWindows() ) );
-	int verTileId = windowsMenu->insertItem("Tile &Vertical", this, SLOT(tileVertical() ) );
+
+    QAction* cascadeId = windowsMenu->addAction("&Cascade", ws, SLOT(cascadeSubWindows() ) );
+    QAction* tileId = windowsMenu->addAction("&Tile", ws, SLOT(tileSubWindows() ) );
+    QAction* verTileId = windowsMenu->addAction("Tile &Vertical", this, SLOT(tileVertical() ) );
 	
 	if ( ws->subWindowList().isEmpty() ) {
-		windowsMenu->setItemEnabled( cascadeId, FALSE );
-		windowsMenu->setItemEnabled( tileId, FALSE );
-		windowsMenu->setItemEnabled( verTileId, FALSE );
+        cascadeId->setDisabled(TRUE);
+        tileId->setDisabled(TRUE);
+        verTileId->setDisabled(TRUE);
 	}
 	
-	windowsMenu->insertSeparator();
+    windowsMenu->addSeparator();
 	
 	int i = 0;
 	foreach( QMdiSubWindow *window, ws->subWindowList() ){		
-		int id = windowsMenu->insertItem( window->caption(),
-						 this, SLOT( windowsMenuActivated( int ) ) );
-		windowsMenu->setItemParameter( id, i );
+        QAction* id = windowsMenu->addAction( window->caption() );
+        id->setData( i );
+        connect(id, SIGNAL(triggered()),this, SLOT( windowsMenuActivated() ) );
+
 		if( ws->activeSubWindow() == window )
-			windowsMenu->setItemChecked( id, true );
-		else
-			windowsMenu->setItemChecked( id, false );
+            id->setDisabled( true );
+        else
+            id->setDisabled( false );
 		i++;
 	}
 	
 }
 
-void QTScope::windowsMenuActivated( int id ){
+void QTScope::windowsMenuActivated(){
+    QAction* action = (QAction*)sender();
+    int id = action->data().toInt();
+
 	QWidget* w = ws->subWindowList().at( id );
 	if ( w )
 		w->showNormal();

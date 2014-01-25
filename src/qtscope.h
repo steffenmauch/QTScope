@@ -100,7 +100,7 @@ class QTScope: public QMainWindow
     void aboutQt();
 
     void windowsMenuAboutToShow();
-    void windowsMenuActivated( int id );
+    void windowsMenuActivated();
 
     // function to replot data
     void slotReplotPlots();
