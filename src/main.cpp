@@ -11,6 +11,8 @@ int main( int argc, char ** argv )
     QApplication a( argc, argv );
     QTScope * mw = new QTScope();
 
+    //qApp->setStyleSheet("QSpinBox { min-width: 20px; \
+    //                    min-height: 20px; }");
     mw->setWindowTitle( "QTScope" );
     mw->show();
 
