@@ -37,51 +37,50 @@ displaySettings::displaySettings( QWidget* , const char* , int contRate, int bur
 
   setMinimumSize( QSize( 169, 148 ) );
 
-  frame5Layout = new QVBoxLayout( this, 0, 0);
+  frame5Layout = new QVBoxLayout();
 
-  tabs = new QTabWidget( this, "tabs" );
+  tabs = new QTabWidget( );
 
-  tab = new QWidget( tabs, "tab" );
-  tabLayout = new QHBoxLayout( tab, 0, 0, "tabLayout");
+  tab = new QWidget( );
+  tabLayout = new QHBoxLayout();
+  tab->setLayout(tabLayout);
 
-  groupBox1 = new QGroupBox( tab, "groupBox1" );
-  QHBoxLayout *layout = new QHBoxLayout( groupBox1 ) ;
-  groupBox1Layout = new QGridLayout( layout );
+  groupBox1 = new QGroupBox();
+  tabLayout->addWidget(groupBox1);
+  groupBox1Layout = new QGridLayout();
+  groupBox1->setLayout( groupBox1Layout );
   groupBox1Layout->setAlignment( Qt::AlignTop );
 
-  textLabel1 = new QLabel( groupBox1, "textLabel1" );
-  textLabel1->setAlignment( int( Qt::AlignVCenter | Qt::AlignRight ) );
-
+  textLabel1 = new QLabel();
+  textLabel1->setAlignment( Qt::AlignVCenter | Qt::AlignRight );
   groupBox1Layout->addWidget( textLabel1, 0, 0 );
 
-  continousSpeedBox = new QSpinBox( groupBox1, "readOutSpeedBox" );
+  continousSpeedBox = new QSpinBox();
   continousSpeedBox->setButtonSymbols( QSpinBox::PlusMinus );
-  continousSpeedBox->setMaxValue( 50 );
-  continousSpeedBox->setMinValue( 1 );
+  continousSpeedBox->setMaximum( 50 );
+  continousSpeedBox->setMinimum( 1 );
   continousSpeedBox->setValue( (int)(1000/contRate) );
   continousSpeedBox->setSuffix( tr( " Hz" ) );
-
   groupBox1Layout->addWidget( continousSpeedBox, 0, 1 );
 
-  burstSpeedBox = new QSpinBox( groupBox1, "refreshSpeedBox" );
-  burstSpeedBox->setMaxValue( 50 );
-  burstSpeedBox->setMinValue( 1 );
+  burstSpeedBox = new QSpinBox();
+  burstSpeedBox->setMaximum( 50 );
+  burstSpeedBox->setMinimum( 1 );
   burstSpeedBox->setValue( (int)(1000/burstRate) );
   burstSpeedBox->setPrefix( QString::null );
   burstSpeedBox->setSuffix( tr( " Hz" ) );
   burstSpeedBox->setSpecialValueText( QString::null );
-
   groupBox1Layout->addWidget( burstSpeedBox, 1, 1 );
 
-  textLabel2 = new QLabel( groupBox1, "textLabel2" );
-  textLabel2->setAlignment( int( Qt::AlignVCenter | Qt::AlignRight ) );
-
+  textLabel2 = new QLabel();
+  textLabel2->setAlignment( Qt::AlignVCenter | Qt::AlignRight );
   groupBox1Layout->addWidget( textLabel2, 1, 0 );
+
   tabLayout->addWidget( groupBox1 );
-  tabs->insertTab( tab, QString("") );
+  tabs->insertTab( 0, tab, tr("Refresh") );
   frame5Layout->addWidget( tabs );
 
-  applyButton = new QPushButton( this, "applyButton" );
+  applyButton = new QPushButton();
   applyButton->setAutoDefault( TRUE );
   applyButton->setDefault( TRUE );
   applyButton->setFlat( FALSE );
@@ -90,11 +89,7 @@ displaySettings::displaySettings( QWidget* , const char* , int contRate, int bur
   groupBox1->setTitle( tr( "Refresh Rates" ) );
   textLabel1->setText( tr( "Continous" ) );
   textLabel2->setText( tr( "Burst" ) );
-  tabs->changeTab( tab, tr( "Refresh" ) );
   applyButton->setText( tr( "Apply" ) );
-
-  resize( QSize(169, 150).expandedTo(minimumSizeHint()) );
-  setMaximumSize(size());
 
   setLayout( frame5Layout );
 
