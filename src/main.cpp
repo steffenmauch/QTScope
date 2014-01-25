@@ -11,7 +11,7 @@ int main( int argc, char ** argv )
     QApplication a( argc, argv );
     QTScope * mw = new QTScope();
 
-    mw->setCaption( "QTScope" );
+    mw->setWindowTitle( "QTScope" );
     mw->show();
 
     //qApp->setStyleSheet("QLineEdit { background-color: yellow; }");
