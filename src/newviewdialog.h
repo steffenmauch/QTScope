@@ -72,8 +72,11 @@ private:
   // number of channels available
   int maxChannels;
 
+  // comedi specific variables
+  comedi_t *comediDevice;
+
 public:
-    newViewDialog(int numChannels, QList<pluginData> availablePlugins, QTScope *c, QWidget *parent = 0, const char *name = 0, bool modal = TRUE, Qt::WFlags f = 0);
+    newViewDialog(comedi_t *comediDevice, QList<pluginData> availablePlugins, QTScope *c, QWidget *parent = 0, const char *name = 0, bool modal = TRUE, Qt::WFlags f = 0);
     ~newViewDialog();
 
 private slots:

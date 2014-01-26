@@ -29,13 +29,15 @@
 #include <QLayout>
 #include <QDebug>
 
-newViewDialog::newViewDialog(int numChannels, QList<pluginData> availablePlugins, QTScope *c, QWidget *parent, const char *name, bool modal, Qt::WFlags f )
+newViewDialog::newViewDialog(comedi_t *comediDevice1, QList<pluginData> availablePlugins, QTScope *c, QWidget *parent, const char *name, bool modal, Qt::WFlags f )
     : QDialog( parent )
 {
   caller = c;
   pl = availablePlugins;
   maxSelect = 0;
-  maxChannels = numChannels;
+  maxChannels = 0;
+
+  comediDevice = comediDevice1;
   
   setWindowTitle( "QTScope -- Open new Plot" );
   resize( 350, 240 );
@@ -158,8 +160,18 @@ void newViewDialog::slotPluginSelected()
 		pluginData data = it.next();
 		if ( data.name == name ){
 			maxSelect = data.numChannels;
-			//qDebug() << "max Select: " << maxSelect;
-			 
+
+            int comediSubdevice = comedi_find_subdevice_by_type(comediDevice,data.type_comedi,0);
+            if( comediSubdevice != -1)
+                maxChannels = comedi_get_n_channels(comediDevice, comediSubdevice);
+            else
+                comedi_perror( QString("error in %1 line %2").arg(__func__).arg(__LINE__).toStdString().c_str() );
+
+            if( maxChannels == -1){
+                maxChannels = 0;
+                comedi_perror( QString("error in %1 line %2").arg(__func__).arg(__LINE__).toStdString().c_str() );
+            }
+
 			if(channelSelectors.count() < maxSelect)
 				for( int i = channelSelectors.count(); i < maxSelect; i++ ) {
 					QSpinBox *spinBox = new QSpinBox();

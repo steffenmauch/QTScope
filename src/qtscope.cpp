@@ -89,11 +89,11 @@ QTScope::QTScope() : QMainWindow( ){
 		comediFilename = ba->data();
     }		
 
-	comediDevice = comedi_open(comediFilename);
-	if(!comediDevice) {
-		comedi_perror(comediFilename);
-		exit(-1);
-	}
+    comediDevice = comedi_open(comediFilename);
+    if(!comediDevice) {
+        comedi_perror(comediFilename);
+        exit(-1);
+    }
 	// load settings
 	settings.setPath( QSettings::NativeFormat, QSettings::UserScope, "github.com/steffenmauch/QTScope" );
 	boardname=QString("/")+comedi_get_board_name(comediDevice)+QString("/");
@@ -193,16 +193,16 @@ QTScope::QTScope() : QMainWindow( ){
 	// create the workspace
 	fileTools->setStyleSheet( "border-style: sunken; " );
 
-	// load all plugins
-	initPlugins();
+    // load all plugins
+    initPlugins();
 
 	readoutTimer=NULL;
 
-	initComedi();
-	initBuffers();
-	testComedi();
-	startTimers();
-	startComedi();
+    initComedi();
+    initBuffers();
+    testComedi();
+    startTimers();
+    startComedi();
 
 	showSamplingrate();
     statusBar()->showMessage( tr("Ready"), 2000 );
@@ -485,7 +485,7 @@ void QTScope::slotReplotPlots(){
 }
 
 void QTScope::newView(){
-	newViewDialog *gv = new newViewDialog(n_chan, availablePlugins, this, this);
+    newViewDialog *gv = new newViewDialog(comediDevice, availablePlugins, this, this);
 	gv->exec();
 }
 
