@@ -47,7 +47,7 @@ public:
     void setDataSource(sampl_t**, double **) {}
     void insertValues(int, int) {}
     void replot() {}
-    void samplingRateChanged() {};
+    void samplingRateChanged() {}
     
     void getComedi(comedi_t *comediDevice);
 
