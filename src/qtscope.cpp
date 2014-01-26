@@ -356,7 +356,7 @@ void QTScope::saveSettings(){
 	sprintf(tmp,"%9.0f",freq);
 	settings.setValue( "/sampling/rate", tmp );
 	settings.setValue( "/sampling/continous",continous);
-    settings.setValue( "/nchan", n_chan );
+    settings.setValue( "/sampling/nchan", n_chan );
 	settings.endGroup( );
 
     // force writing otherwise it could be lost!
