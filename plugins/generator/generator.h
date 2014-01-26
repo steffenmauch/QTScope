@@ -28,9 +28,11 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QLineEdit>
+#include <QTimer>
 
 #include <qwt_plot_curve.h>
 #include <qwt_plot.h>
+#include <comedilib.h>
 
 #define NB_SAMPLES 1001
 
@@ -53,8 +55,8 @@ public:
     void setDataSource(sampl_t**, double **) {}
     void insertValues(int, int) {}
     void replot() {}
-    void samplingRateChanged() {};
-    void getComedi(comedi_t *comediDevice) {};
+    void samplingRateChanged() {}
+    void getComedi(comedi_t *comediDevice);
 
    	virtual QSize sizeHint() const;
    	
@@ -76,9 +78,19 @@ private:
 	QVBoxLayout *vbox_layout;
     QWidget *window2;
     QPushButton *save;
+
+    // comedi specific variables
+    comedi_t *comediDevice;
+    int comediSubdevice;
+
+    // the comedi command
+    comedi_cmd *cmd;
+    unsigned int chanlist[16];
+    QTimer *timer;
     
 private slots:
     void saveCheckBoxes();
+    void slotWriteData();
 
 };
 

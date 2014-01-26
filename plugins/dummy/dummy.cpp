@@ -23,7 +23,7 @@
 #include <iostream>
 #include <QDebug>
 
-pluginInfo myPluginInfo = {"Dummy Plugin", "Plot", 2, 0};
+pluginInfo myPluginInfo = {"Dummy Plugin", "Plot", 2, COMEDI_SUBD_AI};
 
 scopePlotPlugin *createPlugin (QTScope* caller, QWidget* parent, const char* name, int id, Qt::WindowFlags wflags,int numberOfSamples) {
 	return new dummy(caller, parent, name, id, wflags,numberOfSamples);
