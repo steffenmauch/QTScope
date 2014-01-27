@@ -34,6 +34,7 @@
 #include <QListWidget>
 #include <QSpinBox>
 #include <QList>
+#include <QLabel>
 
 /**
 This widget provides the user interaction to open a new plot plugin.
@@ -66,6 +67,8 @@ private:
   QPushButton *cancelPushButton;
   // the calling class, to run QTScope::runPlugin there
   QTScope *caller;
+
+  QLabel *status;
 
   // number of channels the plugin requests
   int maxSelect;

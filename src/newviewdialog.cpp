@@ -85,6 +85,18 @@ newViewDialog::newViewDialog(comedi_t *comediDevice1, QList<pluginData> availabl
   channelsListWidget->setLayout( channelsListL );
 
   channelsListLayout->addWidget( channelsListWidget );
+
+  // Add a vertical spacer to take up the remaining available space
+  QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding,
+    QSizePolicy::Expanding );
+  channelsListLayout->addItem( spacer );
+
+  status = new QLabel();
+  channelsListLayout->addWidget( status );
+  status->setAlignment(Qt::AlignCenter);
+  status->setText("");
+  status->setStyleSheet("QLabel { color : blue; }");
+
   channelsListLayout->addStretch(1);
   channelsList->setLayout(channelsListLayout);
 
@@ -165,10 +177,13 @@ void newViewDialog::slotPluginSelected()
             if( comediSubdevice >= 0){
                 maxChannels = comedi_get_n_channels(comediDevice, comediSubdevice);
                 okPushButton->setEnabled(TRUE);
+                status->setText(QString("comedi subdevice\ntype %1 found!").arg(data.type_comedi));
             }
             else{
-                comedi_perror( QString("error in %1 line %2").arg(__func__).arg(__LINE__).toStdString().c_str() );
+                //comedi_perror( QString("error in %1 line %2").arg(__func__).arg(__LINE__).toStdString().c_str() );
                 okPushButton->setEnabled(FALSE);
+                maxChannels = 0;
+                status->setText(QString("comedi subdevice\ntype %1 not found!").arg(data.type_comedi));
             }
 
             if( maxChannels < 0 ){
