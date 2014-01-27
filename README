@@ -54,6 +54,12 @@ Qwt Widget Library 6.x:
 For details about this nice and useful project, see:
 http://qwt.sourceforge.net/
 
+For the SHWFS plugin Eigen 3
+http://eigen.tuxfamily.org
+(for WFS plugin otherwise in
+plugins/plugins.pro line with 'wfs \'
+has to be removed!)
+
 
 INSTALLATION:
 -------------
@@ -77,6 +83,10 @@ INSTALLATION:
    This will install the program to /usr/local/bin 
    and the plugins to /usr/local/lib/qtscope/plugins.
    
+   alternatively
+   sudo ./bin/qtscope
+   if you just want to try QTScope!
+   
 
 TODO:
 -----
@@ -88,8 +98,8 @@ Newer versions will probably contain these planned extensions:
 - more visualisation plugins
 - data storage facility
 - filter plugins for data processing
-- plugin for digital input and output
-- plugin for analog output 
+- plugin for digital input and output (some basics already done)
+- plugin for analog output (some basics already done) 
 
 
 WRITING PLUGINS:

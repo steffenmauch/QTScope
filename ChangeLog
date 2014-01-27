@@ -1,3 +1,12 @@
+Monday 27 January 2014
+
+	1.0 alpha (Steffen Mauch)
+	ported to QT4 without needing QT3 suppot
+	fixed nasty bugs and added more plugins
+	but they are not all ready till now
+	improved plugin selection by checking
+	available subdevices of comedi
+
 Tuesday 1 February 2005
 
 	Release 0.32 (Bernd Porr)
