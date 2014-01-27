@@ -162,12 +162,16 @@ void newViewDialog::slotPluginSelected()
 			maxSelect = data.numChannels;
 
             int comediSubdevice = comedi_find_subdevice_by_type(comediDevice,data.type_comedi,0);
-            if( comediSubdevice != -1)
+            if( comediSubdevice >= 0){
                 maxChannels = comedi_get_n_channels(comediDevice, comediSubdevice);
-            else
+                okPushButton->setEnabled(TRUE);
+            }
+            else{
                 comedi_perror( QString("error in %1 line %2").arg(__func__).arg(__LINE__).toStdString().c_str() );
+                okPushButton->setEnabled(FALSE);
+            }
 
-            if( maxChannels == -1){
+            if( maxChannels < 0 ){
                 maxChannels = 0;
                 comedi_perror( QString("error in %1 line %2").arg(__func__).arg(__LINE__).toStdString().c_str() );
             }
