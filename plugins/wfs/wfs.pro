@@ -3,6 +3,8 @@
 # Subdir relative project main directory: ./plugins/wfs
 # Target is a library:  
 
+QMAKE_CXXFLAGS += -O3 -ftree-vectorize -mavx -msse -msse2 -msse3 -ffast-math -fassociative-math -ftree-vectorizer-verbose=5 -g -Wall
+
 target.path = /usr/local/lib/qtscope/plugins 
 SOURCES += wfs.cpp \
 		plot.cpp \
