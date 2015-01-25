@@ -17,10 +17,11 @@ CONFIG += release \
           qt \
           thread 
 TARGET = ../bin/qtscope 
-INCLUDEPATH = ../src \
-              qwt
+INCLUDEPATH = ../src
 LIBPATH += /usr/lib
 LIBPATH += /usr/local/lib
+QMAKE_CXXFLAGS = -fPIC
+LIBS += -ldl
 LIBS += -lqwt
 LIBS += -lcomedi
 SOURCES += qtscope.cpp \

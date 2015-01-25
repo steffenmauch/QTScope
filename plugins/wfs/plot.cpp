@@ -20,6 +20,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <qwt_color_map.h>
+#include <qwt_plot_canvas.h>
 #include <qwt_plot_spectrogram.h>
 #include <qwt_scale_widget.h>
 #include <qwt_scale_draw.h>
@@ -32,8 +33,7 @@
 class MyZoomer: public QwtPlotZoomer
 {
 public:
-    MyZoomer( QwtPlotCanvas *canvas ):
-        QwtPlotZoomer( canvas )
+    MyZoomer( QwtPlotCanvas *canvas ): QwtPlotZoomer( canvas )
     {
         setTrackerMode( AlwaysOn );
     }
@@ -144,7 +144,7 @@ Plot::Plot( QWidget *parent ):
     // RightButton: zoom out by 1
     // Ctrl+RighButton: zoom out to full size
 
-    QwtPlotZoomer* zoomer = new MyZoomer( canvas() );
+    QwtPlotZoomer* zoomer = new MyZoomer( (QwtPlotCanvas*)canvas() );
     zoomer->setMousePattern( QwtEventPattern::MouseSelect2,
         Qt::RightButton, Qt::ControlModifier );
     zoomer->setMousePattern( QwtEventPattern::MouseSelect3,

@@ -4,7 +4,8 @@
 # Target is a subdirs project 
 
 SUBDIRS += src \
-           plugins 
+           plugins
+
 TEMPLATE = subdirs 
 CONFIG += release \
           warn_on \

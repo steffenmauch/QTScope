@@ -22,6 +22,9 @@ INCLUDEPATH = ../../plugins/wfs \
               ../../src \
               /usr/include/qwt \
               /usr/include/eigen3
+LIBPATH += /usr/lib
+LIBPATH += /usr/local/lib
+LIBS += -ldl
 LIBS += -lqwt \
 		../../src/scopeplotplugin.o \
         ../../src/moc_scopeplotplugin.o 
