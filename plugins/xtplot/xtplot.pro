@@ -15,6 +15,9 @@ TARGET = xtplot
 INCLUDEPATH = ../../plugins/xtplot \
               ../../src \
               /usr/include/qwt
+LIBPATH += /usr/lib
+LIBPATH += /usr/local/lib
+LIBS += -ldl
 LIBS += -lqwt \
         ../../src/moc_scopeplotplugin.o \
         ../../src/scopeplotplugin.o 

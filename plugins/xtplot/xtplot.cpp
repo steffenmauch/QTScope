@@ -89,7 +89,8 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
 	plotTools->addWidget( new QLabel(tr("Ymax:")) );
 	ymaxCounter = new QwtCounter( );
 	plotTools->addWidget( ymaxCounter );
-	ymaxCounter->setRange(-1, 20.0, 0.01);
+    ymaxCounter->setRange(-1, 20.0);
+    ymaxCounter->setSingleStep(0.01);
 	ymaxCounter->setNumButtons(3);
 	ymaxCounter->setIncSteps(QwtCounter::Button1, 1);
 	ymaxCounter->setIncSteps(QwtCounter::Button2, 10);
@@ -101,7 +102,8 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
 	plotTools->addWidget( new QLabel(tr("Ymin:") ));
 	yminCounter = new QwtCounter( );
 	plotTools->addWidget( yminCounter );
-	yminCounter->setRange(-20.0, 1, 0.01);
+    yminCounter->setRange(-20.0, 1);
+    yminCounter->setSingleStep(0.01);
 	yminCounter->setNumButtons(3);
 	yminCounter->setIncSteps(QwtCounter::Button1, 1);
 	yminCounter->setIncSteps(QwtCounter::Button2, 10);
@@ -171,7 +173,7 @@ xtPlot::xtPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
 	curve->attach(plotWidget);
      
 	// copy the data into the curves
-	curve->setRawSamples(x, y, plotLength);
+    curve->setRawSamples(x, y, plotLength);
   
 	// QwtPlot specific defaults:
 	// colour
@@ -306,9 +308,10 @@ void xtPlot::samplingRateChanged(){
     \fn xtPlot::slotYminChanged
  */
 void xtPlot::slotYminChanged(double v){
-	const QwtScaleDiv* a = plotWidget->axisScaleDiv(QwtPlot::yLeft);
-	plotWidget->setAxisScale( QwtPlot::yLeft, v, a->upperBound());
-	ymaxCounter->setRange(v, 20.0, 0.01);
+    const QwtScaleDiv a = plotWidget->axisScaleDiv(QwtPlot::yLeft);
+    plotWidget->setAxisScale( QwtPlot::yLeft, v, a.upperBound());
+    ymaxCounter->setRange(v, 20.0);
+    ymaxCounter->setSingleStep(0.01);
 }
 
 
@@ -316,9 +319,10 @@ void xtPlot::slotYminChanged(double v){
     \fn xtPlot::slotYmaxChanged(double)
  */
 void xtPlot::slotYmaxChanged(double v){
-	const QwtScaleDiv* a = plotWidget->axisScaleDiv(QwtPlot::yLeft);
-	plotWidget->setAxisScale( QwtPlot::yLeft, a->lowerBound(), v);
-	yminCounter->setRange(-20.0, v, 0.01);
+    const QwtScaleDiv a = plotWidget->axisScaleDiv(QwtPlot::yLeft);
+    plotWidget->setAxisScale( QwtPlot::yLeft, a.lowerBound(), v);
+    yminCounter->setRange(-20.0, v);
+    yminCounter->setSingleStep(0.01);
 }
 
 

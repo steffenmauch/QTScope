@@ -13,11 +13,10 @@ CONFIG += release \
           plugin 
 INCLUDEPATH = ../../plugins/xyplot \
               ../../src \
-              /usr/local/qwt-6.1.3-svn/include/
+              /usr/include/qwt
 LIBPATH += /usr/lib
 LIBPATH += /usr/local/lib
-LIBPATH += /usr/local/qwt-6.1.3-svn/lib/
-LIBS +=-ldl
+LIBS += -ldl
 LIBS += -lqwt \
         ../../src/moc_scopeplotplugin.o \
         ../../src/scopeplotplugin.o 
