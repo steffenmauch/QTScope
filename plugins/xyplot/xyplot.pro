@@ -13,16 +13,16 @@ CONFIG += release \
           plugin 
 INCLUDEPATH = ../../plugins/xyplot \
               ../../src \
-              /usr/include/qwt
+              /usr/local/qwt-6.1.3-svn/include/
+LIBPATH += /usr/lib
+LIBPATH += /usr/local/lib
+LIBPATH += /usr/local/qwt-6.1.3-svn/lib/
+LIBS +=-ldl
 LIBS += -lqwt \
         ../../src/moc_scopeplotplugin.o \
         ../../src/scopeplotplugin.o 
 TARGETDEPS += ../../src/../bin/qtscope 
 target.path = /usr/local/lib/qtscope/plugins 
 INSTALLS += target 
-#The following line was inserted by qt3to4
-QT +=  qt3support 
-#The following line was inserted by qt3to4
-QT +=  
-#The following line was inserted by qt3to4
-QT +=  
+
+QT +=  qt3support
