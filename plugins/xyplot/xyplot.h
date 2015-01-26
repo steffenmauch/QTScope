@@ -23,7 +23,6 @@
 #define XYPLOT_H
 
 #include <scopeplotplugin.h>
-#include <q3mainwindow.h>
 #include <qwt_plot.h>
 #include <qwt_plot_curve.h>
 #include <qwt_plot_grid.h>

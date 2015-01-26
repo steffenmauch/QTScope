@@ -23,5 +23,3 @@ LIBS += -lqwt \
 TARGETDEPS += ../../src/../bin/qtscope 
 target.path = /usr/local/lib/qtscope/plugins 
 INSTALLS += target 
-
-QT +=  qt3support

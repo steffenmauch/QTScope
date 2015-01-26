@@ -53,7 +53,8 @@ xyPlot::xyPlot(QTScope* caller, QWidget* parent, const char* name, int id, Qt::W
   callingWidget = caller;
   idThis = id;
 
-  setCaption( QString().sprintf("Channels %s",name) );
+  setWindowTitle( QString().sprintf("Channel %s",name) );
+
   plotLength = numberOfSamples;
   x=new double[plotLength];
   y=new double[plotLength];
