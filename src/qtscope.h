@@ -25,6 +25,9 @@
 #ifndef QTSCOPE_H
 #define QTSCOPE_H
 
+#define TRUE  1
+#define FALSE 0
+
 #include "scopeplotplugin.h"
 
 // Qt related includes

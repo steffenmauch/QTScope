@@ -54,7 +54,7 @@
 #include <QTimer>
 #include <QPainter>
 #include <QWhatsThis>
-#include <QWorkspace>
+#include <QMdiArea>
 #include <QString>
 #include <QPushButton>
 #include <QStringList>
@@ -64,6 +64,7 @@
 #include "fileopen.xpm"
 #include "slower.xpm"
 #include "faster.xpm"
+
 
 using std::cout;
 using std::cerr;

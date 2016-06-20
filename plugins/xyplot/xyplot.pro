@@ -3,6 +3,8 @@
 # Subdir relative project main directory: ./plugins/xyplot
 # Target is a library:  
 
+QT += widgets
+
 SOURCES += xyplot.cpp 
 HEADERS += xyplot.h 
 TEMPLATE = lib 

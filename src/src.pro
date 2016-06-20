@@ -12,6 +12,8 @@ DATESTR = '\\"$${DAT}\\"'
 DEFINES += DATE=\"$${DATESTR}\" 
 
 TEMPLATE = app 
+QT += widgets printsupport
+
 CONFIG += release \
           warn_on \
           qt \

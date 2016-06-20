@@ -29,7 +29,7 @@
 #include <QLayout>
 #include <QDebug>
 
-newViewDialog::newViewDialog(comedi_t *comediDevice1, QList<pluginData> availablePlugins, QTScope *c, QWidget *parent, const char *name, bool modal, Qt::WFlags f )
+newViewDialog::newViewDialog(comedi_t *comediDevice1, QList<pluginData> availablePlugins, QTScope *c, QWidget *parent, const char *name, bool modal, Qt::WindowFlags f )
     : QDialog( parent )
 {
   caller = c;

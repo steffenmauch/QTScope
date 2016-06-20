@@ -55,7 +55,8 @@ gradientPlot::gradientPlot( QWidget* parent )
 
 void gradientPlot::resizeEvent(QResizeEvent * event){
 	QSize ssize = event->size();
-	int maxima = qRound( qMax(ssize.width(),ssize.height()) );
+	double max=qMax(ssize.width(),ssize.height());
+	int maxima = qRound( max );
 	resize( maxima, maxima );
 }
 
@@ -68,11 +69,16 @@ void gradientPlot::paintEvent(QPaintEvent *){
 	QPainterPath path;
 	QPainter painter(this);
 	QPen pen;  // creates a default pen
-     
-	painter.setWindow(	qRound(-10)*scale, 			// xmin
-						qRound(-10)*scale,			// ymin
-						qRound(WFS_SIZE+20)*scale,	// xmax
-                        qRound(WFS_SIZE+20)*scale	// ymax
+
+	float xmin=-10;
+	float ymin=-10;
+	float xmax=WFS_SIZE+20;
+	float ymax=WFS_SIZE+20;
+	painter.setWindow(
+			  qRound(xmin)*scale,
+			  qRound(ymin)*scale,
+			  qRound(xmax)*scale,
+			  qRound(ymax)*scale
                         );
 	painter.scale(1,1);
 	
