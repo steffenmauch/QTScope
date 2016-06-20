@@ -3,6 +3,8 @@
 # Subdir relative project main directory: ./plugins/generator
 # Target is a library:  
 
+QT += widgets
+
 SOURCES += generator.cpp 
 HEADERS += generator.h 
 TEMPLATE = lib 

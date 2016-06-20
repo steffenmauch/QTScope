@@ -3,6 +3,8 @@
 # Subdir relative project main directory: ./plugins/dummy
 # Target is a library:  
 
+QT += widgets
+
 SOURCES += dummy.cpp 
 HEADERS += dummy.h 
 TEMPLATE = lib 

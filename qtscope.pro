@@ -3,6 +3,8 @@
 # Subdir relative project main directory: .
 # Target is a subdirs project 
 
+QT += widgets
+
 SUBDIRS += src \
            plugins
 

@@ -3,6 +3,8 @@
 # Subdir relative project main directory: ./plugins/xtplot
 # Target is a library:  xtplot
 
+QT += widgets
+
 SOURCES += xtplot.cpp 
 HEADERS += xtplot.h 
 TEMPLATE = lib 

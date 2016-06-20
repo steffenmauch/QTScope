@@ -3,6 +3,8 @@
 # Subdir relative project main directory: ./plugins/switch
 # Target is a library:  
 
+QT += widgets
+
 SOURCES += switch.cpp 
 HEADERS += switch.h 
 TEMPLATE = lib 
