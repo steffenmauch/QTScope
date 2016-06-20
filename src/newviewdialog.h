@@ -79,7 +79,7 @@ private:
   comedi_t *comediDevice;
 
 public:
-    newViewDialog(comedi_t *comediDevice, QList<pluginData> availablePlugins, QTScope *c, QWidget *parent = 0, const char *name = 0, bool modal = TRUE, Qt::WFlags f = 0);
+    newViewDialog(comedi_t *comediDevice, QList<pluginData> availablePlugins, QTScope *c, QWidget *parent = 0, const char *name = 0, bool modal = TRUE, Qt::WindowFlags f = 0);
     ~newViewDialog();
 
 private slots:
